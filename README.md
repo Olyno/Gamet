@@ -1,2 +1,2 @@
 # GameAPI
-A API for devs in skript.
+A API for devs easiest minis games in skript.
