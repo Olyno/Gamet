@@ -1,7 +1,7 @@
 # GameAPI
 A API for devs easiest minis games in skript.
 
-**[Documentation](https://github.com/AlexLew95/GameAPI/wiki) || [Github](https://github.com/AlexLew95/GameAPI) || [Bugs](https://github.com/AlexLew95/GameAPI/issues) || [Discord](https://discord.gg/q7UM6vJ)
+**[Documentation](https://github.com/AlexLew95/GameAPI/wiki) || [Github](https://github.com/AlexLew95/GameAPI) || [Bugs](https://github.com/AlexLew95/GameAPI/issues) || [Discord](https://discord.gg/q7UM6vJ)**
 
 __**Overview:**__
 
