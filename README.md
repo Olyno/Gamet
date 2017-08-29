@@ -1,13 +1,13 @@
 # GameAPI
 A API for devs easiest minis games in skript.
 
-[B][SIZE=6][URL='https://github.com/AlexLew95/GameAPI/wiki']Documentation[/URL] || [URL='https://github.com/AlexLew95/GameAPI']Github[/URL] || [URL='https://github.com/AlexLew95/GameAPI/issues']Bugs[/URL] || [URL='https://discord.gg/q7UM6vJ']Discord[/URL][/SIZE]
-[U]
-Overview:[/U][/B]
+**[Documentation](https://github.com/AlexLew95/GameAPI/wiki) || [Github](https://github.com/AlexLew95/GameAPI) || [Bugs](https://github.com/AlexLew95/GameAPI/issues) || [Discord](https://discord.gg/q7UM6vJ)
+
+__**Overview:**__
 
 GameAPI is, as his name indicates it, an API containing at present more than 25 syntax for the mini games. At present his name amounts to that but other syntax are already in the course of work to offer you more options and possibilities.
 
-[U][B]Installation: [/B][/U]
+__**Installation:**__
 1) Download the archive .rar
 2) Goes to your file "plugins/Skript/scripts"
 3) Open the archive .zip
@@ -17,12 +17,12 @@ GameAPI is, as his name indicates it, an API containing at present more than 25 
 7) Verify the possible errors in the console
 8) Enjoy !
 
-[U][B]Use/Syntax:[/B][/U]
+__**Use/Syntax:**__
 
-All the syntax is available in the wiki of the github below : [URL]https://github.com/AlexLew95/GameAPI/wiki[/URL]
+All the syntax is available in the wiki of the github below : [Wiki](https://github.com/AlexLew95/GameAPI/wiki)
 
-[B][U]Suggestions, ideas, bugs, concerns ? [/U][/B]
-I invite you to say it to me in private message or on [URL='https://discord.gg/q7UM6vJ']the discord[/URL]. The API working of my quoted, I invite you to indicate me your concerns before putting your review.
+**Suggestions, ideas, bugs, concerns ?**
+I invite you to say it to me in private message or on [the discord](https://discord.gg/q7UM6vJ). The API working of my quoted, I invite you to indicate me your concerns before putting your review.
 
-[B][U]You too can participated ![/U][/B]
-If you have ideas, you can contact me at the same time on [URL='https://discord.gg/q7UM6vJ']the discord of skunity[/URL] but also via [URL='https://github.com/AlexLew95/GameAPI/compare/master@%7B1day%7D...master']the github[/URL] ! It is enough to you to modify the code by [URL='https://github.com/AlexLew95/GameAPI/compare/master@%7B1day%7D...master']the github[/URL] and I would be there warns ! Then, the code will be updated with your features additional !
+**You too can participated !**
+If you have ideas, you can contact me at the same time on [the discord of skunity](https://discord.gg/q7UM6vJ) but also via [the github](https://github.com/AlexLew95/GameAPI) ! It is enough to you to modify the code by [the github](https://github.com/AlexLew95/GameAPI/compare/master@%7B1day%7D...master) and I would be there warns ! Then, the code will be updated with your features additional !
