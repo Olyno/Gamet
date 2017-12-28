@@ -149,81 +149,46 @@ custom effect logic for "reset point[s] for [the] team %string% from %string%":
 
 #If team has ... points
 
-custom expression logic for "number of points of [the] team %string% from %string% = %integer%":
+custom expression logic for "number of points of [the] team %string% from %string% %string% %integer%":
 	set {_name} to string expression 1
 	set {_namemg} to string expression 2
-	set {_integer} to integer expression 3
+	set {_operator} to string expression 3
+	if "%{_operator}%" is not "=" or "<" or ">" or ">=" or "<=" or "!=":
+		set {_operator} to "="
+	set {_integer} to integer expression 4
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
 		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		If {_points} = {_integer}:
-			set expression return value to {_integer}
-		else:
-			set expression return value to false
+		if "%{_operator}%" is "=":
+			if {_points} = {_integer}:
+				set expression return value to {_integer}
+			else:
+				set expression return value to false
+		if "%{_operator}%" is "<":
+			if {_points} < {_integer}:
+				set expression return value to {_integer}
+			else:
+				set expression return value to false
+		if "%{_operator}%" is ">":
+			if {_points} > {_integer}:
+				set expression return value to {_integer}
+			else:
+				set expression return value to false
+		if "%{_operator}%" is ">=":
+			if {_points} >= {_integer}:
+				set expression return value to {_integer}
+			else:
+				set expression return value to false
+		if "%{_operator}%" is "<=":
+			if {_points} <= {_integer}:
+				set expression return value to {_integer}
+			else:
+				set expression return value to false
+		if "%{_operator}%" is "!=":
+			if {_points} != {_integer}:
+				set expression return value to {_integer}
+			else:
+				set expression return value to false
 
-#If team < ... points
-
-custom expression logic for "number of points of [the] team %string% from %string% < %integer%":
-	set {_name} to string expression 1
-	set {_namemg} to string expression 2
-	set {_integer} to integer expression 3
-	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		If {_points} < {_integer}:
-			set expression return value to {_integer}
-		else:
-			set expression return value to false
-
-#If team > ... points
-
-custom expression logic for "number of points of [the] team %string% from %string% > %integer%":
-	set {_name} to string expression 1
-	set {_namemg} to string expression 2
-	set {_integer} to integer expression 3
-	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		If {_points} > {_integer}:
-			set expression return value to {_integer}
-		else:
-			set expression return value to false
-
-#If team >= ... points
-
-custom expression logic for "number of points of [the] team %string% from %string% >= %integer%":
-	set {_name} to string expression 1
-	set {_namemg} to string expression 2
-	set {_integer} to integer expression 3
-	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		If {_points} >= {_integer}:
-			set expression return value to {_integer}
-		else:
-			set expression return value to false
-
-#If team <= ... points
-
-custom expression logic for "number of points of [the] team %string% from %string% <= %integer%":
-	set {_name} to string expression 1
-	set {_namemg} to string expression 2
-	set {_integer} to integer expression 3
-	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		If {_points} <= {_integer}:
-			set expression return value to {_integer}
-		else:
-			set expression return value to false
-
-#If team != ... points
-
-custom expression logic for "number of points of [the] team %string% from %string% != %integer%":
-	set {_name} to string expression 1
-	set {_namemg} to string expression 2
-	set {_integer} to integer expression 3
-	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		If {_points} != {_integer}:
-			set expression return value to {_integer}
-		else:
-			set expression return value to false
 
 #If player is in team
 
@@ -259,4 +224,3 @@ custom expression logic for "all players from team %string% of %string%":
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
 		set {_listplayers::*} to value list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" get of "plugins/GameAPI/%{_namemg}%.yml"
 		set expression return value to "%{_listplayers::*}%"
-
