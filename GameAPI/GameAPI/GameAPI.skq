@@ -35,22 +35,7 @@ declare effect "remove %integer% point[s] from [the] team %string% from %string%
 declare effect "reset point[s] for [the] team %string% from %string%"
 
 -- If team has ... points
-declare expression "number of points of [the] team %string% from %string% = %integer%"
-
--- If team < ... points
-declare expression "number of points of [the] team %string% from %string% < %integer%"
-
--- If team > ... points
-declare expression "number of points of [the] team %string% from %string% > %integer%"
-
--- If team >= ... points
-declare expression "number of points of [the] team %string% from %string% >= %integer%"
-
--- If team <= ... points
-declare expression "number of points of [the] team %string% from %string% <= %integer%"
-
--- If team != ... points
-declare expression "number of points of [the] team %string% from %string% != %integer%"
+declare expression "number of points of [the] team %string% from %string% %string% %integer%"
 
 -- If player is in team
 declare expression "[the] team of %player% from [the mini game] %string%"
