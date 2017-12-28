@@ -10,11 +10,11 @@ custom effect logic for "create [a] team named %string% with min[imum] [player] 
 		if "%{_listnodes::*}%" is "<none>" or "":
 			set {_id} to 0
 		else: 
-			set {_id} to size of {_listnodes::*}
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Name" to "%{_name}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.ID" to "%{_id}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Minimum player" to "%{_min}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Maximum player" to "%{_max}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
+			set {_id} to amount of {_listnodes::*}
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Name" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_name}%"
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.ID" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_id}%"
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Minimum player" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_min}%"
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Maximum player" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_max}%"
 		set {_details::*} to {_name}, {_min}, {_max} and {_namemg}
 		call custom event "team created" to details {_details::*}
 
@@ -36,8 +36,8 @@ custom effect logic for "create [a] mini game named %string% with min[imum] [pla
 	set {_max} to integer expression 3
 	if file "plugins/GameAPI/%{_namemg}%.yml" doesn't exists:
 		create file "plugins/GameAPI/%{_namemg}%.yml"
-		set "GameAPI.%{_namemg}%.Minimum player" to "%{_min}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
-		set "GameAPI.%{_namemg}%.Maximum player" to "%{_max}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
+		set yaml value "GameAPI.%{_namemg}%.Minimum player" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_min}%"
+		set yaml value "GameAPI.%{_namemg}%.Maximum player" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_max}%"
 		set {_details::*} to {_min}, {_max} and {_namemg}
 		call custom event "mini game created" to details {_details::*}
 
@@ -61,7 +61,7 @@ custom effect logic for "make %player% join [the] team %string% from %string%":
 		remove "%{_player}%" from yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"			
 		add "%{_player}%" to yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"	
 		set {_details::*} to {_player}, {_name} and {_namemg}
-		call custom event "player joined team" to details {_details::*}		
+		call custom event "player joined team" to details {_details::*}
 
 #Leave a team
 
@@ -80,7 +80,7 @@ custom effect logic for "make %player% join [the] mini game %string%":
 	set {_player} to player expression 1
 	set {_namemg} to string expression 2
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_checkmg} to single value "GameAPI.%{_namemg}%.Maximum player" get of "plugins/GameAPI/%{_namemg}%.yml"
+		set {_checkmg} to yaml value "GameAPI.%{_namemg}%.Maximum player" from file "plugins/GameAPI/%{_namemg}%.yml"
 		If {_checkmg} is not " " or "<none>":
 			remove "%{_player}%" from yaml list "GameAPI.%{_namemg}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
 			add "%{_player}%" to yaml list "GameAPI.%{_namemg}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
@@ -93,7 +93,7 @@ custom effect logic for "make %player% leave [the] mini game %string%":
 	set {_player} to player expression 1
 	set {_namemg} to string expression 2
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_checkmg} to single value "GameAPI.%{_namemg}%.Maximum player" get of "plugins/GameAPI/%{_namemg}%.yml"
+		set {_checkmg} to yaml value "GameAPI.%{_namemg}%.Maximum player" from file "plugins/GameAPI/%{_namemg}%.yml"
 		If {_checkmg} is not " " or "<none>":
 			remove "%{_player}%" from yaml list "GameAPI.%{_namemg}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
 			set {_details::*} to {_player} and {_namemg}
@@ -101,7 +101,7 @@ custom effect logic for "make %player% leave [the] mini game %string%":
 
 #Random Team
 
-custom expression logic for "random team from %string%":
+custom expression logic for "[a] random team from %string%":
 	set {_namemg} to string expression 1
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
 		set {_listnodes::*} to yaml nodes "GameAPI.%{_namemg}%.Teams" from "plugins/GameAPI/%{_namemg}%.yml"
@@ -109,6 +109,8 @@ custom expression logic for "random team from %string%":
 			replace all "Team " with "" in {_listnodes::*}
 			set {_random} to a random element of {_listnodes::*}
 		set expression return value to "%{_random}%"
+	else:
+		set expression return value to false
 
 #Add Team Points
 
@@ -117,9 +119,9 @@ custom effect logic for "add %integer% point[s] for [the] team %string% from %st
 	set {_name} to string expression 2
 	set {_namemg} to string expression 3
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml" parsed as number
+		set {_points} to yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from file "plugins/GameAPI/%{_namemg}%.yml" parsed as number
 		set {_points2} to {_points} + {_integer}
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" to "%{_points2}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_points2}%"
 		set {_details::*} to {_integer}, {_name} and {_namemg}
 		call custom event "team won points" to details {_details::*}
 
@@ -130,9 +132,9 @@ custom effect logic for "remove %integer% point[s] from [the] team %string% from
 	set {_name} to string expression 2
 	set {_namemg} to string expression 3
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml" parsed as number
+		set {_points} to yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from file "plugins/GameAPI/%{_namemg}%.yml" parsed as number
 		set {_points2} to {_points} - {_integer}
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" to "%{_points2}%" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_points2}%"
 		set {_details::*} to {_integer}, {_name} and {_namemg}
 		call custom event "team lost points" to details {_details::*}
 
@@ -143,78 +145,94 @@ custom effect logic for "reset point[s] for [the] team %string% from %string%":
 	set {_name} to string expression 2
 	set {_namemg} to string expression 3
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" to "0" in yaml file "plugins/GameAPI/%{_namemg}%.yml"
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from file "plugins/GameAPI/%{_namemg}%.yml" to "0"
 		set {_details::*} to {_integer}, {_name} and {_namemg}
 		call custom event "team's reset points" to details {_details::*}
 
-#If team has ... points
+#Set spawn of a team
 
-custom expression logic for "number of points of [the] team %string% from %string% %string% %integer%":
+custom effect logic for "set spawn of [the] team of %string% from [the mini game] %string% to %location%":
+	set {_name} to player expression 1
+	set {_namemg} to string expression 2
+	set {_location} to location expression 3
+	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
+		set yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Spawn" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_location}%"
+		set {_details::*} to {_name}, {_location} and {_namemg}
+		call custom event "team spawn set" to details {_details::*}
+		call custom event "spawn set" to details {_details::*}
+
+#Set spawn of a mini-game
+
+custom effect logic for "set spawn of [the mini game] %string% to %location%":
+	set {_namemg} to string expression 1
+	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
+		set yaml value "GameAPI.%{_namemg}%.Spawn" from file "plugins/GameAPI/%{_namemg}%.yml" to "%{_location}%"
+		set {_details::*} to {_name}, {_location} and {_namemg}
+		call custom event "team spawn set" to details {_details::*}
+		call custom event "spawn set" to details {_details::*}
+
+#Points of a team
+
+custom expression logic for "number of points of [the] team %string% from %string%":
 	set {_name} to string expression 1
 	set {_namemg} to string expression 2
-	set {_operator} to string expression 3
-	if "%{_operator}%" is not "=" or "<" or ">" or ">=" or "<=" or "!=":
-		set {_operator} to "="
-	set {_integer} to integer expression 4
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_points} to single value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" get of "plugins/GameAPI/%{_namemg}%.yml"
-		if "%{_operator}%" is "=":
-			if {_points} = {_integer}:
-				set expression return value to {_integer}
-			else:
-				set expression return value to false
-		if "%{_operator}%" is "<":
-			if {_points} < {_integer}:
-				set expression return value to {_integer}
-			else:
-				set expression return value to false
-		if "%{_operator}%" is ">":
-			if {_points} > {_integer}:
-				set expression return value to {_integer}
-			else:
-				set expression return value to false
-		if "%{_operator}%" is ">=":
-			if {_points} >= {_integer}:
-				set expression return value to {_integer}
-			else:
-				set expression return value to false
-		if "%{_operator}%" is "<=":
-			if {_points} <= {_integer}:
-				set expression return value to {_integer}
-			else:
-				set expression return value to false
-		if "%{_operator}%" is "!=":
-			if {_points} != {_integer}:
-				set expression return value to {_integer}
-			else:
-				set expression return value to false
+		set {_points} to yaml value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" from file "plugins/GameAPI/%{_namemg}%.yml"
+		set expression return value to {_points}
+	else:
+		set expression return value to false
 
 
-#If player is in team
+#Team of player
 
 custom expression logic for "[the] team of %player% from [the mini game] %string%":
 	set {_player} to player expression 1
 	set {_namemg} to string expression 2
-	set {_name} to string expression 3
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
 		set {_listnodes::*} to yaml nodes "GameAPI.%{_namemg}%.Teams" from "plugins/GameAPI/%{_namemg}%.yml"
 		loop {_listnodes::*}:
-			set {_listplayer::*} to value list "GameAPI.%{_namemg}%.Teams.Team %loop-value%.Players" get of "plugins/GameAPI/%{_namemg}%.yml"
+			set {_listplayer::*} to yaml list "GameAPI.%{_namemg}%.Teams.Team %loop-value%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
 			If {_listplayer::*} contains "%{_player}%":
 				set expression return value to "%loop-value%"
+			else:
+				set expression return value to false
+	else:
+		set expression return value to false
 
-#If player is in mini game
+#Minis-game of player
 
 custom expression logic for "[the] mini game of %player%":
 	set {_player} to player expression 1
 	set {_namemg} to string expression 2
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_listplayer::*} to value list "GameAPI.%{_namemg}%.Players" get of "plugins/GameAPI/%{_namemg}%.yml"
+		set {_listplayer::*} to yaml list "GameAPI.%{_namemg}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
 		If {_listplayer::*} contains "%{_player}%":
 			set expression return value to "%{_namemg}%"
 		else:
 			set expression return value to false
+	else:
+		set expression return value to false
 
+#Spawn of a team
+
+custom expression logic for "spawn of [the] team of %string% from [the mini game] %string%":
+	set {_name} to player expression 1
+	set {_namemg} to string expression 2
+	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
+		set {_spawn} to yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Spawn" from file "plugins/GameAPI/%{_namemg}%.yml"
+		set expression return value to "%{_spawn}%"
+	else:
+		set expression return value to false
+
+#Spawn of a mini-game
+
+custom expression logic for "spawn of [the mini game] %string%":
+	set {_namemg} to string expression 1
+	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
+		set {_spawn} to yaml value "GameAPI.%{_namemg}%.Spawn" from file "plugins/GameAPI/%{_namemg}%.yml"
+		set expression return value to "%{_spawn}%"
+	else:
+		set expression return value to false
 
 #Loop player in team
 
@@ -222,5 +240,34 @@ custom expression logic for "all players from team %string% of %string%":
 	set {_name} to string expression 1
 	set {_namemg} to string expression 2
 	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
-		set {_listplayers::*} to value list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" get of "plugins/GameAPI/%{_namemg}%.yml"
+		set {_listplayers::*} to yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
 		set expression return value to "%{_listplayers::*}%"
+	else:
+		set expression return value to false
+
+#Loop player in mini-game
+
+custom expression logic for "all players from %string%":
+	set {_name} to string expression 1
+	set {_namemg} to string expression 2
+	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
+		set {_listplayers::*} to yaml list "GameAPI.%{_namemg}%.Players" from file "plugins/GameAPI/%{_namemg}%.yml"
+		set expression return value to "%{_listplayers::*}%"
+	else:
+		set expression return value to false
+
+#Loop team 
+
+custom expression logic for "all team[s] from %string%":
+	set {_namemg} to string expression 1
+	if file "plugins/GameAPI/%{_namemg}%.yml" exists:
+		set {_listnodes::*} to yaml nodes "GameAPI.%{_namemg}%.Teams" from "plugins/GameAPI/%{_namemg}%.yml"
+		set expression return value to "%{_listnodes::*}%"
+	else:
+		set expression return value to false
+
+#Loop mini-game
+
+custom expression logic for "all mini[s][-]game[s]":
+	set {_listmg::*} to directory "plugins/GameAPI/"'s files
+	set expression return value to "%{_listmg::*}%"
