@@ -5,7 +5,7 @@ A API for devs easiest minis games in skript.
 
 __**Overview:**__
 
-GameAPI is, as his name indicates it, an API containing at present more than 25 syntax for the mini games. At present his name amounts to that but other syntax are already in the course of work to offer you more options and possibilities.
+GameAPI is, as his name indicates it, an API containing at present more than 25 syntax for the mini games. At present his name amounts to that but other syntax are already in the course of work to offer you more options and possibilities.So you can create simple and effective mini-games without the need for a headaches!
 
 __**Installation:**__
 1) Download the archive .rar
