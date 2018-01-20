@@ -1,0 +1,363 @@
+options:
+	name : GameAPI
+	version : 1.3
+
+function send():
+	send " " to console
+	send "&a[{@name}] &e-_-_-_-_-_-_-_-_ &a{@name} &e-_-_-_-_-_-_-_-_" to console
+	send "&a[{@name}]" to console
+	send "&a[{@name}] Version {@version}" to console
+	send "&a[{@name}] by AlexLew" to console
+	send "&a[{@name}] Documentation : https://github.com/AlexLew95/GameAPI/wiki/Syntax" to console
+	send " " to console
+	send "&a[{@name}] &eYour addons > &f%addons list%" to console
+	send " " to console
+	
+on load:	
+	if line 1 from url "https://raw.githubusercontent.com/AlexLew95/GameAPI/master/version" is not "{@version}":
+		send "&a[{@name}] New version avaible!" to console
+
+on skript load:
+	if file "plugins/{@name}" is a dir:
+		create dir "plugins/{@name}"
+	send()
+
+on command "/ver GameAPI" or "/version GameAPI":
+	If sender is a player:	
+		If sender is op:	
+			send "&a[{@name}] Version {@version}" to sender
+			send "&a[{@name}] by AlexLew" to sender
+			send "&a[{@name}] Documentation : https://github.com/AlexLew95/GameAPI/wiki/Syntax" to sender
+
+#Load minis-games
+
+effect load mini[s]( |-)game[s] [named] %string%:
+	set {_namemg} to expression-1
+	if yaml "%{_namemg}%" is not loaded:
+		load yaml "plugins/GameAPI/%{_namemg}%.yml" as "%{_namemg}%"
+
+#Create a team
+
+effect create [a] team named %string% for [[the] mini[s](-| )game[s]] %string%:
+	set {_name} to expression-1
+	set {_min} to expression-2
+	set {_max} to expression-3
+	set {_namemg} to expression-4
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		if "%{_listnodes::*}%" is "<none>" or "":
+			set {_id} to 0
+		else: 
+			set {_id} to amount of {_listnodes::*}
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Name" from "%{_namemg}%" to "%{_name}%"
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.ID" from "%{_namemg}%" to "%{_id}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_name}, {_min}, {_max} and {_namemg}
+		call custom event "team created" to details {_details::*}
+
+#Remove a team
+
+effect remove [the] team named %string% from [[the] mini[s](-| )game[s]] %string%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		delete skript-yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%" from "%{_namemg}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_name} and {_namemg}
+		call custom event "team deleted" to details {_details::*}
+
+#Create a mini game
+
+effect create [a] mini game named %string%:
+	set {_namemg} to expression-1
+	set {_min} to expression-2
+	set {_max} to expression-3
+	if file "plugins/GameAPI/%{_namemg}%.yml" doesn't exist:
+		create file "plugins/GameAPI/%{_namemg}%.yml"
+		load yaml "plugins/GameAPI/%{_namemg}%.yml" as "%{_namemg}%"
+		set {_details::*} to {_min}, {_max} and {_namemg}
+		call custom event "mini game created" to details {_details::*}
+
+#Remove a mini game
+
+effect remove [the] mini game %string%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		unload yaml "%{_namemg}%"
+		delete file "%{_namemg}%"
+		set {_details::*} to {_name} and {_namemg}
+		call custom event "mini game deleted" to details {_details::*}
+
+#Set minimum of player in a mini game
+
+effect set [the] min[imum] [of] player (from|of) [[the] mini[s](-| )game[s]] %string% to %integer%:
+	set {_min} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Minimum player" from "%{_namemg}%" to "%{_min}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_min} and {_namemg}
+		call custom event "minimum player set in mini-game" to details {_details::*}
+
+#Set maximum of player in a mini game
+
+effect set [the] max[imum] [of] player (from|of) [[the] mini[s](-| )game[s]] %string% to %integer%:
+	set {_max} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Maximum player" from "%{_namemg}%" to "%{_max}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_max} and {_namemg}
+		call custom event "maximum player set in mini-game" to details {_details::*}
+
+#Set minimum of player in a team of a mini game
+
+effect set [the] min[imum] [of] player (of|from) %string% (from|of) [[the] mini[s](-| )game[s]] %string% to %integer%:
+	set {_min} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Minimum player" from "%{_namemg}%" to "%{_min}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_min}, {_name} and {_namemg}
+		call custom event "minimum player set in team" to details {_details::*}
+
+#Set maximum of player in a team of a mini game
+
+effect set [the] max[imum] [of] player (of|from) %string% (from|of) [[the] mini[s](-| )game[s]] %string% to %integer%:
+	set {_min} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Maximum player" from "%{_namemg}%" to "%{_max}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_min}, {_name} and {_namemg}
+		call custom event "maximum player set in in team" to details {_details::*}
+
+#Join a team
+
+effect make %player% join [[the] team] %string% (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_player} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to skript-yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		loop {_listnodes::*}:
+			set {_listplayer::*} to skript-yaml list "GameAPI.%{_namemg}%.Teams.%loop-value%.Players" from "%{_namemg}%"
+			If {_listplayer::*} contains "%{_player}%":
+				remove "%{_player}%" from skript-yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from "%{_namemg}%"
+				exit loop		
+		add "%{_player}%" to skript-yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from "%{_namemg}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_player}, {_name} and {_namemg}
+		call custom event "player joined team" to details {_details::*}
+
+#Leave a team
+
+effect make %player% leave [[the] team] %string% (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_player} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to skript-yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		loop {_listnodes::*}:
+			set {_listplayer::*} to skript-yaml list "GameAPI.%{_namemg}%.Teams.%loop-value%.Players" from "%{_namemg}%"
+			If {_listplayer::*} contains "%{_player}%":
+				remove "%{_player}%" from skript-yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from "%{_namemg}%"
+				exit loop
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_player}, {_name} and {_namemg}
+		call custom event "player left team" to details {_details::*}
+
+#Join a mini game
+
+effect make %player% join [the] mini game %string%:
+	set {_player} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_listplayer::*} to skript-yaml list "GameAPI.%{_namemg}%.Players" from "%{_namemg}%"
+		If {_listplayer::*} contains "%{_player}%":
+			remove "%{_player}%" from skript-yaml list "GameAPI.%{_namemg}%.Players" from "%{_namemg}%"
+		add "%{_player}%" to skript-yaml list "GameAPI.%{_namemg}%.Players" from "%{_namemg}%"
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_player} and {_namemg}
+		call custom event "player joined mini game" to details {_details::*}
+
+#Leave a mini game
+
+effect make %player% leave [the] mini game %string%:
+	set {_player} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to skript-yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		loop {_listnodes::*}:
+			set {_listplayer::*} to skript-yaml list "GameAPI.%{_namemg}%.Teams.%loop-value%.Players" from "%{_namemg}%"
+			If {_listplayer::*} contains "%{_player}%":
+				remove "%{_player}%" from skript-yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from "%{_namemg}%"
+				exit loop
+		save yaml "%{_namemg}%"
+		set {_details::*} to {_player} and {_namemg}
+		call custom event "player left mini game" to details {_details::*}
+
+#Random Team
+
+get expression [a] random team (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_namemg} to expression-1
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to skript-yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		replace all "Team " with "" in {_listnodes::*}
+		set {_random} to a random element of {_listnodes::*}
+		continue "%{_random}%"
+	else:
+		continue false
+
+#Add Team Points
+
+effect add %integer% point[s] for [[the] team] %string% (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_integer} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set {_points} to skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from "%{_namemg}%"
+		set {_points} to {_points} parsed as number
+		set {_points2} to {_points} + {_integer}
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from "%{_namemg}%" to "%{_points2}%"
+		set {_details::*} to {_integer}, {_name} and {_namemg}
+		call custom event "team won points" to details {_details::*}
+
+#Remove Team Points
+
+effect remove %integer% point[s] from [[the] team] %string% (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_integer} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set {_points} to skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from "%{_namemg}%"
+		set {_points} to {_points} parsed as number
+		set {_points2} to {_points} - {_integer}
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from "%{_namemg}%" to "%{_points2}%"
+		set {_details::*} to {_integer}, {_name} and {_namemg}
+		call custom event "team lost points" to details {_details::*}
+
+#Reset Team Points
+
+effect reset point[s] for [[the] team] %string% (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_integer} to expression-1
+	set {_name} to expression-2
+	set {_namemg} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Points" from "%{_namemg}%" to "0"
+		set {_details::*} to {_integer}, {_name} and {_namemg}
+		call custom event "team's reset points" to details {_details::*}
+
+#Set spawn of a team
+
+effect set spawn of [[the] team] %string% from [[the] mini game] %string% to %location%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	set {_location} to expression-3
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Spawn" from "%{_namemg}%" to "%{_location}%"
+		set {_details::*} to {_name}, {_location} and {_namemg}
+		call custom event "team spawn set" to details {_details::*}
+		call custom event "spawn set" to details {_details::*}
+
+#Set spawn of a mini-game
+
+effect set spawn of [[the] mini game] %string% to %location%:
+	set {_namemg} to expression-1
+	if yaml "%{_namemg}%" is loaded:
+		set skript-yaml value "GameAPI.%{_namemg}%.Spawn" from "%{_namemg}%" to "%{_location}%"
+		set {_details::*} to {_name}, {_location} and {_namemg}
+		call custom event "team spawn set" to details {_details::*}
+		call custom event "spawn set" to details {_details::*}
+
+#Points of a team
+
+get expression number of points of [[the] team] %string% (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_points} to skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_number}%.Points" from "%{_namemg}%"
+		continue {_points}
+	else:
+		continue false
+
+
+#Team of player
+
+get expression [[the] team] of %player% from [[the] mini game] %string%:
+	#delay the current expression
+	set {_player} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to skript-yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		loop {_listnodes::*}:
+		#	wait 1 tick
+			set {_listplayer::*} to skript-yaml list "GameAPI.%{_namemg}%.Teams.%loop-value%.Players" from "%{_namemg}%"
+			If {_listplayer::*} contains "%{_player}%":
+				set {_return} to loop-value
+				replace all "Team " with "" in {_return}
+				continue "%{_return}%"
+	else:
+		continue false
+
+#Spawn of a team
+
+get expression spawn of [[the] team] %string% from [[the] mini game] %string%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_spawn} to skript-yaml value "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Spawn" from "%{_namemg}%"
+		continue "%{_spawn}%"
+	else:
+		continue false
+
+#Spawn of a mini-game
+
+get expression spawn of [[the] mini game] %string%:
+	set {_namemg} to expression-1
+	if yaml "%{_namemg}%" is loaded:
+		set {_spawn} to skript-yaml value "GameAPI.%{_namemg}%.Spawn" from "%{_namemg}%"
+		continue "%{_spawn}%"
+	else:
+		continue false
+
+#Loop player in team
+
+get plural expression all players from team %string% of %string%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_listplayers::*} to skript-yaml list "GameAPI.%{_namemg}%.Teams.Team %{_name}%.Players" from "%{_namemg}%"
+		continue "%{_listplayers::*}%"
+	else:
+		continue false
+
+#Loop player in mini-game
+
+get plural expression all players (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_name} to expression-1
+	set {_namemg} to expression-2
+	if yaml "%{_namemg}%" is loaded:
+		set {_listplayers::*} to skript-yaml list "GameAPI.%{_namemg}%.Players" from "%{_namemg}%"
+		continue "%{_listplayers::*}%"
+	else:
+		continue false
+
+#Loop team 
+
+get plural expression all team[s] (from|of) [[the] mini[s](-| )game[s]] %string%:
+	set {_namemg} to expression-1
+	if yaml "%{_namemg}%" is loaded:
+		set {_listnodes::*} to yaml nodes "GameAPI.%{_namemg}%.Teams" from "%{_namemg}%"
+		continue "%{_listnodes::*}%"
+	else:
+		continue false
+
+#Loop mini-game
+
+get plural expression all mini[s][-]game[s]:
+	set {_listmg::*} to directory "plugins/GameAPI/"'s files
+	continue "%{_listmg::*}%"
