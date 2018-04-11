@@ -25,4 +25,4 @@ All the syntax is available in the wiki of the github below : [Wiki](https://git
 I invite you to say it to me in private message or on [the discord](https://discord.gg/q7UM6vJ). The API working of my quoted, I invite you to indicate me your concerns before putting your review.
 
 **You too can participated !**
-If you have ideas, you can contact me at the same time on [the discord of skunity](https://discord.gg/q7UM6vJ) but also via [the github](https://github.com/AlexLew95/GameAPI) ! It is enough to you to modify the code by [the github](https://github.com/AlexLew95/GameAPI/compare/master@%7B1day%7D...master) and I would be there warns ! Then, the code will be updated with your features additional !
+If you have ideas, you can contact me at the same time on [the discord of skunity](https://discord.gg/q7UM6vJ) but also via [the github](https://github.com/AlexLew95/GameAPI) ! It is enough to you to modify the code by [the github](https://github.com/AlexLew95/GameAPI/pulls) and I would be there warns ! Then, the code will be updated with your features additional !
