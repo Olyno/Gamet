@@ -1,0 +1,5 @@
+name: GameAPI
+description: Manage your minis games easily!
+author: AlexLew
+version: 2.0
+main: com.alexlew.gameapi.bungee.GameAPI

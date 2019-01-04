@@ -1,0 +1,15 @@
+##===============================================
+##     Welcome in the GameAPI's config file     #
+##===============================================
+#
+##=============== Explanations: ===============
+##
+## |> "manage_automatically" |> Default: true
+##                           |> What is it: This option will allow you to generate custom
+##                                          messages for you such as "X joined the game"
+##                                          etc.... automatically. All messages are defined
+##                                          by default but can be changed.
+##                                          If you want to customize your games as much as possible,
+##                                          then disable this option.
+
+manage_automatically: true

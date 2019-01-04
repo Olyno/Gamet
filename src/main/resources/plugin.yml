@@ -1,0 +1,17 @@
+name: GameAPI
+description: Manage your minis games easily!
+author: AlexLew
+version: 2.0
+main: com.alexlew.gameapi.GameAPI
+softdepend: [Skript]
+commands:
+  game:
+    description: Create awesome games with this command!
+    usage: §c[GameAPI] Make /game help to show help message
+    permission: game.use_command
+    permission-message: §cYou don't have the permission to use this command
+  team:
+    description: Create awesome teams for your games with this command!
+    usage: §c[GameAPI] Make /game help to show help message
+    permission: team.use_command
+    permission-message: §cYou don't have the permission to use this command
