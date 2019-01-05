@@ -1,5 +1,7 @@
 # GameAPI ![](https://travis-ci.com/AlexLew95/GameAPI.svg?branch=master)
 
+[![](https://img.shields.io/github/issues/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/issues) ![](https://img.shields.io/github/forks/AlexLew95/GameAPI.svg?style=for-the-badge) ![](https://img.shields.io/github/stars/AlexLew95/GameAPI.svg?style=for-the-badge)
+
 ![](https://i.imgur.com/Lo4xPqv.png)
 
 ## Overview:
