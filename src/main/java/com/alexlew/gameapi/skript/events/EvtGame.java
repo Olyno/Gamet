@@ -59,7 +59,7 @@ public class EvtGame {
         }, 0);
 
         // Command Started Event
-        Skript.registerEvent("Game Deleted Event", SimpleEvent.class, GameStartedEvent.class,
+        Skript.registerEvent("Game Started Event", SimpleEvent.class, GameStartedEvent.class,
                 "[mini[(-| )]]game start[ed]"
         );
         EventValues.registerEventValue(GameStartedEvent.class, Game.class, new Getter<Game, GameStartedEvent>() {
