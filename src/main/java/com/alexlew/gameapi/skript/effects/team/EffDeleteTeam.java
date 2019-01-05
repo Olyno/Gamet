@@ -5,6 +5,7 @@ import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
+import com.alexlew.gameapi.GameAPI;
 import com.alexlew.gameapi.events.TeamDeleted;
 import com.alexlew.gameapi.types.Game;
 import com.alexlew.gameapi.types.Team;
@@ -31,6 +32,9 @@ public class EffDeleteTeam extends Effect {
 
     @Override
     protected void execute( Event e ) {
+        if (team.getSingle(e) == null) {
+            GameAPI.error("Can't delete a team \"null\"");
+        }
         Game.games.get(team.getSingle(e).getGame().getName()).removeTeam(team.getSingle(e).getName());
         lastDeletedTeam = team.getSingle(e);
         new TeamDeleted(team.getSingle(e));
@@ -38,6 +42,7 @@ public class EffDeleteTeam extends Effect {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "delete the team " + team.getSingle(e).getName();
+        String teamName = team.getSingle(e) != null ? team.getSingle(e).getName() : "null";
+        return "Delete the team \"" + teamName + "\"";
     }
 }

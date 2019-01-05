@@ -6,6 +6,7 @@ import ch.njol.skript.registrations.EventValues;
 import ch.njol.skript.util.Getter;
 import com.alexlew.gameapi.events.bukkit.*;
 import com.alexlew.gameapi.types.Game;
+import com.alexlew.gameapi.types.Point;
 import com.alexlew.gameapi.types.Team;
 import org.bukkit.entity.Player;
 

@@ -12,7 +12,10 @@ import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
 import com.alexlew.gameapi.events.GameDeleted;
 import com.alexlew.gameapi.types.Game;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
+
+import java.io.File;
 
 @Name("Delete Game")
 @Description("Delete a game.")
@@ -45,10 +48,16 @@ public class EffDeleteGame extends Effect {
 
     @Override
     protected void execute( Event e ) {
+        if (game.getSingle(e) == null) {
+            GameAPI.error("Can't delete a game \"null\"");
+            return;
+        }
         Game mg = game.getSingle(e);
         if (Game.games.containsKey(mg.getName())) {
             lastDeletedGame = Game.games.get(mg.getName());
             Game.games.remove(mg.getName());
+            File gameFile = new File(Bukkit.getServer().getPluginManager().getPlugin("GameAPI").getDataFolder(), "Games/" + mg.getName() + ".yml");
+            if (gameFile.exists()) {gameFile.delete();}
             new GameDeleted(lastDeletedGame);
         } else {
             GameAPI.error("This game doesn't exist: " + mg.getName());
@@ -57,7 +66,8 @@ public class EffDeleteGame extends Effect {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "delete the game \"" + game.getSingle(e).getName() + "\"";
+        String gameName = game.getSingle(e) != null ? game.getSingle(e).getName() : "null";
+        return "Delete the game \"" + gameName + "\"";
     }
 
 }

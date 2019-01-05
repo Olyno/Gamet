@@ -9,6 +9,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
+import com.alexlew.gameapi.skript.expressions.game.ExprGame;
 import com.alexlew.gameapi.types.Game;
 import com.alexlew.gameapi.types.Team;
 import com.alexlew.gameapi.util.EffectSection;
@@ -52,7 +53,12 @@ public class SecStartGame extends EffectSection {
 
     @Override
     protected void execute( Event e ) {
+        if (game.getSingle(e)== null) {
+            GameAPI.error("Can't start a game \"null\"");
+            return;
+        }
         Game mg = game.getSingle(e);
+        ExprGame.lastGame = mg;
         if (mg.getTeams().length > 0) {
             if (mg.getSpawn() != null) {
                 if (mg.getLobby() != null) {
@@ -76,6 +82,7 @@ public class SecStartGame extends EffectSection {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "Scope start game \"" + game.getSingle(e).getName() + "\"";
+        String gameName = game.getSingle(e) != null ? game.getSingle(e).getName() : "null";
+        return "Scope start game \"" + gameName + "\"";
     }
 }

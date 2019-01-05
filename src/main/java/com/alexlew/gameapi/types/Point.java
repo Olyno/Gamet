@@ -12,8 +12,15 @@ public class Point {
     static {
         Classes.registerClass(new ClassInfo<>(Point.class, "points")
                 .defaultExpression(new EventValueExpression<>(Point.class))
-                .user("points")
-                .name("points")
+                .user("point(s)?")
+                .name("Points")
+                .description("A point type which join the player, game, number of points and more.")
+                .examples(
+                        "on team win points:",
+                        "\tif event-points > 10:",
+                        "\t\tbroadcast \"WOW this team won a lot of points!\""
+                )
+                .since("2.0")
                 .parser(new Parser<Point>() {
 
                     @Override

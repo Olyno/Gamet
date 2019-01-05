@@ -26,7 +26,7 @@ public class Game {
         Classes.registerClass(new ClassInfo<>(Game.class, "game")
                 .defaultExpression(new EventValueExpression<>(Game.class))
                 .user("(mini(-| )?)?game")
-                .name("CommandGameSpigot Type")
+                .name("Game")
                 .description("The current game")
                 .examples(
                         "on player join game:",

@@ -42,12 +42,13 @@ public class CondGameExist extends Condition {
 
     @Override
     public boolean check( Event e ) {
-        boolean exists = Game.games.containsKey(game.getSingle(e));
+        boolean exists = game.getSingle(e) != null && Game.games.containsKey(game.getSingle(e));
         return (isNegated() != exists);
     }
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "mini game \"" + game.getSingle(e) + "\" existence";
+        String gameName = game.getSingle(e) != null ? game.getSingle(e) : "null";
+        return "Game \"" + gameName + "\" existence";
     }
 }

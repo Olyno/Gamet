@@ -45,10 +45,10 @@ public class EffStopGame extends Effect {
 
     @Override
     protected void execute( Event e ) {
-        Game mg = game.getSingle(e);
-        if (mg == null) {
-            return;
+        if (game.getSingle(e) == null) {
+            GameAPI.error("Can't stop a game \"null\"");
         }
+        Game mg = game.getSingle(e);
         if (mg.getTeams().length > 0) {
             if (mg.getLobby() != null) {
                 for (Team team : mg.getTeams()) {

@@ -8,6 +8,7 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
 import com.alexlew.gameapi.types.Game;
@@ -44,8 +45,12 @@ public class EffCreateGame extends Effect {
 
     @Override
     protected void execute( Event e ) {
+        if (game.getSingle(e) == null) {
+            GameAPI.error("Can't create a game \"null\"");
+            return;
+        }
         String mgName = game.getSingle(e);
-        if (!mgName.replaceAll(" ", "").equals("")) {
+        if (!mgName.replaceAll(" ", "").isEmpty()) {
             if (Game.games.containsKey(mgName)) {
                 GameAPI.error("This game already exist: " + mgName);
             } else {
@@ -59,7 +64,8 @@ public class EffCreateGame extends Effect {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "create the game \"" + game.getSingle(e) + "\"";
+        String gameName = game.getSingle(e) != null ? game.getSingle(e) : "null";
+        return "Create the game \"" + gameName + "\"";
     }
 
 }

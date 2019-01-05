@@ -12,7 +12,10 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
+import com.alexlew.gameapi.skript.effects.sections.SecStartGame;
+import com.alexlew.gameapi.skript.effects.sections.SecStopGame;
 import com.alexlew.gameapi.types.Game;
+import com.alexlew.gameapi.util.EffectSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
@@ -30,34 +33,39 @@ public class ExprGame extends SimpleExpression<Game> {
 
     static {
         Skript.registerExpression(ExprGame.class, Game.class, ExpressionType.SIMPLE,
-                "[the] [mini[(-| )]]game %string%"
+                "[the] [mini[(-| )]]game [%-string%]"
         );
     }
 
-    private Expression<String> game;
+    public static Game lastGame;
+
+    private Boolean scope = false;
+    private Expression<String> gameName;
 
     @SuppressWarnings("unchecked")
     @Override
     public boolean init( Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult ) {
-        game = (Expression<String>) expr[0];
+        gameName = (Expression<String>) expr[0];
+        scope = EffectSection.isCurrentSection(SecStartGame.class)
+                || EffectSection.isCurrentSection(SecStopGame.class);
+        if (gameName == null) {
+            return scope;
+        }
         return true;
     }
 
     @Override
     protected Game[] get( Event e ) {
-        String mg = game.getSingle(e);
-        if (mg == null) {
-            return null;
-        }
+        String mg = scope ? lastGame.getName() : gameName.getSingle(e);
         if (!mg.replaceAll(" ", "").isEmpty()) {
-            if (Game.games.containsKey(game.getSingle(e))) {
-                return new Game[]{Game.games.get(game.getSingle(e))};
+            if (Game.games.containsKey(mg)) {
+                return new Game[]{Game.games.get(mg)};
             } else {
-                GameAPI.error("This game doesn't exist with this name (Current name: \"" + game.getSingle(e) + "\")");
+                GameAPI.error("This game doesn't exist with this name (Current name: \"" + mg + "\")");
                 return null;
             }
         } else {
-            GameAPI.error("A game can't have a empty name (Current name: \"" + game.getSingle(e) + "\")");
+            GameAPI.error("A game can't have a empty name (Current name: \"" + mg + "\")");
             return null;
         }
     }
@@ -72,7 +80,7 @@ public class ExprGame extends SimpleExpression<Game> {
 
     @Override
     public void change( Event e, Object[] delta, Changer.ChangeMode mode) {
-        String mg = game.getSingle(e);
+        String mg = scope ? lastGame.getName() : gameName.getSingle(e);
         if (Game.games.containsKey(mg)) {
             Game game = Game.games.get(mg);
             for (Object obj : delta) {
@@ -118,6 +126,6 @@ public class ExprGame extends SimpleExpression<Game> {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "The game " + game.getSingle(e);
+        return "The game " + gameName.getSingle(e);
     }
 }

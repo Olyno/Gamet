@@ -72,6 +72,9 @@ public class ExprPlayers extends SimpleExpression<Player> {
 
     @Override
     public String toString( Event e, boolean debug ) {
+        if (context.getSingle(e) == null) {
+            return "The context is nor a Command, nor a Team";
+        }
         Object o = context.getSingle(e);
         if (o instanceof Game) {
             Game cont = (Game) o;
@@ -80,7 +83,7 @@ public class ExprPlayers extends SimpleExpression<Player> {
             Team cont = (Team) o;
             return "Players of \"" + cont.getName() + "\"";
         } else {
-            GameAPI.error("The context is nor a CommandGameSpigot, nor a Team.");
+            GameAPI.error("The context is nor a Command, nor a Team.");
             return null;
         }
     }

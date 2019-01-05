@@ -9,6 +9,7 @@ import com.alexlew.gameapi.events.bukkit.TeamDeletedEvent;
 import com.alexlew.gameapi.events.bukkit.TeamLosePointEvent;
 import com.alexlew.gameapi.events.bukkit.TeamWinPointEvent;
 import com.alexlew.gameapi.types.Game;
+import com.alexlew.gameapi.types.Point;
 import com.alexlew.gameapi.types.Team;
 
 public class EvtTeam {

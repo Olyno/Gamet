@@ -13,14 +13,14 @@ public class TeamWinPointEvent extends Event {
 
     private Game game;
     private Team team;
-    private Integer points;
+    private Point points;
     private Player player;
 
     public TeamWinPointEvent( Point points ) {
         this.game = points.getGame();
         this.team = points.getTeam();
         this.player = points.getWho();
-        this.points = points.getPoints();
+        this.points = points;
     }
 
     public static HandlerList getHandlerList() {
@@ -41,7 +41,7 @@ public class TeamWinPointEvent extends Event {
     }
 
     public Integer getPoints() {
-        return points;
+        return points.getPoints();
     }
 
     public Player getPlayer() {

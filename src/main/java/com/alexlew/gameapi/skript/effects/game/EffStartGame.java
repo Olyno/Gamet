@@ -45,10 +45,11 @@ public class EffStartGame extends Effect {
 
     @Override
     protected void execute( Event e ) {
-        Game mg = game.getSingle(e);
-        if (mg == null) {
+        if (game.getSingle(e) == null) {
+            GameAPI.error("Can't start a game \"null\"");
             return;
         }
+        Game mg = game.getSingle(e);
         if (mg.getTeams().length > 0) {
             if (mg.getSpawn() != null) {
                 if (mg.getLobby() != null) {
@@ -71,6 +72,7 @@ public class EffStartGame extends Effect {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "start game \"" + game.getSingle(e).getName() + "\"";
+        String gameName = game.getSingle(e) != null ? game.getSingle(e).getName() : "null";
+        return "Start game \"" + gameName + "\"";
     }
 }

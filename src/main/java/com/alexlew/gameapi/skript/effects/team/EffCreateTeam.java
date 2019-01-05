@@ -46,10 +46,14 @@ public class EffCreateTeam extends Effect {
 
     @Override
     protected void execute( Event e ) {
+        if (team.getSingle(e) == null) {
+            GameAPI.error("Can't create a team \"null\"");
+            return;
+        }
         String teamName = team.getSingle(e);
         Game mg = game.getSingle(e);
         if (teamName != null && mg != null) {
-            if (!teamName.replaceAll(" ", "").equals("")) {
+            if (!teamName.replaceAll(" ", "").isEmpty()) {
                 if (mg.teamExists(team.getSingle(e))) {
                     GameAPI.error("The team " + teamName + " already exist in the game " + mg.getName());
                 } else {
@@ -67,7 +71,9 @@ public class EffCreateTeam extends Effect {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "create the game \"" + game.getSingle(e) + "\"";
+        String gameName = game.getSingle(e) != null ? game.getSingle(e).getName() : "null";
+        String teamName = team.getSingle(e) != null ? team.getSingle(e) : "null";
+        return "Create the team \"" + teamName + "\" in the game \"" + gameName + "\"";
     }
 
 }

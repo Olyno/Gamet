@@ -2,6 +2,7 @@ package com.alexlew.gameapi;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import ch.njol.skript.log.SkriptLogger;
 import com.alexlew.gameapi.commands.CommandGameSpigot;
 import com.alexlew.gameapi.commands.CommandTeamSpigot;
 import com.alexlew.gameapi.events.*;
@@ -33,11 +34,11 @@ public class GameAPI extends JavaPlugin {
     SkriptAddon addon;
 
     public static void error(String error) {
-        Skript.error("[GameAPI] " + error);
+        Skript.error("[GameAPI] " + error + " ");
     }
 
     public static void info( String info ) {
-        Skript.info("[GameAPI] " + info);
+        Skript.info("[GameAPI] " + info + " ");
     }
 
     public static GameAPI getInstance() {

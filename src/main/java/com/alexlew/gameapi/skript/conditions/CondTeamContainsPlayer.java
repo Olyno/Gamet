@@ -50,13 +50,15 @@ public class CondTeamContainsPlayer extends Condition {
 
     @Override
     public boolean check( Event e ) {
-        boolean hasPlayer = team.getSingle(e).hasPlayer(player.getSingle(e));
+        boolean hasPlayer = team.getSingle(e) != null && player.getSingle(e) != null && team.getSingle(e).hasPlayer(player.getSingle(e));
         return (isNegated() != hasPlayer);
     }
 
     @Override
     public String toString( Event e, boolean debug ) {
-        return "\"" + player.getSingle(e).getName() + "\"" + " is in team " + "\"" + team.getSingle(e).getName() + "\"";
+        String teamName = team.getSingle(e) != null ? team.getSingle(e).getName() : "null";
+        String playerName = player.getSingle(e) != null ? player.getSingle(e).getName() : "null";
+        return "\"" + playerName + "\"" + " is in team " + "\"" + teamName + "\"";
     }
 
 }
