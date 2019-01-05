@@ -22,3 +22,11 @@ GameAPI is a quick and easy way to create games without the hassle. It is compat
 **__Other:__**
 
  - Nothing for the moment :(
+ 
+ ## Issues, suggestions:
+ 
+ To be organized, it will be necessary to differentiate the types of issues you have please.
+ 
+ **__Skript:__** [here](https://github.com/AlexLew95/GameAPI/issues/new?milestone=Skript+part)
+ 
+**__Java:__** [here](https://github.com/AlexLew95/GameAPI/issues/new?milestone=Java+part)
