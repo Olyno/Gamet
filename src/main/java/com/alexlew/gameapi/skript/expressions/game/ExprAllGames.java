@@ -21,7 +21,7 @@ import java.util.List;
 @Examples({
         "command list:",
         "\ttrigger:",
-        "\t\tbroadcast \"List of all games created: %all games\""
+        "\t\tbroadcast \"List of all games created: %all games%\""
 })
 @Since("2.0")
 
