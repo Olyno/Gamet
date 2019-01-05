@@ -15,7 +15,7 @@ buildscript {
 }
 
 group 'com.alexlew.gameapi'
-version '2.0'
+version '2.0.1'
 
 apply plugin: 'java'
 apply plugin: "com.github.johnrengelman.shadow"
