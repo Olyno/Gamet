@@ -14,7 +14,7 @@ GameAPI is a quick and easy way to create games without the hassle. It is compat
 
 **__Skript:__**
 
- - [SkriptHub](https://github.com/AlexLew95/GameAPI/wiki)
+ - [SkriptHub](http://skripthub.net/docs/?addon=GameAPI)
  - [Skunity](https://github.com/AlexLew95/GameAPI/wiki)
  
 **__Other:__**
