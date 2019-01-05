@@ -1,6 +1,6 @@
-# GameAPI
+# GameAPI ![](https://travis-ci.com/AlexLew95/GameAPI.svg?branch=master)
 
-![](https://travis-ci.com/AlexLew95/GameAPI.svg?branch=master)
+![](https://i.imgur.com/Lo4xPqv.png)
 
 ## Overview:
 
