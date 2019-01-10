@@ -63,6 +63,27 @@ GameAPI is a quick and easy way to create games without the hassle. It is compat
 | game.add.players         | team.add.players         |
 | game.remove.players      | team.remove.players      |
 
+## Custom signs:
+
+> GameAPI as plugin contains the possibility to have a custom sign to join or leave a game or a team. To do that, place a sign somewhere and put that in the sign (line per line) ("/" means the first or the second, it's a choice):
+
+```
+[GameAPI]
+join/leave
+name of your game
+name of your team (optional)
+```
+
+
+
+## What GameAPI manage itself:
+
+ - [x] Multi Arenas
+ - [x] Save games and possibility to share our games
+ - [x] Auto sign to join or leave a game or a team
+ - [ ] Save players data (like money, exp etc...) (not yet)
+ - [ ] Support Bungeecord (not yet)
+
  ## Issues, suggestions:
  
  To be organized, it will be necessary to differentiate the types of issues you have please.
