@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: 'status: waiting'
+labels: 'status: waiting, type: issue'
 assignees: AlexLew95
 
 ---
