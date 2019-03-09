@@ -2,7 +2,6 @@ package com.alexlew.gameapi;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
-import ch.njol.skript.log.SkriptLogger;
 import com.alexlew.gameapi.commands.CommandGameSpigot;
 import com.alexlew.gameapi.commands.CommandTeamSpigot;
 import com.alexlew.gameapi.events.*;
@@ -11,6 +10,7 @@ import com.alexlew.gameapi.types.Team;
 import com.alexlew.gameapi.util.Registration;
 import com.jcabi.aspects.Async;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -24,8 +24,7 @@ import java.util.List;
 public class GameAPI extends JavaPlugin {
 
     private static File gameapiFolder;
-    //public static Boolean manageAutomatically = true;
-    public static Boolean manageAutomatically;
+    public static Boolean manageAutomatically = true;
     private File gamesFolder = new File(getDataFolder(), "Games");
     private File usersFolder = new File(getDataFolder(), "Users");
 
@@ -34,11 +33,11 @@ public class GameAPI extends JavaPlugin {
     SkriptAddon addon;
 
     public static void error(String error) {
-        Skript.error("[GameAPI] " + error + " ");
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[GameAPI] " + error + " ");
     }
 
     public static void info( String info ) {
-        Skript.info("[GameAPI] " + info + " ");
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "[GameAPI] " + info + " ");
     }
 
     public static GameAPI getInstance() {
@@ -58,24 +57,21 @@ public class GameAPI extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        manageAutomatically = (Boolean) getConfig().getValues(true).get("manage_automatically");
-
+    
         // GameAPI folder creation
         if (!getDataFolder().exists()) {
             getDataFolder().mkdir();
             saveDefaultConfig();
         }
-
+    
         // Games folder creation
-        if (!gamesFolder.exists()) {
-            gamesFolder.mkdir();
-        }
-
+        if (!gamesFolder.exists()) gamesFolder.mkdir();
+    
         // Players folder creation
-        if (!usersFolder.exists()) {
-            usersFolder.mkdir();
-        }
+        if (!usersFolder.exists()) usersFolder.mkdir();
+    
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
+        manageAutomatically = (Boolean) config.get("manage_automatically");
 
         // Events Register
         new GameReady(this);
@@ -114,12 +110,8 @@ public class GameAPI extends JavaPlugin {
      */
     // Save all games
     public void saveAsYaml( Game game ) {
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdir();
-        }
-        if (!gamesFolder.exists()) {
-            gamesFolder.mkdir();
-        }
+        if (!getDataFolder().exists()) getDataFolder().mkdir();
+        if (!gamesFolder.exists()) gamesFolder.mkdir();
         try {
             File gameAsFile = new File(getDataFolder(), "Games/" + game.getName() + ".yml");
             if (gameAsFile.exists()) {
@@ -155,7 +147,7 @@ public class GameAPI extends JavaPlugin {
                 gameAsYaml.set("game.world.spawns.team_" + team.getName() + ".Z", team.getSpawn().getZ());
             }
             gameAsYaml.save(gameAsFile);
-            GameAPI.info("CommandGameSpigot " + game.getName() + " has been saved!");
+            GameAPI.info("Game " + game.getName() + " has been saved!");
 
         } catch (IOException e) {
             e.printStackTrace();
