@@ -10,6 +10,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
+import com.alexlew.gameapi.events.GameStarted;
 import com.alexlew.gameapi.types.Game;
 import com.alexlew.gameapi.types.Team;
 import org.bukkit.entity.Player;
@@ -59,14 +60,15 @@ public class EffStartGame extends Effect {
                         }
                     }
                     mg.setCurrentState(2);
+                    new GameStarted(mg);
                 } else {
-                    GameAPI.error("Can't start the game " + mg.getName() + ": lobby is not set.");
+                    GameAPI.error("Can't start the game \"" + mg.getName() + "\": lobby is not set.");
                 }
             } else {
-                GameAPI.error("Can't start the game " + mg.getName() + ": spawn is not set.");
+                GameAPI.error("Can't start the game \"" + mg.getName() + "\": spawn is not set.");
             }
         } else {
-            GameAPI.error("Can't start the game " + mg.getName() + ": you don't have any team created.");
+            GameAPI.error("Can't start the game \"" + mg.getName() + "\": you don't have any team created.");
         }
     }
 
