@@ -235,7 +235,7 @@ public class GameAPI extends JavaPlugin {
                     }
                 }
                 Game.games.put(gameName, game);
-                info("CommandGameSpigot " + gameName + " has been loaded!");
+				info("Game \"" + gameName + "\" has been loaded!");
             } else {
                 error("Please don't put any folders in the \"Games\" folder: " + listOfGames[0].getName());
             }

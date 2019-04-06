@@ -57,7 +57,7 @@ public class EffDeleteGame extends Effect {
             lastDeletedGame = Game.games.get(mg.getName());
             Game.games.remove(mg.getName());
             File gameFile = new File(Bukkit.getServer().getPluginManager().getPlugin("GameAPI").getDataFolder(), "Games/" + mg.getName() + ".yml");
-            if (gameFile.exists()) {gameFile.delete();}
+			if (gameFile.exists()) gameFile.delete();
             new GameDeleted(lastDeletedGame);
         } else {
             GameAPI.error("This game doesn't exist: " + mg.getName());

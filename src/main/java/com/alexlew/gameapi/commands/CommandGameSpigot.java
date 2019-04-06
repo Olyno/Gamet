@@ -109,7 +109,7 @@ public class CommandGameSpigot implements CommandExecutor {
                         if (sender instanceof Player) {
                             if (sender.hasPermission("game.set.spawn")) {
                                 Game.games.get(args[0]).setSpawn(((Player) sender).getLocation());
-                                sender.sendMessage(ChatColor.GREEN + "[GameAPI] Spawn of game " + ChatColor.BLUE + args[0] + " has been set in " + ChatColor.DARK_AQUA + ((Player) sender).getLocation().getX() + ", " + ((Player) sender).getLocation().getY() + " and " + ((Player) sender).getLocation().getZ());
+								sender.sendMessage(ChatColor.GREEN + "[GameAPI] Spawn of game " + ChatColor.BLUE + args[0] + ChatColor.GREEN + " has been set in " + ChatColor.DARK_AQUA + ((Player) sender).getLocation().getX() + ", " + ((Player) sender).getLocation().getY() + " and " + ((Player) sender).getLocation().getZ());
                             } else {
                                 noPermission(sender);
                             }
