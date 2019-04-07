@@ -10,11 +10,11 @@ import org.bukkit.entity.Player;
 public class Point {
 
     static {
-        Classes.registerClass(new ClassInfo<>(Point.class, "points")
+        Classes.registerClass(new ClassInfo<>(Point.class, "point")
                 .defaultExpression(new EventValueExpression<>(Point.class))
-                .user("point(s)?")
+                .user("points?")
                 .name("Points")
-                .description("A point type which join the player, game, number of points and more.")
+                .description("A point type with information like the player, game, number of points and more.")
                 .examples(
                         "on team win points:",
                         "\tif event-points > 10:",
@@ -30,7 +30,7 @@ public class Point {
 
                     @Override
                     public Point parse( String arg0, ParseContext arg1 ) {
-                        return null;
+                        return new Point(Integer.parseInt(arg0));
                     }
 
                     @Override

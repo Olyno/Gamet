@@ -147,7 +147,7 @@ public class GameAPI extends JavaPlugin {
                 gameAsYaml.set("game.world.spawns.team_" + team.getName() + ".Z", team.getSpawn().getZ());
             }
             gameAsYaml.save(gameAsFile);
-            GameAPI.info("Game " + game.getName() + " has been saved!");
+            GameAPI.info("Game \"" + game.getName() + "\" has been saved!");
 
         } catch (IOException e) {
             e.printStackTrace();

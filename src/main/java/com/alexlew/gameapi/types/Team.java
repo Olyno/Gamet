@@ -165,14 +165,35 @@ public class Team {
         this.points = new Point(points);
     }
 
+	/**
+	 * Set the points of the team
+	 *
+	 * @param points The new points of the team
+	 */
+	public void setPoints(Point points) {
+		this.points = points;
+	}
+
     /**
      * Add points to the team
      * @param points The points added to the team
      */
     public void addPoints( Integer points ) {
         Point point = new Point(this.points.getPoints() + points);
+		this.points = point;
         new TeamWinPoint(point);
-    }
+	}
+
+	/**
+	 * Add points to the team
+	 *
+	 * @param points The points added to the team
+	 */
+	public void addPoints(Point points) {
+		points.setPoints(points.getPoints() + this.points.getPoints());
+		this.points = points;
+		new TeamWinPoint(points);
+	}
 
     /**
      * Add points to the team from a player
@@ -191,19 +212,32 @@ public class Team {
      */
     public void removePoints( Integer points ) {
         Point point = new Point(this.points.getPoints() - points);
+		this.points = point;
         new TeamLosePoint(point);
-    }
+	}
 
-    /**
-     * Remove points from the team
-     *
-     * @param points The point removed from the team
-     * @param player The player who lost the point
-     */
-    public void removePoints( Integer points, Player player ) {
-        Point point = new Point(this.points.getPoints() - points, player);
-        new TeamLosePoint(point);
-    }
+	/**
+	 * Remove points from the team
+	 *
+	 * @param points The point removed from the team
+	 */
+	public void removePoints(Point points) {
+		points.setPoints(points.getPoints() - this.points.getPoints());
+		this.points = points;
+		new TeamLosePoint(points);
+	}
+
+	/**
+	 * Remove points from the team
+	 *
+	 * @param points The point removed from the team
+	 * @param player The player who lost the point
+	 */
+	public void removePoints(Integer points, Player player ) {
+		Point point = new Point(this.points.getPoints() - points, player);
+		this.points = point;
+		new TeamLosePoint(point);
+	}
 
     /**
      * @return List of players in the team
