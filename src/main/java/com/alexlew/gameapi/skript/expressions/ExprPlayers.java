@@ -1,6 +1,7 @@
 package com.alexlew.gameapi.skript.expressions;
 
 import ch.njol.skript.Skript;
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
@@ -31,8 +32,8 @@ public class ExprPlayers extends SimpleExpression<Player> {
 
     static {
         Skript.registerExpression(ExprPlayers.class, Player.class, ExpressionType.SIMPLE,
-                "[the] players (of|in|from) %object%",
-                "[the] %object%'s players"
+                "[the] players (of|in|from) (%team%|%game%)",
+                "[the] (%team%|%game%)'s players"
         );
     }
 
@@ -48,17 +49,43 @@ public class ExprPlayers extends SimpleExpression<Player> {
     @Override
     protected Player[] get( Event e ) {
         Object o = context.getSingle(e);
-        if (o instanceof Team) {
-            Team team = (Team) o;
-            return team.getPlayers();
-        } else if (o instanceof Game) {
+        if (o instanceof Game) {
             Game game = (Game) o;
             return game.getPlayers();
+        } else if (o instanceof Team) {
+            Team team = (Team) o;
+            return team.getPlayers();
         } else {
             return null;
         }
     }
 
+    @Override
+    public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
+        if (mode == Changer.ChangeMode.REMOVE_ALL || mode == Changer.ChangeMode.RESET) {
+            return new Class[]{Player.class};
+        }
+        return null;
+    }
+
+    @Override
+    public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
+        for (Object o : delta) {
+            if (mode == Changer.ChangeMode.REMOVE_ALL || mode == Changer.ChangeMode.RESET) {
+                if (o instanceof Game) {
+                    Game game = (Game) o;
+                    for (Player player : game.getPlayers()) {
+                        game.removePlayer(player);
+                    }
+                } else if (o instanceof Team) {
+                    Team team = (Team) o;
+                    for (Player player : team.getPlayers()) {
+                        team.removePlayer(player);
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public boolean isSingle() {
@@ -72,8 +99,8 @@ public class ExprPlayers extends SimpleExpression<Player> {
 
     @Override
     public String toString( Event e, boolean debug ) {
-        if (context.getSingle(e) == null) {
-            return "The context is nor a Command, nor a Team";
+        if (context == null) {
+            return "The context is nor a Game, nor a Team";
         }
         Object o = context.getSingle(e);
         if (o instanceof Game) {
@@ -83,7 +110,7 @@ public class ExprPlayers extends SimpleExpression<Player> {
             Team cont = (Team) o;
             return "Players of \"" + cont.getName() + "\"";
         } else {
-            GameAPI.error("The context is nor a Command, nor a Team.");
+            GameAPI.error("The context is nor a Game, nor a Team.");
             return null;
         }
     }

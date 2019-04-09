@@ -54,11 +54,9 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
                 if (mg.teamExists(team.getSingle(e))) {
                     return new Team[] {mg.getTeam(team.getSingle(e))};
                 } else {
-                    GameAPI.error("This team doesn't exist with this name (Current name: \"" + team.getSingle(e) + "\")");
                     return null;
                 }
             } else {
-                GameAPI.error("This game doesn't exist with this name (Current name: \"" + game.getSingle(e) + "\")");
                 return null;
             }
         } else {

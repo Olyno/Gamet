@@ -31,12 +31,12 @@ public class ExprSpawn extends SimplePropertyExpression<Object, Location> {
 
     @Override
     public Location convert( Object o ) {
-        if (o instanceof Team) {
-            Team team = (Team) o;
-            return team.getSpawn();
-        } else if (o instanceof Game) {
+        if (o instanceof Game) {
             Game game = (Game) o;
             return game.getSpawn();
+        } else if (o instanceof Team) {
+            Team team = (Team) o;
+            return team.getSpawn();
         } else {
             return null;
         }

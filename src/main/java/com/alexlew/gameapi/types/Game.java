@@ -94,8 +94,8 @@ public class Game {
         this.name = name;
         this.displayName = name;
         this.world = Bukkit.getWorld("world");
-        this.lobby = new Location(world, 0, 0, 0);
-        this.spawn = new Location(world, 0, 0, 0);
+        this.lobby = new Location(world, 0, 150, 0);
+        this.spawn = new Location(world, 0, 150, 0);
         this.minPlayer = 1;
         this.maxPlayer = 2;
         this.startedState = "game started";

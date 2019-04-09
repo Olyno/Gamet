@@ -8,7 +8,6 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
 import com.alexlew.gameapi.types.Game;
@@ -20,7 +19,7 @@ import org.bukkit.event.Event;
         "command create <text>:",
         "\ttrigger:",
         "\t\tcreate game arg-1",
-        "\t\tbroadcast \"CommandGameSpigot %arg-1% has been created!\""
+        "\t\tbroadcast \"Game %arg-1% has been created!\""
 })
 @Since("1.0")
 
@@ -30,7 +29,7 @@ public class EffCreateGame extends Effect {
 
     static {
         Skript.registerEffect(EffCreateGame.class,
-                "create [(the|a)] [[mini[(-| )]]game] %string%"
+                "create [(the|a)] [mini[(-| )]]game %string%"
         );
     }
 
@@ -51,9 +50,7 @@ public class EffCreateGame extends Effect {
         }
         String mgName = game.getSingle(e);
         if (!mgName.replaceAll(" ", "").isEmpty()) {
-            if (Game.games.containsKey(mgName)) {
-                GameAPI.error("This game already exist: " + mgName);
-            } else {
+            if (!Game.games.containsKey(mgName)) {
                 Game.games.put(game.getSingle(e), new Game(mgName));
                 lastCreatedGame = Game.games.get(mgName);
             }

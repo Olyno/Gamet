@@ -86,6 +86,7 @@ public class GameAPI extends JavaPlugin {
         new TeamCreated(this);
         new TeamDeleted(this);
         new PlayerQuit(this);
+		new PlayerDie(this);
         new PlayerJoinGame(this);
         new PlayerLeaveGame(this);
         new PlayerJoinTeam(this);

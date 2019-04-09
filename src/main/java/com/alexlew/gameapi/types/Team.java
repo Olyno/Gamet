@@ -70,8 +70,8 @@ public class Team {
         this.minPlayer = 1;
         this.maxPlayer = 2;
         this.points = new Point(0);
-        this.spawn = new Location(Bukkit.getWorld("world"), 0, 0, 0);
-        this.lobby = new Location(Bukkit.getWorld("world"), 0, 0, 0);
+		this.spawn = new Location(Bukkit.getWorld("world"), 0, 150, 0);
+		this.lobby = new Location(Bukkit.getWorld("world"), 0, 150, 0);
         new TeamCreated(this);
     }
 
