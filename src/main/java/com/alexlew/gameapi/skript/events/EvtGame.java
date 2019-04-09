@@ -35,7 +35,7 @@ public class EvtGame {
         }, 0);
 
         // Command Created Event
-        Skript.registerEvent("Game Created Event", SimpleEvent.class, GameReadyEvent.class,
+		Skript.registerEvent("Game Created Event", SimpleEvent.class, GameCreatedEvent.class,
                 "[mini[(-| )]]game create[d]"
         );
         EventValues.registerEventValue(GameCreatedEvent.class, Game.class, new Getter<Game, GameCreatedEvent>() {
@@ -47,7 +47,7 @@ public class EvtGame {
         }, 0);
 
         // Command Deleted Event
-        Skript.registerEvent("Game Deleted Event", SimpleEvent.class, GameReadyEvent.class,
+		Skript.registerEvent("Game Deleted Event", SimpleEvent.class, GameDeletedEvent.class,
                 "[mini[(-| )]]game delete[d]"
         );
         EventValues.registerEventValue(GameDeletedEvent.class, Game.class, new Getter<Game, GameDeletedEvent>() {

@@ -31,21 +31,21 @@ public class PlayerLeaveTeam implements Listener {
             }
 
             String displayName = game.getDisplayName();
-            String joinMessageAllPlayers = game.getJoinMessageAllPlayers();
-            String joinMessagePlayer = game.getJoinMessagePlayer();
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{game}", game.getDisplayName());
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{team}", team.getDisplayName());
-            joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
-            joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{game}", game.getDisplayName());
-            joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{team}", team.getDisplayName());
+            String leaveMessageAllPlayers = game.getLeaveMessageAllPlayers();
+            String leaveMessagePlayer = game.getLeaveMessagePlayer();
+            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
+            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{game}", game.getDisplayName());
+            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{team}", team.getDisplayName());
+            leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
+            leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{game}", game.getDisplayName());
+            leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{team}", team.getDisplayName());
 
             for (Player playerInGame : game.getPlayers()) {
                 if (player.getAddress() != playerInGame.getAddress()) {
-                    playerInGame.sendMessage(displayName + joinMessageAllPlayers);
+                    playerInGame.sendMessage(displayName + leaveMessageAllPlayers);
                 }
             }
-            player.sendMessage(displayName + joinMessagePlayer);
+            player.sendMessage(displayName + leaveMessagePlayer);
         }
     }
 

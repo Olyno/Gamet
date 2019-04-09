@@ -49,17 +49,14 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
         String t = team.getSingle(e);
         Game mg = game.getSingle(e);
         if (mg == null) {return null;}
-        t.replaceAll(" ", "");
-        if (t != "") {
+        if (!t.replaceAll(" ", "").equals("")) {
             if (Game.games.containsKey(mg.getName())) {
                 if (mg.teamExists(team.getSingle(e))) {
                     return new Team[] {mg.getTeam(team.getSingle(e))};
                 } else {
-                    GameAPI.error("This team doesn't exist with this name (Current name: \"" + team.getSingle(e) + "\")");
                     return null;
                 }
             } else {
-                GameAPI.error("This game doesn't exist with this name (Current name: \"" + game.getSingle(e) + "\")");
                 return null;
             }
         } else {
@@ -96,8 +93,10 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
                                 team.addPlayer(player);
                             }
                         } else if (obj instanceof Point) {
-                            Point points = (Point) obj;
-                            team.setPoints(points.getPoints());
+                            Point point = (Point) obj;
+                            point.setTeam(team);
+                            point.setGame(team.getGame());
+                            team.setPoints(point);
                         } else {
                             GameAPI.error("You can add only points or player to a team, not a " + obj.getClass());
                         }
@@ -113,8 +112,10 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
                                 GameAPI.error("The team \"" + team.getName() + "\" can't add more players, you have already " + team.getPlayers().length + " players in this team and the maximum of players is " + team.getMaxPlayer());
                             }
                         } else if (obj instanceof Point) {
-                            Point points = (Point) obj;
-                            team.addPoints(points.getPoints());
+                            Point point = (Point) obj;
+                            point.setTeam(team);
+                            point.setGame(team.getGame());
+                            team.addPoints(point);
                         } else {
                             GameAPI.error("You can add only points or player to a team, not a " + obj.getClass());
                         }
@@ -124,8 +125,10 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
                             Player player = (Player) obj;
                             team.removePlayer(player);
                         } else if (obj instanceof Point) {
-                            Point points = (Point) obj;
-                            team.removePoints(points.getPoints());
+                            Point point = (Point) obj;
+                            point.setTeam(team);
+                            point.setGame(team.getGame());
+                            team.removePoints(point);
                         } else {
                             GameAPI.error("You can add only points or player to a team, not a " + obj.getClass());
                         }

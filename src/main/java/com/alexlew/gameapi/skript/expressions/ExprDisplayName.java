@@ -31,12 +31,12 @@ public class ExprDisplayName extends SimplePropertyExpression<Object, String> {
 
     @Override
     public String convert( Object o ) {
-        if (o instanceof Team) {
-            Team team = (Team) o;
-            return team.getDisplayName();
-        } else if (o instanceof Game) {
+        if (o instanceof Game) {
             Game game = (Game) o;
             return game.getDisplayName();
+        } else if (o instanceof Team) {
+            Team team = (Team) o;
+            return team.getDisplayName();
         } else {
             return null;
         }

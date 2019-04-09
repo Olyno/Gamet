@@ -10,6 +10,7 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
+import com.alexlew.gameapi.events.GameStopped;
 import com.alexlew.gameapi.types.Game;
 import com.alexlew.gameapi.types.Team;
 import org.bukkit.entity.Player;
@@ -57,6 +58,7 @@ public class EffStopGame extends Effect {
                     }
                 }
                 mg.setCurrentState(1);
+                new GameStopped(mg);
             } else {
                 GameAPI.error("Can't stop the game " + mg.getName() + ": lobby is not set.");
             }

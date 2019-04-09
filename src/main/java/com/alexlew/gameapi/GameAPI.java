@@ -2,30 +2,35 @@ package com.alexlew.gameapi;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
-import ch.njol.skript.log.SkriptLogger;
 import com.alexlew.gameapi.commands.CommandGameSpigot;
 import com.alexlew.gameapi.commands.CommandTeamSpigot;
 import com.alexlew.gameapi.events.*;
 import com.alexlew.gameapi.types.Game;
 import com.alexlew.gameapi.types.Team;
+import com.alexlew.gameapi.util.Metrics;
 import com.alexlew.gameapi.util.Registration;
 import com.jcabi.aspects.Async;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameAPI extends JavaPlugin {
 
     private static File gameapiFolder;
-    //public static Boolean manageAutomatically = true;
-    public static Boolean manageAutomatically;
+    public static Boolean manageAutomatically = true;
     private File gamesFolder = new File(getDataFolder(), "Games");
     private File usersFolder = new File(getDataFolder(), "Users");
 
@@ -34,11 +39,11 @@ public class GameAPI extends JavaPlugin {
     SkriptAddon addon;
 
     public static void error(String error) {
-        Skript.error("[GameAPI] " + error + " ");
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[GameAPI] " + error + " ");
     }
 
     public static void info( String info ) {
-        Skript.info("[GameAPI] " + info + " ");
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "[GameAPI] " + info + " ");
     }
 
     public static GameAPI getInstance() {
@@ -49,57 +54,18 @@ public class GameAPI extends JavaPlugin {
         return addon;
     }
 
-    public void onEnable() {
-        instance = this;
-        addon = Skript.registerAddon(this);
-        try {
-            addon.loadClasses("com.alexlew.gameapi.skript");
-            addon.loadClasses("com.alexlew.gameapi.types");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static String readToString(String targetURL) throws IOException {
+        URL url = new URL(targetURL);
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(url.openStream()));
+        StringBuilder stringBuilder = new StringBuilder();
+        String inputLine;
+        while ((inputLine = bufferedReader.readLine()) != null) {
+            stringBuilder.append(inputLine);
+            stringBuilder.append(System.lineSeparator());
         }
-
-        manageAutomatically = (Boolean) getConfig().getValues(true).get("manage_automatically");
-
-        // GameAPI folder creation
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdir();
-            saveDefaultConfig();
-        }
-
-        // Games folder creation
-        if (!gamesFolder.exists()) {
-            gamesFolder.mkdir();
-        }
-
-        // Players folder creation
-        if (!usersFolder.exists()) {
-            usersFolder.mkdir();
-        }
-
-        // Events Register
-        new GameReady(this);
-        new GameCanStart(this);
-        new GameCreated(this);
-        new GameDeleted(this);
-        new TeamWinPoint(this);
-        new TeamLosePoint(this);
-        new TeamCreated(this);
-        new TeamDeleted(this);
-        new PlayerQuit(this);
-        new PlayerJoinGame(this);
-        new PlayerLeaveGame(this);
-        new PlayerJoinTeam(this);
-        new PlayerLeaveTeam(this);
-        new Signs(this);
-
-        // Commands register
-        getCommand("game").setExecutor(new CommandGameSpigot());
-        getCommand("team").setExecutor(new CommandTeamSpigot());
-
-        // Load all games saved
-        loadGames();
-
+        bufferedReader.close();
+        return stringBuilder.toString().trim();
     }
 
     public void onDisable() {
@@ -114,12 +80,8 @@ public class GameAPI extends JavaPlugin {
      */
     // Save all games
     public void saveAsYaml( Game game ) {
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdir();
-        }
-        if (!gamesFolder.exists()) {
-            gamesFolder.mkdir();
-        }
+        if (!getDataFolder().exists()) getDataFolder().mkdir();
+        if (!gamesFolder.exists()) gamesFolder.mkdir();
         try {
             File gameAsFile = new File(getDataFolder(), "Games/" + game.getName() + ".yml");
             if (gameAsFile.exists()) {
@@ -155,7 +117,7 @@ public class GameAPI extends JavaPlugin {
                 gameAsYaml.set("game.world.spawns.team_" + team.getName() + ".Z", team.getSpawn().getZ());
             }
             gameAsYaml.save(gameAsFile);
-            GameAPI.info("CommandGameSpigot " + game.getName() + " has been saved!");
+            GameAPI.info("Game \"" + game.getName() + "\" has been saved!");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -243,11 +205,104 @@ public class GameAPI extends JavaPlugin {
                     }
                 }
                 Game.games.put(gameName, game);
-                info("CommandGameSpigot " + gameName + " has been loaded!");
+				info("Game \"" + gameName + "\" has been loaded!");
             } else {
                 error("Please don't put any folders in the \"Games\" folder: " + listOfGames[0].getName());
             }
         }
+    }
+
+    public void onEnable() {
+        instance = this;
+        if (getServer().getPluginManager().getPlugin("Skript") != null) {
+            addon = Skript.registerAddon(this);
+            try {
+                addon.loadClasses("com.alexlew.gameapi.skript");
+                addon.loadClasses("com.alexlew.gameapi.types");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        // GameAPI folder creation
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdir();
+            saveDefaultConfig();
+        }
+
+        // Games folder creation
+        if (!gamesFolder.exists()) gamesFolder.mkdir();
+
+        // Players folder creation
+        if (!usersFolder.exists()) usersFolder.mkdir();
+
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "config.yml"));
+        manageAutomatically = (Boolean) config.get("manage_automatically");
+
+        // Events Register
+        new GameReady(this);
+        new GameCanStart(this);
+        new GameCreated(this);
+        new GameDeleted(this);
+        new TeamWinPoint(this);
+        new TeamLosePoint(this);
+        new TeamCreated(this);
+        new TeamDeleted(this);
+        new PlayerQuit(this);
+        new PlayerDie(this);
+        new PlayerJoinGame(this);
+        new PlayerLeaveGame(this);
+        new PlayerJoinTeam(this);
+        new PlayerLeaveTeam(this);
+        new Signs(this);
+
+        // Commands register
+        getCommand("game").setExecutor(new CommandGameSpigot());
+        getCommand("team").setExecutor(new CommandTeamSpigot());
+
+        // Load all games saved
+        loadGames();
+
+        // Register Metrics
+        Metrics metrics = new Metrics(this);
+        metrics.addCustomChart(new Metrics.SimplePie("used_language", () ->
+                getConfig().getString("language", "en")));
+        metrics.addCustomChart(new Metrics.SimplePie("skript_version", () ->
+                Bukkit.getServer().getPluginManager().getPlugin("Skript").getDescription().getVersion()));
+        metrics.addCustomChart(new Metrics.SimplePie("skemail_version", () ->
+                this.getDescription().getVersion()));
+        metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+            Map<String, Map<String, Integer>> map = new HashMap<>();
+            String javaVersion = System.getProperty("java.version");
+            Map<String, Integer> entry = new HashMap<>();
+            entry.put(javaVersion, 1);
+            if (javaVersion.startsWith("1.7")) {
+                map.put("Java 1.7", entry);
+            } else if (javaVersion.startsWith("1.8")) {
+                map.put("Java 1.8", entry);
+            } else if (javaVersion.startsWith("1.9")) {
+                map.put("Java 1.9", entry);
+            } else {
+                map.put("Other", entry);
+            }
+            return map;
+        }));
+
+        // Version checker
+        if (getDescription().getVersion().contains("beta")) {
+            info("You're using a BETA version of GameAPI. Be careful with it, features in can change in the future.");
+        } else {
+            try {
+                String version = readToString("https://raw.githubusercontent.com/AlexLew95/GameAPI/master/version");
+                if (!version.equals(getDescription().getVersion())) {
+                    info("A new version of GameAPI is available (GameAPI version " + version + "). You can download it here: https://github.com/AlexLew95/GameAPI/releases");
+                }
+            } catch (IOException e) {
+                error("Got an error when reading a new version.");
+            }
+        }
+
     }
 
 }
