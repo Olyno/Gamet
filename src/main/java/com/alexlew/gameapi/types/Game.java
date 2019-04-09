@@ -124,6 +124,13 @@ public class Game {
                 return Game.games.get(gameName);
             }
         }
+        for (String gameName : Game.games.keySet()) {
+            for (Team team : Game.games.get(gameName).getTeams()) {
+                if (team.hasPlayer(player)) {
+                    return Game.games.get(gameName);
+                }
+            }
+        }
         return null;
     }
 
@@ -140,6 +147,18 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public Team[] getTeams() {
+        return teams.values().toArray(new Team[teams.values().size()]);
+    }
+
+    public Team getTeam(String team) {
+        if (teams.containsKey(team)) {
+            return teams.get(team);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -250,18 +269,6 @@ public class Game {
         if (!players.contains(player)) {
             players.add(player);
             new PlayerJoinGame(player);
-        }
-    }
-
-    public Team[] getTeams() {
-        return teams.values().toArray(new Team[teams.values().size()]);
-    }
-
-    public Team getTeam( String team ) {
-        if (teams.containsKey(team)) {
-            return teams.get(team);
-        } else {
-            return null;
         }
     }
 

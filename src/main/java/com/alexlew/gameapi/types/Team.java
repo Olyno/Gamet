@@ -266,8 +266,10 @@ public class Team {
      * @param player The player removed from the team
      */
     public void removePlayer( Player player ) {
-        new PlayerLeaveTeam(player);
-        players.remove(player);
+		if (players.contains(player)) {
+			new PlayerLeaveTeam(player);
+		}
+		players.remove(player);
     }
 
     /**

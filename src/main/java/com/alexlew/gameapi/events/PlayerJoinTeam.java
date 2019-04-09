@@ -30,6 +30,7 @@ public class PlayerJoinTeam implements Listener {
                 player.teleport(team.getLobby());
             }
 
+            String displayName = game.getDisplayName();
             String joinMessageAllPlayers = game.getJoinMessageAllPlayers();
             String joinMessagePlayer = game.getJoinMessagePlayer();
             joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
@@ -44,7 +45,7 @@ public class PlayerJoinTeam implements Listener {
                     playerInGame.sendMessage(joinMessageAllPlayers);
                 }
             }
-            player.sendMessage(joinMessagePlayer);
+            player.sendMessage(displayName + joinMessagePlayer);
         }
     }
 

@@ -16,7 +16,7 @@ import org.bukkit.event.Event;
         "command test:",
         "\ttrigger:",
         "\t\tcreate team \"red\" for game \"Test\"",
-        "\t\tbroadcast \"The name of team %last team created% is %gameapi name of last team created%\""
+        "\t\tbroadcast \"The name of team %last team created% is %team name of last team created%\""
 })
 @Since("1.0")
 
@@ -24,7 +24,7 @@ public class ExprName extends SimplePropertyExpression<Object, String> {
 
     static {
         register(ExprName.class, String.class,
-                "[the] game name", "object");
+                "[the] (game|team) name", "object");
     }
 
     @Override

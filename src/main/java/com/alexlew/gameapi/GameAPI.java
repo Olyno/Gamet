@@ -50,13 +50,16 @@ public class GameAPI extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        addon = Skript.registerAddon(this);
-        try {
-            addon.loadClasses("com.alexlew.gameapi.skript");
-            addon.loadClasses("com.alexlew.gameapi.types");
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (getServer().getPluginManager().getPlugin("Skript") != null) {
+            addon = Skript.registerAddon(this);
+            try {
+                addon.loadClasses("com.alexlew.gameapi.skript");
+                addon.loadClasses("com.alexlew.gameapi.types");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
     
         // GameAPI folder creation
         if (!getDataFolder().exists()) {
