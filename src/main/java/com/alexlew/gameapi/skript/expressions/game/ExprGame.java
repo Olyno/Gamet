@@ -61,7 +61,6 @@ public class ExprGame extends SimpleExpression<Game> {
             if (Game.games.containsKey(mg)) {
                 return new Game[]{Game.games.get(mg)};
             } else {
-                GameAPI.error("This game doesn't exist with this name (Current name: \"" + mg + "\")");
                 return null;
             }
         } else {
