@@ -30,7 +30,11 @@ public class Point {
 
                     @Override
                     public Point parse( String arg0, ParseContext arg1 ) {
-                        return new Point(Integer.parseInt(arg0));
+						try {
+							return new Point(Integer.parseInt(arg0));
+						} catch (NumberFormatException e1) {
+							return null;
+						}
                     }
 
                     @Override
