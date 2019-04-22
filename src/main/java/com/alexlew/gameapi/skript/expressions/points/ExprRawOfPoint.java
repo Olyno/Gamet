@@ -46,7 +46,11 @@ public class ExprRawOfPoint extends SimpleExpression<Integer> {
 
 	@Override
 	protected Integer[] get(Event e) {
-		return new Integer[]{points.getSingle(e).getPoints()};
+		try {
+			return new Integer[]{points.getSingle(e).getPoints()};
+		} catch (NullPointerException e1) {
+			return null;
+		}
 	}
 
 	@Override
