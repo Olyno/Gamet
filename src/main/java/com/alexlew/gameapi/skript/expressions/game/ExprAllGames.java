@@ -13,9 +13,6 @@ import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.types.Game;
 import org.bukkit.event.Event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Name("All Games")
 @Description("Return all games created.")
 @Examples({
@@ -39,12 +36,8 @@ public class ExprAllGames extends SimpleExpression<Game> {
 
     @Override
     protected Game[] get( Event e ) {
-        List<String> mg = new ArrayList<String>(Game.games.keySet());
-        if (mg.size() == 0) {return null;}
-        Game[] games = new Game[mg.size()];
-        for (int i = 0; i < mg.size(); i++)
-            games[i] = Game.games.get(mg.get(i));
-        return games;
+		if (Game.getGames().size() == 0) return null;
+		return Game.getGames().values().toArray(new Game[Game.getGames().size()]);
     }
 
     @Override

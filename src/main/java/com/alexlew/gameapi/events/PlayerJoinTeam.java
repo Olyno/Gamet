@@ -25,27 +25,36 @@ public class PlayerJoinTeam implements Listener {
         Team team = event.getTeam();
         Player player = event.getPlayer();
 
-        if (GameAPI.manageAutomatically) {
-            if (team != null) {
-                player.teleport(team.getLobby());
-            }
-
+        if (GameAPI.messages) {
             String displayName = game.getDisplayName();
-            String joinMessageAllPlayers = game.getJoinMessageAllPlayers();
-            String joinMessagePlayer = game.getJoinMessagePlayer();
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{game}", game.getDisplayName());
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{team}", team.getDisplayName());
+            String joinMessageGlobal = game.getJoinMessage().get("global");
+            String joinMessagePlayer = game.getJoinMessage().get("player");
+            joinMessageGlobal = joinMessageGlobal.replaceAll("\\$\\{player}", player.getDisplayName());
+            joinMessageGlobal = joinMessageGlobal.replaceAll("\\$\\{game}", game.getDisplayName());
+            joinMessageGlobal = joinMessageGlobal.replaceAll("\\$\\{team}", team.getDisplayName());
             joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
             joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{game}", game.getDisplayName());
             joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{team}", team.getDisplayName());
 
             for (Player playerInGame : game.getPlayers()) {
                 if (player.getAddress() != playerInGame.getAddress()) {
-                    playerInGame.sendMessage(joinMessageAllPlayers);
+                    playerInGame.sendMessage(displayName + joinMessageGlobal);
                 }
             }
             player.sendMessage(displayName + joinMessagePlayer);
+        }
+
+        if (GameAPI.manage_automatically) {
+            player.teleport(team.getLobby());
+            boolean start = true;
+            for (Team currentTeam : team.getGame().getTeams().values()) {
+                if (currentTeam.getPlayers().size() < currentTeam.getMinPlayer()) {
+                    start = false;
+                }
+            }
+            if (start) {
+                team.getGame().start();
+            }
         }
     }
 

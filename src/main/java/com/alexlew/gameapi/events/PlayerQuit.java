@@ -17,16 +17,16 @@ public class PlayerQuit implements Listener {
     @EventHandler
     public void onPlayerQuit( PlayerQuitEvent event ) {
         Player player = event.getPlayer();
-        if (GameAPI.manageAutomatically) {
-            for (String gameName : Game.games.keySet()) {
-                if (Game.games.get(gameName).hasPlayer(player)) {
-                    Game.games.get(gameName).removePlayer(player);
-                }
-                for (Team team : Game.games.get(gameName).getTeams()) {
+		if (GameAPI.manage_automatically) {
+			for (Game game : Game.getGames().values()) {
+				for (Team team : game.getTeams().values()) {
                     if (team.hasPlayer(player)) {
                         team.removePlayer(player);
                     }
                 }
+				if (game.hasPlayer(player)) {
+					game.removePlayer(player);
+				}
             }
         }
     }

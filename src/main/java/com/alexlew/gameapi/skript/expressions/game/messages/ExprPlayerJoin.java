@@ -29,7 +29,7 @@ public class ExprPlayerJoin extends SimplePropertyExpression<Game, String> {
 
     @Override
     public String convert( Game game ) {
-        return game.getJoinMessagePlayer();
+		return game.getJoinMessage().get("player");
     }
 
     @Override
@@ -46,13 +46,13 @@ public class ExprPlayerJoin extends SimplePropertyExpression<Game, String> {
         for (Game game : getExpr().getArray(e)) {
             switch (mode) {
                 case SET:
-                    game.setJoinMessagePlayer((String) delta[0]);
+					game.getJoinMessage().put("player", (String) delta[0]);
                     break;
                 case RESET:
-                    game.setJoinMessagePlayer("You joined the game ${game}");
+					game.getJoinMessage().put("player", "You joined the game ${game}");
                     break;
                 case DELETE:
-                    game.setJoinMessagePlayer(null);
+					game.getJoinMessage().remove("player");
                     break;
                 default:
                     break;

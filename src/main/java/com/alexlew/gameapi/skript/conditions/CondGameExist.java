@@ -26,8 +26,8 @@ public class CondGameExist extends Condition {
 
     static {
         Skript.registerCondition(CondGameExist.class,
-                "[[mini[(-| )]]game] %string% exists",
-                "[[mini[(-| )]]game] %string% does(n't| not) exist"
+				"[mini[(-| )]]game %string% exists",
+				"[mini[(-| )]]game %string% does(n't| not) exist"
         );
     }
 
@@ -42,7 +42,7 @@ public class CondGameExist extends Condition {
 
     @Override
     public boolean check( Event e ) {
-        boolean exists = game.getSingle(e) != null && Game.games.containsKey(game.getSingle(e));
+		boolean exists = game.getSingle(e) != null && Game.getGames().containsKey(game.getSingle(e));
         return (isNegated() != exists);
     }
 

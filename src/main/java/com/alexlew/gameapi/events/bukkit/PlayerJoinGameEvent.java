@@ -15,9 +15,9 @@ public class PlayerJoinGameEvent extends Event {
     /**
      * @param player   Which player ?
      */
-    public PlayerJoinGameEvent( Player player ) {
+	public PlayerJoinGameEvent(Game game, Player player) {
         this.player = player;
-        this.game = Game.getGameOfPlayer(player);
+		this.game = game;
     }
 
     public static HandlerList getHandlerList() {

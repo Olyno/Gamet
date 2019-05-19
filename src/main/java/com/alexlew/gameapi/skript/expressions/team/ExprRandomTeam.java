@@ -28,8 +28,8 @@ public class ExprRandomTeam extends SimplePropertyExpression<Game, Team> {
 
     @Override
     public Team convert( Game game ) {
-        Team[] teams = game.getTeams();
-        Integer random = new Random().nextInt(teams.length);
+		Team[] teams = game.getTeams().values().toArray(new Team[game.getTeams().size()]);
+		Integer random = new Random().nextInt(game.getTeams().values().size());
         return teams[random];
     }
 

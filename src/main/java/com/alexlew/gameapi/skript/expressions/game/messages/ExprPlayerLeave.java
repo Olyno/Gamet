@@ -29,7 +29,7 @@ public class ExprPlayerLeave extends SimplePropertyExpression<Game, String> {
 
     @Override
     public String convert( Game game ) {
-        return game.getLeaveMessagePlayer();
+		return game.getLeaveMessage().get("player");
     }
 
     @Override
@@ -46,13 +46,13 @@ public class ExprPlayerLeave extends SimplePropertyExpression<Game, String> {
         for (Game game : getExpr().getArray(e)) {
             switch (mode) {
                 case SET:
-                    game.setLeaveMessagePlayer((String) delta[0]);
+					game.getLeaveMessage().put("player", (String) delta[0]);
                     break;
                 case RESET:
-                    game.setLeaveMessagePlayer("You left the game ${game}");
+					game.getLeaveMessage().put("player", "You left the game ${game}");
                     break;
                 case DELETE:
-                    game.setLeaveMessagePlayer(null);
+					game.getLeaveMessage().remove("player");
                     break;
                 default:
                     break;

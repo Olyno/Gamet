@@ -28,25 +28,25 @@ public class TeamWinPoint implements Listener {
         Integer points = event.getPoints();
 
         String displayName = game.getDisplayName();
-        String winPointMessageAllPlayers = game.getWinPointMessageAllPlayers();
-        String winPointMessagePlayer = game.getWinPointMessagePlayer();
+		String winPointMessageGlobal = team.getWinPointMessage().get("global");
+		String winPointMessagePlayer = team.getWinPointMessage().get("player");
         if (player != null) {
-            winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
+			winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{player}", player.getDisplayName());
             winPointMessagePlayer = winPointMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
-            if (team != null) {
-                winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{team}", team.getDisplayName());
-                winPointMessagePlayer = winPointMessagePlayer.replaceAll("\\$\\{team}", team.getDisplayName());
-            }
+		}
+		if (team != null) {
+			winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{team}", team.getDisplayName());
+			winPointMessagePlayer = winPointMessagePlayer.replaceAll("\\$\\{team}", team.getDisplayName());
         }
         if (points != null) {
-            winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{points}", points.toString());
+			winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{points}", points.toString());
             winPointMessagePlayer = winPointMessagePlayer.replaceAll("\\$\\{points}", points.toString());
         }
 
-        winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{player}", "");
-        winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{points}", "");
-        winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{team}", "");
-        winPointMessageAllPlayers = winPointMessageAllPlayers.replaceAll("\\$\\{game}", game.getDisplayName());
+		winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{player}", "");
+		winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{points}", "");
+		winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{team}", "");
+		winPointMessageGlobal = winPointMessageGlobal.replaceAll("\\$\\{game}", game.getDisplayName());
 
         winPointMessagePlayer = winPointMessagePlayer.replaceAll("\\$\\{player}", "");
         winPointMessagePlayer = winPointMessagePlayer.replaceAll("\\$\\{points}", "");
@@ -56,10 +56,10 @@ public class TeamWinPoint implements Listener {
         for (Player playerInGame : game.getPlayers()) {
             if (player != null) {
                 if (player.getAddress() != playerInGame.getAddress()) {
-                    playerInGame.sendMessage(displayName + winPointMessageAllPlayers);
+					playerInGame.sendMessage(displayName + winPointMessageGlobal);
                 }
             } else {
-                playerInGame.sendMessage(displayName + winPointMessageAllPlayers);
+				playerInGame.sendMessage(displayName + winPointMessageGlobal);
             }
 
         }

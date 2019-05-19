@@ -14,8 +14,8 @@ public class PlayerLeaveGame implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public PlayerLeaveGame( Player player ) {
-        Bukkit.getServer().getPluginManager().callEvent(new PlayerLeaveGameEvent(player));
+	public PlayerLeaveGame(Game game, Player player) {
+		Bukkit.getServer().getPluginManager().callEvent(new PlayerLeaveGameEvent(game, player));
     }
 
     @EventHandler
@@ -23,22 +23,18 @@ public class PlayerLeaveGame implements Listener {
         Player player = event.getPlayer();
         Game game = event.getGame();
 
-        if (GameAPI.manageAutomatically) {
-            if (game.getLobby() != null) {
-                player.teleport(game.getLobby());
-            }
-
+		if (GameAPI.messages) {
             String displayName = game.getDisplayName();
-            String leaveMessageAllPlayers = game.getLeaveMessageAllPlayers();
-            String leaveMessagePlayer = game.getLeaveMessagePlayer();
-            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
-            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{game}", displayName);
+			String leaveMessageGlobal = game.getLeaveMessage().get("global");
+			String leaveMessagePlayer = game.getLeaveMessage().get("player");
+			leaveMessageGlobal = leaveMessageGlobal.replaceAll("\\$\\{player}", player.getDisplayName());
+			leaveMessageGlobal = leaveMessageGlobal.replaceAll("\\$\\{game}", displayName);
             leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
             leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{game}", displayName);
 
             for (Player playerInGame : game.getPlayers()) {
                 if (player.getAddress() != playerInGame.getAddress()) {
-                    playerInGame.sendMessage(displayName + leaveMessageAllPlayers);
+					playerInGame.sendMessage(displayName + leaveMessageGlobal);
                 }
             }
             player.sendMessage(displayName + leaveMessagePlayer);
