@@ -8,13 +8,13 @@ image: openjdk:11
 pipelines:
   default:
     - step:
-          name: Download dependencies
+        name: Download dependencies
         caches:
-            - gradle
+          - gradle
         script:
           - bash ./gradlew shadowjar
-    -   step:
-            name: Deploy code
-            deployment: production
-            script:
-                - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"./build/libs/gameapi-2.0.3-all.jar"
+    - step:
+        name: Deploy code
+        deployment: production
+        script:
+          - curl -X POST "https://${BB_AUTH_STRING}@api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/downloads" --form files=@"./build/libs/gameapi-2.0.3-all.jar"
