@@ -1,579 +1,366 @@
 package com.alexlew.gameapi.types;
 
-import ch.njol.skript.classes.ClassInfo;
-import ch.njol.skript.classes.Parser;
-import ch.njol.skript.expressions.base.EventValueExpression;
-import ch.njol.skript.lang.ParseContext;
-import ch.njol.skript.registrations.Classes;
-import com.alexlew.gameapi.events.GameCreated;
-import com.alexlew.gameapi.events.PlayerJoinGame;
-import com.alexlew.gameapi.events.PlayerLeaveGame;
-import com.alexlew.gameapi.events.TeamDeleted;
+import com.alexlew.gameapi.events.*;
+import com.alexlew.gameapi.util.GameManager;
+import com.alexlew.gameapi.util.GameRunner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-
-public class Game {
-
-    public static HashMap<String, Game> games = new HashMap<>();
-
-    static {
-        Classes.registerClass(new ClassInfo<>(Game.class, "game")
-                .defaultExpression(new EventValueExpression<>(Game.class))
-                .user("(mini(-| )?)?game")
-                .name("Game")
-                .description("The current game")
-                .examples(
-                        "on player join game:",
-                        "\tbroadcast \"%event-player% joined the game %event-game%!\""
-                )
-                .since("2.0")
-                .parser(new Parser<Game>() {
-
-                    @Override
-                    public String getVariableNamePattern() {
-                        return ".+";
-                    }
-
-                    @Override
-                    public Game parse( String arg0, ParseContext arg1 ) {
-                        return null;
-                    }
-
-                    @Override
-                    public String toString( Game arg0, int arg1 ) {
-                        return arg0.getName();
-                    }
-
-                    @Override
-                    public String toVariableNameString( Game arg0 ) {
-                        return arg0.getName();
-                    }
-
-                }));
-
-    }
-
-    private String name;
-    private String displayName;
-    private Integer minPlayer;
-    private Integer maxPlayer;
-    private Integer maxPoints;
-    private Location lobby;
-    private Location spawn;
-    private World world;
-    private List<Player> players = new ArrayList<>();
-    private HashMap<String, Team> teams = new HashMap<>();
-
-    // CommandGameSpigot States
-    private String startedState;
-    private String waitingState;
-    private String unavailableState;
-    private Integer currentState;
-
-    // CommandGameSpigot events messages
-    private String joinMessageAllPlayers;
-    private String leaveMessageAllPlayers;
-    private String joinMessagePlayer;
-    private String leaveMessagePlayer;
-    private String winPointMessageAllPlayers;
-    private String winPointMessagePlayer;
-    private String losePointMessageAllPlayers;
-    private String losePointMessagePlayer;
-
-    /**
-     * Create a new game
-     * @param name The name of your game
-     */
-    public Game( String name ) {
-        this.name = name;
-        this.displayName = name;
-        this.world = Bukkit.getWorld("world");
-        this.lobby = new Location(world, 0, 150, 0);
-        this.spawn = new Location(world, 0, 150, 0);
-        this.minPlayer = 1;
-        this.maxPlayer = 2;
-        this.startedState = "game started";
-        this.waitingState = "waiting players";
-        this.unavailableState = "game unavailable";
-        this.currentState = 0;
-        this.joinMessageAllPlayers = "${player} joined the game!";
-        this.leaveMessageAllPlayers = "${player} left the game!";
-        this.joinMessagePlayer = "You joined the game ${game}";
-        this.leaveMessagePlayer = "You left the game ${game}";
-        this.winPointMessageAllPlayers = "${player} scored a point for the ${team} team!";
-        this.losePointMessageAllPlayers = "${player} lost a point for the ${team} team!";
-        this.winPointMessagePlayer = "You scored a point for your ${team} team!";
-        this.losePointMessagePlayer = "You lost a point for the opponent ${team} team!";
-        new GameCreated(this);
-    }
-
-    /**
-     * Return the game where the player is.
-     * @param player The player that we need to know the game where he is.
-     * @return The game where is the player
-     */
-    public static Game getGameOfPlayer( Player player ) {
-        for (String gameName : Game.games.keySet()) {
-            if (Game.games.get(gameName).hasPlayer(player)) {
-                return Game.games.get(gameName);
-            }
-        }
-        for (String gameName : Game.games.keySet()) {
-            for (Team team : Game.games.get(gameName).getTeams()) {
-                if (team.hasPlayer(player)) {
-                    return Game.games.get(gameName);
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Return the team where the player is.
-     *
-     * @param player The player that we need to know the team where he is.
-     * @return The team where is the player
-     */
-    public Team getTeamOfPlayer( Player player ) {
-        for (Team team : this.getTeams()) {
-            if (team.hasPlayer(player)) {
-                return team;
-            }
-        }
-        return null;
-    }
-
-    public Team[] getTeams() {
-        return teams.values().toArray(new Team[teams.values().size()]);
-    }
-
-    public Team getTeam(String team) {
-        if (teams.containsKey(team)) {
-            return teams.get(team);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @return The name of the game
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Set the name of your game
-     * @param name The name of your game
-     */
-    public void setName( String name ) {
-        this.name = name.replaceAll(" ", "").equals("") ? this.name : name;
-    }
-
-    /**
-     * @return The display name of your game
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    /**
-     * Set the display name of your game
-     * @param displayName The display name of your game
-     */
-    public void setDisplayName( String displayName ) {
-        this.displayName = displayName;
-    }
-
-    /**
-     * @return The minimum of player that your game require before start
-     */
-    public Integer getMinPlayer() {
-        return minPlayer;
-    }
-
-    /**
-     * Set the minimum of player that your game require before start
-     * @param minPlayer The minimum of player that your game require before start
-     */
-    public void setMinPlayer( Integer minPlayer ) {
-        this.minPlayer = minPlayer;
-    }
-
-    /**
-     * @return The maximum of player that your game require before start
-     */
-    public Integer getMaxPlayer() {
-        return maxPlayer;
-    }
-
-    /**
-     * Set the maximum of player that your game require before start
-     * @param maxPlayer The maximum of player that your game require before start
-     */
-    public void setMaxPlayer( Integer maxPlayer ) {
-        this.maxPlayer = maxPlayer;
-    }
-
-    /**
-     * @return Lobby of your game
-     */
-    public Location getLobby() {
-        return lobby;
-    }
-
-    /**
-     * Set the location of the lobby of your game.
-     * It's where players join your game.
-     * @param lobby Lobby of your game
-     */
-    public void setLobby( Location lobby ) {
-        this.lobby = lobby;
-    }
-
-    /**
-     * @return The spawn of your game
-     */
-    public Location getSpawn() {
-        return spawn;
-    }
-
-    /**
-     * Set the location of the spawn of your game.
-     * It's where players will be teleported when they will join your game.
-     * @param spawn The spawn of your game
-     */
-    public void setSpawn( Location spawn ) {
-        this.spawn = spawn;
-    }
-
-    /**
-     * @return Players in your game
-     */
-    public Player[] getPlayers() {
-        Player[] player = new Player[players.size()];
-        return players.toArray(player);
-    }
-
-    /**
-     * Add a player to your game
-     * @param player The player who will join the game
-     */
-    public void addPlayer( Player player ) {
-        if (!players.contains(player)) {
-            players.add(player);
-            new PlayerJoinGame(player);
-        }
-    }
-
-    /**
-     * Remove a player from your game
-     * @param player The player who will leave the game
-     */
-    public void removePlayer( Player player ) {
-        if (players.contains(player)) {
-            new PlayerLeaveGame(player);
-        }
-        players.remove(player);
-    }
-
-    /**
-     * Add a team to your game
-     * @param team The team which will be added
-     */
-    public void addTeam( Team team ) {
-        teams.put(team.getName(), team);
-    }
-
-    /**
-     * Remove a team from your game
-     * @param team The team which will be removed from your game
-     */
-    public void removeTeam( String team ) {
-        new TeamDeleted(teams.get(team));
-        teams.remove(team);
-    }
-
-    /**
-     * @param team The team that you need to check existence
-     * @return If the team exists or not
-     */
-    public Boolean teamExists( String team ) {
-        return teams.containsKey(team);
-    }
-
-    /**
-     * @param player The player to check if he is in the game
-     * @return If the player is in your game or not
-     */
-    public Boolean hasPlayer( Player player ) {
-        return players.contains(player);
-    }
-
-    /**
-     * @return The "started" message. Will be showed when your game already started
-     */
-    public String getStartedState() {
-        return startedState;
-    }
-
-    /**
-     * Set the "started" message.
-     * Will be showed when your game already started
-     * @param startedState The "started" message. Will be showed when your game already started
-     */
-    public void setStartedState( String startedState ) {
-        this.startedState = startedState;
-    }
-
-    /**
-     * @return The "waiting" message. Will be showed when your game wait more players
-     */
-    public String getWaitingState() {
-        return waitingState;
-    }
-
-    /**
-     * Set the "waiting" message. W
-     * ill be showed when your game wait more players
-     * @param waitingState The "waiting" message. Will be showed when your game wait more players
-     */
-    public void setWaitingState( String waitingState ) {
-        this.waitingState = waitingState;
-    }
-
-    /**
-     * @return The "unavailable" message. Will be showed when your game is not available
-     */
-    public String getUnavailableState() {
-        return unavailableState;
-    }
-
-    /**
-     * Set the "unavailable" message.
-     * Will be showed when your game is not available
-     * @param unavailableState The "unavailable" message. Will be showed when your game is not available
-     */
-    public void setUnavailableState( String unavailableState ) {
-        this.unavailableState = unavailableState;
-    }
-
-    /**
-     * @return The current state of your game
-     */
-    public Integer getCurrentState() {
-        return currentState;
-    }
-
-    /**
-     * Set a new state to your game
-     * @param currentState The new state of your game
-     */
-    public void setCurrentState( Integer currentState ) {
-        this.currentState = currentState;
-    }
-
-    /**
-     * @return The world of your game
-     */
-    public World getWorld() {
-        return world;
-    }
-
-    /**
-     * Set the world of your game
-     * @param world The world of your game
-     */
-    public void setWorld( World world ) {
-        this.world = world;
-    }
-
-    /**
-     * @return The "join" message for all players. Will be showed to all players in the game
-     * when a new player join your game.
-     */
-    public String getJoinMessageAllPlayers() {
-        return joinMessageAllPlayers;
-    }
-
-    /**
-     * Set the "join" message for all players.
-     * Will be showed to all players in the game when a new player join your game.
-     * Variables:
-     *     ${player} : the name of the player
-     *     ${game} : the name of the game
-     * @param joinMessage The "join" message. Will be showed when a new player join your game.
-     */
-    public void setJoinMessageAllPlayers( String joinMessage ) {
-        this.joinMessageAllPlayers = joinMessage;
-    }
-
-    /**
-     * @return The "leave" message for all players. Will be showed to all players in the game
-     * when a player leave your game.
-     */
-    public String getLeaveMessageAllPlayers() {
-        return leaveMessageAllPlayers;
-    }
-
-    /**
-     * Set the "leave" message for all players.
-     * Will be showed when a new player leave your game.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     *
-     * @param leaveMessage The "leave" message. Will be showed when a player leave your game.
-     */
-    public void setLeaveMessageAllPlayers( String leaveMessage ) {
-        this.leaveMessageAllPlayers = leaveMessage;
-    }
-
-    /**
-     * @return The "join" message for the player. Will be showed to the player in the game
-     * when he joins your game.
-     */
-    public String getJoinMessagePlayer() {
-        return joinMessagePlayer;
-    }
-
-    /**
-     * Set the "join" message for the player.
-     * Will be showed when the player joins your game.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     *
-     * @param joinMessagePlayer The "join" message. Will be showed when the player joins your game.
-     */
-    public void setJoinMessagePlayer( String joinMessagePlayer ) {
-        this.joinMessagePlayer = joinMessagePlayer;
-    }
-
-    /**
-     * @return The "leave" message for the player. Will be showed to the player in the game
-     * when he leaves your game.
-     */
-    public String getLeaveMessagePlayer() {
-        return leaveMessagePlayer;
-    }
-
-    /**
-     * Set the "leave" message for the player.
-     * Will be showed when the player leaves your game.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     *
-     * @param leaveMessagePlayer The "leave" message. Will be showed when the player leaves your game.
-     */
-    public void setLeaveMessagePlayer( String leaveMessagePlayer ) {
-        this.leaveMessagePlayer = leaveMessagePlayer;
-    }
-
-    /**
-     * @return The "win point" message. Will be showed when a player has scored a point
-     */
-    public String getWinPointMessageAllPlayers() {
-        return winPointMessageAllPlayers;
-    }
-
-    /**
-     * Set the "win point" message for all players.
-     * Will be showed when a player has scored a point.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     * ${team} : the name of the team
-     *
-     * @param winPointMessageAllPlayers The "win point" message. Will be showed when a player has scored a point
-     */
-    public void setWinPointMessageAllPlayers( String winPointMessageAllPlayers ) {
-        this.winPointMessageAllPlayers = winPointMessageAllPlayers;
-    }
-
-    /**
-     * @return The "win point" message. Will be showed when the player score a point
-     */
-    public String getWinPointMessagePlayer() {
-        return winPointMessagePlayer;
-    }
-
-    /**
-     * Set the "win point" message for the player.
-     * Will be showed when the player score a point.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     * ${team} : the name of the team
-     *
-     * @param winPointMessagePlayer The "win point" message. Will be showed when the player score a point
-     */
-    public void setWinPointMessagePlayer( String winPointMessagePlayer ) {
-        this.winPointMessagePlayer = winPointMessagePlayer;
-    }
-
-    /**
-     * @return The "lose point" message. Will be showed when a player lose a point
-     */
-    public String getLosePointMessageAllPlayers() {
-        return losePointMessageAllPlayers;
-    }
-
-    /**
-     * Set the "lose point" message for all players.
-     * Will be showed when a player lose a point.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     * ${team} : the name of the team
-     *
-     * @param losePointMessageAllPlayers The "win point" message. Will be showed when a player lose a point
-     */
-    public void setLosePointMessageAllPlayers( String losePointMessageAllPlayers ) {
-        this.losePointMessageAllPlayers = losePointMessageAllPlayers;
-    }
-
-    /**
-     * @return The "lose point" message. Will be showed when the player lose a point
-     */
-    public String getLosePointMessagePlayer() {
-        return losePointMessagePlayer;
-    }
-
-    /**
-     * Set the "lose point" message for the player.
-     * Will be showed when the player lose a point.
-     * Variables:
-     * ${player} : the name of the player
-     * ${game} : the name of the game
-     * ${team} : the name of the team
-     *
-     * @param losePointMessagePlayer The "win point" message. Will be showed when the player lose a point
-     */
-    public void setLosePointMessagePlayer( String losePointMessagePlayer ) {
-        this.losePointMessagePlayer = losePointMessagePlayer;
-    }
-
-    /**
-     * @return The maximum points to score to finish the game.
-     */
-    public Integer getMaxPoints() {
-        return maxPoints;
-    }
-
-    /**
-     * Set the amount of points to finish the game.
-     *
-     * @param maxPoints Amount of points to finish the game.
-     */
-    public void setMaxPoints( Integer maxPoints ) {
-        this.maxPoints = maxPoints;
-    }
+import java.util.regex.Pattern;
+
+public class Game extends GameManager {
+
+	private static HashMap<String, Game> games = new HashMap<>();
+	private HashMap<String, Team> teams = new HashMap<>();
+
+	// Messages
+	private HashMap<String, String> joinMessage = new HashMap<>();
+	private HashMap<String, String> leaveMessage = new HashMap<>();
+	private HashMap<String, String> endMessage = new HashMap<>();
+	private HashMap<Integer, String> timerMessages = new HashMap<>();
+
+	private String name;
+	private String displayName;
+	private Integer minPlayer;
+	private Integer maxPlayer;
+	private Location lobby;
+	private Location spawn;
+	private Integer state;
+	private Integer timer;
+	private String timerMessageAs;
+	private Team winner;
+	private World world;
+	private List<Player> players = new LinkedList<>();
+
+	public Game(String name) {
+		this.name = name;
+		this.displayName = name;
+		this.lobby = new Location(Bukkit.getWorld("world"), 0, 150, 0);
+		this.spawn = new Location(Bukkit.getWorld("world"), 0, 150, 0);
+		this.minPlayer = 1;
+		this.maxPlayer = 2;
+		this.state = 0;
+		this.timer = 15;
+		this.world = Bukkit.getWorld("world");
+		this.joinMessage.put("global", "${player} joined the game!");
+		this.joinMessage.put("player", "You joined the game ${game}");
+		this.leaveMessage.put("global", "${player} left the game!");
+		this.leaveMessage.put("player", "You left the game ${game}");
+		this.endMessage.put("global", "The ${game} game is finished! The winner is the ${winner} team!");
+		this.timerMessageAs = "title";
+		this.timerMessages.put(20, "Game starts in ${time} seconds");
+		this.timerMessages.put(15, "Game starts in ${time} seconds");
+		for (int index = 1; index < 11; index++) {
+			this.timerMessages.put(index, "Game starts in ${time} seconds");
+		}
+		if (!games.containsKey(name)) {
+			games.put(name, this);
+			new GameCreated(this);
+		}
+	}
+
+	/**
+	 * @retrun A hashmap of all existing games
+	 */
+	public static HashMap<String, Game> getGames() {
+		return games;
+	}
+
+	/**
+	 * Return the game where the player is.
+	 *
+	 * @param player The player that we need to know the game where he is.
+	 * @return The game where is the player
+	 */
+	public static Game getGameOfPlayer(Player player) {
+		for (Game game : getGames().values()) {
+			for (Team team : game.getTeams().values()) {
+				if (team.hasPlayer(player)) {
+					return game;
+				}
+			}
+			if (game.hasPlayer(player)) {
+				return game;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the team where the player is.
+	 *
+	 * @param player The player that we need to know the team where he is.
+	 * @return The team where is the player
+	 */
+	public static Team getTeamOfPlayer(Player player) {
+		for (Game game : getGames().values()) {
+			for (Team team : game.getTeams().values()) {
+				if (team.hasPlayer(player)) {
+					return team;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void start() {
+		this.state = 1;
+		new GameRunner(this).start();
+	}
+
+	public void stop() {
+		this.state = 3;
+		new GameStopped(this);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Game delete() {
+		getGames().remove(this.name);
+		File gameFile = new File(Bukkit.getServer().getPluginManager().getPlugin("GameAPI").getDataFolder(), "Games/" + this.name + ".yml");
+		if (gameFile.exists()) gameFile.delete();
+		new GameDeleted(this);
+		return this;
+	}
+
+	/**
+	 * @retrun A hashmap of all existing teams of this game
+	 */
+	public HashMap<String, Team> getTeams() {
+		return teams;
+	}
+
+	/**
+	 * @retrun The current state of the game
+	 */
+	public Integer getState() {
+		return state;
+	}
+
+	/**
+	 * Set the state of the game:
+	 * - State 0 --> Waiting
+	 * - State 1 --> Launch the game
+	 * - State 2 --> Started/In game
+	 * - State 3 --> Ended
+	 *
+	 * @param state The new state of the game
+	 */
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	/**
+	 * Return a team from its name
+	 *
+	 * @param team The team which will be return
+	 */
+	public Team getTeam(String team) {
+		return teams.getOrDefault(team, null);
+	}
+
+	/**
+	 * Add a team to your game
+	 *
+	 * @param team The team which will be added
+	 */
+	public void addTeam(Team team) {
+		teams.put(team.getName(), team);
+	}
+
+	/**
+	 * @param team The team that you need to check existence
+	 * @return If the team exists or not
+	 */
+	public Boolean teamExists(String team) {
+		return teams.containsKey(team);
+	}
+
+	/**
+	 * @return The world where the game is
+	 */
+	public World getWorld() {
+		return world;
+	}
+
+	/**
+	 * Set the world where the game is supposed to be in.
+	 *
+	 * @param world The world where the game will be play
+	 */
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+	/**
+	 * @return The timer before the game starts (in seconds)
+	 */
+	public Integer getTimer() {
+		return timer;
+	}
+
+	/**
+	 * Set the timer before the game starts (in seconds)
+	 *
+	 * @param timer The new timer before the game starts (in seconds)
+	 */
+	public void setTimer(Integer timer) {
+		this.timer = timer;
+	}
+
+	/**
+	 * @return The timer message type (title or action bar)
+	 */
+	public String getTimerMessageAs() {
+		return timerMessageAs;
+	}
+
+	/**
+	 * Set the timer message as title or action bar
+	 *
+	 * @param timerMessageAs The new timer message type
+	 */
+	public void setTimerMessageAs(String timerMessageAs) {
+		this.timerMessageAs = timerMessageAs;
+	}
+
+	/**
+	 * @return The winner of the game
+	 */
+	public Team getWinner() {
+		return winner;
+	}
+
+	/**
+	 * Set the winner of the game
+	 *
+	 * @param winner The new winner of the game
+	 */
+	public void setWinner(Team winner) {
+		this.winner = winner;
+	}
+
+	/**
+	 * The Join Message
+	 *
+	 * @return A hashmap of the Join Message
+	 */
+	public HashMap<String, String> getJoinMessage() {
+		return joinMessage;
+	}
+
+	/**
+	 * The Leave Message
+	 *
+	 * @return A hashmap of the Leave Message
+	 */
+	public HashMap<String, String> getLeaveMessage() {
+		return leaveMessage;
+	}
+
+	/**
+	 * The Timer Messages
+	 *
+	 * @return A hashmap of all messages during the timer
+	 */
+	public HashMap<Integer, String> getTimerMessages() {
+		return timerMessages;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = Pattern.compile("^\\S[a-z0-9]+").matcher(name).find() ? name : this.name;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	@Override
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	@Override
+	public Integer getMinPlayer() {
+		return minPlayer;
+	}
+
+	@Override
+	public void setMinPlayer(Integer minPlayer) {
+		this.minPlayer = minPlayer;
+	}
+
+	@Override
+	public Integer getMaxPlayer() {
+		return maxPlayer;
+	}
+
+	@Override
+	public void setMaxPlayer(Integer maxPlayer) {
+		this.maxPlayer = minPlayer;
+	}
+
+	@Override
+	public Location getLobby() {
+		return lobby;
+	}
+
+	@Override
+	public void setLobby(Location lobby) {
+		this.lobby = lobby;
+	}
+
+	@Override
+	public Location getSpawn() {
+		return spawn;
+	}
+
+	@Override
+	public void setSpawn(Location spawn) {
+		this.spawn = spawn;
+	}
+
+	@Override
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	@Override
+	public void addPlayer(Player player) {
+		if (!players.contains(player)) {
+			players.add(player);
+			if (players.size() == minPlayer) new GameCanStart(this);
+			if (players.size() == maxPlayer) new GameReady(this);
+			new PlayerJoinGame(this, player);
+		}
+	}
+
+	@Override
+	public void removePlayer(Player player) {
+		if (players.contains(player)) {
+			players.remove(player);
+			new PlayerLeaveGame(this, player);
+		}
+	}
+
+	@Override
+	public Boolean hasPlayer(Player player) {
+		return players.contains(player);
+	}
+
+	public HashMap<String, String> getEndMessage() {
+		return endMessage;
+	}
 }

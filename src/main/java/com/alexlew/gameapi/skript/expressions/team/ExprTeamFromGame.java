@@ -47,12 +47,14 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
     @Override
     protected Team[] get( Event e ) {
         String t = team.getSingle(e);
-        Game mg = game.getSingle(e);
-        if (mg == null) {return null;}
+		Game currentGame = game.getSingle(e);
+		if (currentGame == null) {
+			return null;
+		}
         if (!t.replaceAll(" ", "").equals("")) {
-            if (Game.games.containsKey(mg.getName())) {
-                if (mg.teamExists(team.getSingle(e))) {
-                    return new Team[] {mg.getTeam(team.getSingle(e))};
+			if (Game.getGames().containsKey(currentGame.getName())) {
+				if (currentGame.teamExists(team.getSingle(e))) {
+					return new Team[]{currentGame.getTeam(team.getSingle(e))};
                 } else {
                     return null;
                 }
@@ -79,9 +81,7 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
         if (game.getSingle(e) == null) {
             return;
         }
-        if (!Game.games.containsValue(game.getSingle(e))) {
-            return;
-        }
+		if (!Game.getGames().containsValue(game.getSingle(e))) return;
         if (game.getSingle(e).teamExists(t)) {
             Team team = game.getSingle(e).getTeam(t);
             for (Object obj : delta) {
@@ -104,12 +104,12 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
                     case ADD:
                         if (obj instanceof Player) {
                             Player player = (Player) obj;
-                            if (team.getMaxPlayer() > team.getPlayers().length) {
+							if (team.getMaxPlayer() > team.getPlayers().size()) {
                                 if (!team.hasPlayer(player)) {
                                     team.addPlayer(player);
                                 }
                             } else {
-                                GameAPI.error("The team \"" + team.getName() + "\" can't add more players, you have already " + team.getPlayers().length + " players in this team and the maximum of players is " + team.getMaxPlayer());
+								GameAPI.error("The team \"" + team.getName() + "\" can't add more players, you have already " + team.getPlayers().size() + " players in this team and the maximum of players is " + team.getMaxPlayer());
                             }
                         } else if (obj instanceof Point) {
                             Point point = (Point) obj;

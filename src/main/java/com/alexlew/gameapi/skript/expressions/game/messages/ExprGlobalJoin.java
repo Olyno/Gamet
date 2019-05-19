@@ -29,7 +29,7 @@ public class ExprGlobalJoin extends SimplePropertyExpression<Game, String> {
 
     @Override
     public String convert( Game game ) {
-        return game.getJoinMessageAllPlayers();
+		return game.getJoinMessage().get("global");
     }
 
     @Override
@@ -46,13 +46,13 @@ public class ExprGlobalJoin extends SimplePropertyExpression<Game, String> {
         for (Game game : getExpr().getArray(e)) {
             switch (mode) {
                 case SET:
-                    game.setJoinMessageAllPlayers((String) delta[0]);
+					game.getJoinMessage().put("global", (String) delta[0]);
                     break;
                 case RESET:
-                    game.setJoinMessageAllPlayers("${player} joined the game!");
+					game.getJoinMessage().put("global", "${player} joined the game!");
                     break;
                 case DELETE:
-                    game.setJoinMessageAllPlayers(null);
+					game.getJoinMessage().remove("global");
                     break;
                 default:
                     break;

@@ -5,11 +5,22 @@
 ##=============== Explanations: ===============
 ##
 ## |> "manage_automatically" |> Default: true
-##                           |> What is it: This option will allow you to generate custom
-##                                          messages for you such as "X joined the game"
-##                                          etc.... automatically. All messages are defined
-##                                          by default but can be changed.
+##                           |> What is it: This option will allow you to teleport players,
+##                                          respawn them....automatically.
+##                                          All these features are defined by default and
+##                                          can't be changed.
 ##                                          If you want to customize your games as much as possible,
 ##                                          then disable this option.
 
 manage_automatically: true
+
+## |> "messages" |> Default: true
+##               |> What is it: This option will allow you to generate custom
+##                              messages for you such as "X joined the game"
+##                              etc.... automatically.
+##                              All messages are defined by default but can
+##                              be changed.
+##                              If you want to customize your games as much as possible,
+##                              then disable this option.
+
+messages: true
