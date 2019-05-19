@@ -1,6 +1,6 @@
 # GameAPI
 
-[![](https://img.shields.io/github/issues/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/issues) ![](https://img.shields.io/github/forks/AlexLew95/GameAPI.svg?style=for-the-badge) ![](https://img.shields.io/github/stars/AlexLew95/GameAPI.svg?style=for-the-badge) ![Travis (.org)](https://img.shields.io/travis/AlexLew95/GameAPI.svg?label=Travis%20CI&style=for-the-badge) ![CircleCI branch](https://img.shields.io/circleci/project/github/AlexLew95/GameAPI/master.svg?label=Circle%20CI&style=for-the-badge)
+[![](https://img.shields.io/github/issues/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/issues) [![](https://img.shields.io/github/forks/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/forks) [![](https://img.shields.io/github/stars/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/stars) ![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/AlexLew95/gameapi.svg?label=Nightly%20build&style=for-the-badge) [![Travis (.org)](https://img.shields.io/travis/AlexLew95/GameAPI.svg?label=Travis%20CI&style=for-the-badge)](https://travis-ci.org/AlexLew95/GameAPI) [![CircleCI](https://img.shields.io/circleci/project/github/AlexLew95/GameAPI/master.svg?label=Circle%20CI&style=for-the-badge)](https://circleci.com/gh/AlexLew95/GameAPI)
 
 ![](https://i.imgur.com/Lo4xPqv.png)
 
