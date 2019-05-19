@@ -56,15 +56,15 @@ public class ExprGame extends SimpleExpression<Game> {
 
     @Override
     protected Game[] get( Event e ) {
-        String mg = scope ? lastGame.getName() : gameName.getSingle(e);
-        if (!mg.replaceAll(" ", "").isEmpty()) {
-            if (Game.games.containsKey(mg)) {
-                return new Game[]{Game.games.get(mg)};
+		String currentGame = scope ? lastGame.getName() : gameName.getSingle(e);
+		if (!currentGame.replaceAll(" ", "").isEmpty()) {
+			if (Game.getGames().containsKey(currentGame)) {
+				return new Game[]{Game.getGames().get(currentGame)};
             } else {
                 return null;
             }
         } else {
-            GameAPI.error("A game can't have a empty name (Current name: \"" + mg + "\")");
+			GameAPI.error("A game can't have a empty name (Current name: \"" + currentGame + "\")");
             return null;
         }
     }
@@ -79,9 +79,9 @@ public class ExprGame extends SimpleExpression<Game> {
 
     @Override
     public void change( Event e, Object[] delta, Changer.ChangeMode mode) {
-        String mg = scope ? lastGame.getName() : gameName.getSingle(e);
-        if (Game.games.containsKey(mg)) {
-            Game game = Game.games.get(mg);
+		String currentGame = scope ? lastGame.getName() : gameName.getSingle(e);
+		if (Game.getGames().containsKey(currentGame)) {
+			Game game = Game.getGames().get(currentGame);
             for (Object obj : delta) {
                 if (obj instanceof Player) {
                     Player player = (Player) obj;
@@ -92,12 +92,12 @@ public class ExprGame extends SimpleExpression<Game> {
                             }
                             break;
                         case ADD:
-                            if (game.getMaxPlayer() > game.getPlayers().length) {
+							if (game.getMaxPlayer() > game.getPlayers().size()) {
                                 if (!game.hasPlayer(player)) {
                                     game.addPlayer(player);
                                 }
                             } else {
-                                GameAPI.error("The game " + game.getName() + " can't add more players, you have already " + game.getPlayers().length + " players in this game and the maximum of players is " + game.getMaxPlayer());
+								GameAPI.error("The game " + game.getName() + " can't add more players, you have already " + game.getPlayers().size() + " players in this game and the maximum of players is " + game.getMaxPlayer());
                             }
                             break;
                         case REMOVE:

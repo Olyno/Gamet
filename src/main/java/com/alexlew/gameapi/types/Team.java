@@ -1,154 +1,79 @@
 package com.alexlew.gameapi.types;
 
-import ch.njol.skript.classes.ClassInfo;
-import ch.njol.skript.classes.Parser;
-import ch.njol.skript.expressions.base.EventValueExpression;
-import ch.njol.skript.lang.ParseContext;
-import ch.njol.skript.registrations.Classes;
+import com.alexlew.gameapi.GameAPI;
 import com.alexlew.gameapi.events.*;
+import com.alexlew.gameapi.util.GameManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-public class Team {
+public class Team extends GameManager {
 
-    static {
-        Classes.registerClass(new ClassInfo<>(Team.class, "team")
-                .defaultExpression(new EventValueExpression<>(Team.class))
-                .user("team")
-                .name("team")
-                .description("The current team")
-                .examples(
-                        "on player join team:",
-                        "\tbroadcast \"%event-player% joined the team %event-team%!\""
-                )
-                .since("2.0")
-                .parser(new Parser<Team>() {
+	private Point points;
+	private Game game;
+	private String name;
+	private String displayName;
+	private Integer minPlayer;
+	private Integer maxPlayer;
+	private Integer objective;
+	private Location lobby;
+	private Location spawn;
+	private List<Player> players = new LinkedList<>();
 
-                    @Override
-                    public String getVariableNamePattern() {
-                        return ".+";
-                    }
-
-                    @Override
-                    public Team parse(String arg0, ParseContext arg1) {
-                        return null;
-                    }
-
-                    @Override
-                    public String toString(Team arg0, int arg1) {
-                        return arg0.getName();
-                    }
-
-                    @Override
-                    public String toVariableNameString(Team arg0) {
-                        return arg0.getName();
-                    }
-
-                }));
-    }
-
-    private List<Player> players = new ArrayList<>();
-    private String name;
-    private String displayName;
-    private Integer minPlayer;
-    private Integer maxPlayer;
-    private Location spawn;
-    private Location lobby;
-    private Point points;
+	// Messages
+	private HashMap<String, String> joinMessage = new HashMap<>();
+	private HashMap<String, String> leaveMessage = new HashMap<>();
+	private HashMap<String, String> winPointMessage = new HashMap<>();
+	private HashMap<String, String> losePointMessage = new HashMap<>();
 
     /**
      * Create a new team
      * @param name The name of the team
      */
-    public Team(String name) {
-        this.name = name;
-        this.displayName = name;
-        this.minPlayer = 1;
-        this.maxPlayer = 2;
-        this.points = new Point(0);
-		this.spawn = new Location(Bukkit.getWorld("world"), 0, 150, 0);
+	public Team(String name, Game game) {
+		this.name = name;
+		this.displayName = name;
 		this.lobby = new Location(Bukkit.getWorld("world"), 0, 150, 0);
-        new TeamCreated(this);
+		this.spawn = new Location(Bukkit.getWorld("world"), 0, 150, 0);
+		this.minPlayer = 1;
+		this.maxPlayer = 2;
+        this.points = new Point(0);
+		this.game = game;
+		this.objective = 5;
+		this.joinMessage.put("global", "${player} joined the ${team} team!");
+		this.joinMessage.put("player", "You joined the ${team} team!");
+		this.leaveMessage.put("global", "${player} left the ${team} team!");
+		this.leaveMessage.put("player", "You left the ${team} team!");
+		this.winPointMessage.put("global", "${player} scored a point for the ${team} team!");
+		this.winPointMessage.put("player", "You scored a point for your team!");
+		this.losePointMessage.put("global", "${player} lost a point for the ${team} team");
+		this.losePointMessage.put("player", "The opponent team won a point!");
+		if (!game.getTeams().containsKey(name)) {
+			game.addTeam(this);
+			new TeamCreated(this);
+		}
     }
 
-    /**
-     * @return The name of the team
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return The Objective of the team
+	 */
+	public Integer getObjective() {
+		return objective;
+	}
 
-    /**
-     * Set the name of the team
-     * @param name The new name of the team
-     */
-    public void setName( String name ) {
-        this.name = name;
-    }
-
-    /**
-     * @return The display name of the team
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    /**
-     * Set the display name of the team
-     * @param displayName The new display name of the team
-     */
-    public void setDisplayName( String displayName ) {
-        this.displayName = displayName;
-    }
-
-    /**
-     * @return The minimum of player that your game require before start
-     */
-    public Integer getMinPlayer() {
-        return minPlayer;
-    }
-
-    /**
-     * Set the minimum of player that your game require before start
-     * @param minPlayer The new minimum of player that your game require before start
-     */
-    public void setMinPlayer( Integer minPlayer ) {
-        this.minPlayer = minPlayer;
-    }
-
-    /**
-     * @return The maximum of player that your game require before start
-     */
-    public Integer getMaxPlayer() {
-        return maxPlayer;
-    }
-
-    /**
-     * Set the maximum of player that your game require before start
-     * @param maxPlayer The new maximum of player that your game require before start
-     */
-    public void setMaxPlayer( Integer maxPlayer ) {
-        this.maxPlayer = maxPlayer;
-    }
-
-    /**
-     * @return The spawn of the team
-     */
-    public Location getSpawn() {
-        return spawn;
-    }
-
-    /**
-     * Set the spawn of the team
-     * @param spawn The new spawn of the team
-     */
-    public void setSpawn( Location spawn ) {
-        this.spawn = spawn;
-    }
+	/**
+	 * Set the objective of the team
+	 *
+	 * @param objective The new objective of the team
+	 */
+	public void setObjective(Integer objective) {
+		this.objective = objective;
+	}
 
     /**
      * @return The points of the team
@@ -177,108 +102,20 @@ public class Team {
     /**
      * Add points to the team
      * @param points The points added to the team
-     */
-    public void addPoints( Integer points ) {
-        Point point = new Point(this.points.getPoints() + points);
-		this.points = point;
-        new TeamWinPoint(point);
-	}
-
-	/**
-	 * Add points to the team
-	 *
-	 * @param points The points added to the team
 	 */
-	public void addPoints(Point points) {
-		points.setPoints(points.getPoints() + this.points.getPoints());
+	public void addPoints( Point points ) {
 		this.points = points;
 		new TeamWinPoint(points);
 	}
 
     /**
-     * Add points to the team from a player
-     *
-     * @param points The points added to the team
-     * @param player The player who scored the point
-     */
-    public void addPoints( Integer points, Player player ) {
-        Point point = new Point(this.points.getPoints() + points, player);
-        new TeamWinPoint(point);
-    }
-
-    /**
      * Remove points from the team
      * @param points The point removed from the team
-     */
-    public void removePoints( Integer points ) {
-        Point point = new Point(this.points.getPoints() - points);
-		this.points = point;
-        new TeamLosePoint(point);
-	}
-
-	/**
-	 * Remove points from the team
-	 *
-	 * @param points The point removed from the team
 	 */
-	public void removePoints(Point points) {
-		points.setPoints(points.getPoints() - this.points.getPoints());
+	public void removePoints( Point points ) {
 		this.points = points;
 		new TeamLosePoint(points);
 	}
-
-	/**
-	 * Remove points from the team
-	 *
-	 * @param points The point removed from the team
-	 * @param player The player who lost the point
-	 */
-	public void removePoints(Integer points, Player player ) {
-		Point point = new Point(this.points.getPoints() - points, player);
-		this.points = point;
-		new TeamLosePoint(point);
-	}
-
-    /**
-     * @return List of players in the team
-     */
-    public Player[] getPlayers() {
-        Player[] player = new Player[players.size()];
-        return players.toArray(player);
-    }
-
-    /**
-     * Add a player in the team
-     * @param player The player added to the team
-     */
-    public void addPlayer( Player player ) {
-        if (!players.contains(player)) {
-            players.add(player);
-            if (!this.getGame().hasPlayer(player)) {
-                this.getGame().addPlayer(player);
-            }
-            new PlayerJoinTeam(this, player);
-        }
-    }
-
-    /**
-     * Remove a player from the team
-     * @param player The player removed from the team
-     */
-    public void removePlayer( Player player ) {
-		if (players.contains(player)) {
-			new PlayerLeaveTeam(player);
-		}
-		players.remove(player);
-    }
-
-    /**
-     * @param player The player to check if he is in the team
-     * @return If the player is in the team or not
-     */
-    public Boolean hasPlayer( Player player ) {
-        return players.contains(player);
-    }
 
     /**
      * Return the game which is the parent of the team
@@ -286,29 +123,145 @@ public class Team {
      * @return The parent game of a team
      */
     public Game getGame() {
-        for (String game : Game.games.keySet()) {
-            for (Team team : Game.games.get(game).getTeams()) {
-                if (team == this) {
-                    return Game.games.get(game);
-                }
-            }
-        }
-        return null;
-    }
+		for (Game game : Game.getGames().values()) {
+			for (Team team : game.getTeams().values()) {
+				if (team == this) {
+					return game;
+				}
+			}
+		}
+		GameAPI.error("Something is weird with this team: " + this.getName());
+		return null;
+	}
 
-    /**
-     * @return The lobby of the team. It's where players spawn when they join the team.
-     */
-    public Location getLobby() {
-        return lobby;
-    }
+	/**
+	 * The Join Message
+	 *
+	 * @return A hashmap of the Join Message
+	 */
+	public HashMap<String, String> getJoinMessage() {
+		return joinMessage;
+	}
 
-    /**
-     * Set the lobby of the team. It's where players spawn when they join the team.
-     *
-     * @param lobby Where is the lobby.
-     */
-    public void setLobby( Location lobby ) {
-        this.lobby = lobby;
-    }
+	/**
+	 * The Leave Message
+	 *
+	 * @return A hashmap of the Leave Message
+	 */
+	public HashMap<String, String> getLeaveMessage() {
+		return leaveMessage;
+	}
+
+	/**
+	 * The Win Point Message
+	 *
+	 * @return A hashmap of the Win Point Message
+	 */
+	public HashMap<String, String> getWinPointMessage() {
+		return winPointMessage;
+	}
+
+	/**
+	 * The Lose Point Message
+	 *
+	 * @return A hashmap of the Lose Point Message
+	 */
+	public HashMap<String, String> getLosePointMessage() {
+		return losePointMessage;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = Pattern.compile("^\\S[a-z0-9]+").matcher(name).find() ? name : this.name;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	@Override
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	@Override
+	public Integer getMinPlayer() {
+		return minPlayer;
+	}
+
+	@Override
+	public void setMinPlayer(Integer minPlayer) {
+		this.minPlayer = minPlayer;
+	}
+
+	@Override
+	public Integer getMaxPlayer() {
+		return maxPlayer;
+	}
+
+	@Override
+	public void setMaxPlayer(Integer maxPlayer) {
+		this.maxPlayer = minPlayer;
+	}
+
+	@Override
+	public Location getLobby() {
+		return lobby;
+	}
+
+	@Override
+	public void setLobby(Location lobby) {
+		this.lobby = lobby;
+	}
+
+	@Override
+	public Location getSpawn() {
+		return spawn;
+	}
+
+	@Override
+	public void setSpawn(Location spawn) {
+		this.spawn = spawn;
+	}
+
+	@Override
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	@Override
+	public void addPlayer(Player player) {
+		if (!players.contains(player)) {
+			players.add(player);
+			new PlayerJoinTeam(this, player);
+		}
+	}
+
+	@Override
+	public void removePlayer(Player player) {
+		if (players.contains(player)) {
+			players.remove(player);
+			new PlayerLeaveTeam(this, player);
+		}
+
+	}
+
+	@Override
+	public Boolean hasPlayer(Player player) {
+		return players.contains(player);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Team delete() {
+		game.getTeams().remove(this.getName());
+		new TeamDeleted(this);
+		return this;
+	}
 }

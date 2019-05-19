@@ -17,9 +17,9 @@ public class PlayerLeaveTeamEvent extends Event {
     /**
      * @param player Which player ?
      */
-    public PlayerLeaveTeamEvent( Player player ) {
-        this.game = Game.getGameOfPlayer(player);
-        this.team = Game.getGameOfPlayer(player).getTeamOfPlayer(player);
+	public PlayerLeaveTeamEvent(Team team, Player player) {
+		this.game = team.getGame();
+		this.team = team;
         this.player = player;
     }
 

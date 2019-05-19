@@ -11,9 +11,7 @@ import ch.njol.util.Kleenean;
 import com.alexlew.gameapi.GameAPI;
 import com.alexlew.gameapi.skript.expressions.game.ExprGame;
 import com.alexlew.gameapi.types.Game;
-import com.alexlew.gameapi.types.Team;
 import com.alexlew.gameapi.util.EffectSection;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 @Name("Start Game")
@@ -57,26 +55,21 @@ public class SecStartGame extends EffectSection {
             GameAPI.error("Can't start a game \"null\"");
             return;
         }
-        Game mg = game.getSingle(e);
-        ExprGame.lastGame = mg;
-        if (mg.getTeams().length > 0) {
-            if (mg.getSpawn() != null) {
-                if (mg.getLobby() != null) {
-                    for (Team team : mg.getTeams()) {
-                        for (Player player : team.getPlayers()) {
-                            player.teleport(team.getSpawn());
-                        }
-                    }
-                    mg.setCurrentState(2);
+		Game currentGame = game.getSingle(e);
+		ExprGame.lastGame = currentGame;
+		if (currentGame.getTeams().size() > 0) {
+			if (currentGame.getSpawn() != null) {
+				if (currentGame.getLobby() != null) {
+					currentGame.start();
                     runSection(e);
                 } else {
-                    GameAPI.error("Can't start the game " + mg.getName() + ": lobby is not set.");
+					GameAPI.error("Can't start the game " + currentGame.getName() + ": lobby is not set.");
                 }
             } else {
-                GameAPI.error("Can't start the game " + mg.getName() + ": spawn is not set.");
+				GameAPI.error("Can't start the game " + currentGame.getName() + ": spawn is not set.");
             }
         } else {
-            GameAPI.error("Can't start the game " + mg.getName() + ": you don't have any team created.");
+			GameAPI.error("Can't start the game " + currentGame.getName() + ": you don't have any team created.");
         }
     }
 

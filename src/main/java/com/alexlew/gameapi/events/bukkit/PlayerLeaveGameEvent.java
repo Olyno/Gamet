@@ -12,9 +12,9 @@ public class PlayerLeaveGameEvent extends Event {
     private Player player;
     private Game game;
 
-    public PlayerLeaveGameEvent( Player player ) {
+	public PlayerLeaveGameEvent(Game game, Player player) {
         this.player = player;
-        this.game = Game.getGameOfPlayer(player);
+		this.game = game;
     }
 
     public static HandlerList getHandlerList() {

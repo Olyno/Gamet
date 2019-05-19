@@ -69,7 +69,7 @@ public class CommandGameSpigot implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "[GameAPI] The name of a game can't contain spaces in its name.");
                 } else if (sender.hasPermission("game.create")) {
                     Game game = new Game(args[1]);
-                    Game.games.put(args[1], game);
+					Game.getGames().put(args[1], game);
                     new GameCreated(game);
                     sender.sendMessage(ChatColor.GREEN + "[GameAPI] The game " + ChatColor.BLUE + args[1] + ChatColor.GREEN + " has been created!");
                 } else {
@@ -81,8 +81,8 @@ public class CommandGameSpigot implements CommandExecutor {
                 if (args.length > 2) {
                     sender.sendMessage(ChatColor.RED + "[GameAPI] The name of a game can't contain spaces in its name.");
                 } else if (sender.hasPermission("game.delete")) {
-                    Game game = Game.games.get(args[1]);
-                    Game.games.remove(args[1]);
+					Game game = Game.getGames().get(args[1]);
+					Game.getGames().remove(args[1]);
                     new GameCreated(game);
                     sender.sendMessage(ChatColor.GREEN + "[GameAPI] The game " + ChatColor.BLUE + args[1] + ChatColor.GREEN + " has been deleted!");
                 } else {
@@ -90,14 +90,14 @@ public class CommandGameSpigot implements CommandExecutor {
                 }
                 return true;
 
-            } else if (Game.games.containsKey(args[0])) {
+			} else if (Game.getGames().containsKey(args[0])) {
                 if (args[1].equalsIgnoreCase("join")) {
-                    Game.games.get(args[0]).addPlayer((Player) sender);
+					Game.getGames().get(args[0]).addPlayer((Player) sender);
                 } else if (definers.matcher(args[1].toLowerCase()).find()) {
                     if (args[2].equalsIgnoreCase("lobby")) {
                         if (sender instanceof Player) {
                             if (sender.hasPermission("game.set.lobby")) {
-                                Game.games.get(args[0]).setLobby(((Player) sender).getLocation());
+								Game.getGames().get(args[0]).setLobby(((Player) sender).getLocation());
                                 sender.sendMessage(ChatColor.GREEN + "[GameAPI] Lobby of game " + ChatColor.BLUE + args[0] + ChatColor.GREEN + " has been set in " + ChatColor.DARK_AQUA + ((Player) sender).getLocation().getX() + ", " + ((Player) sender).getLocation().getY() + " and " + ((Player) sender).getLocation().getZ());
                             } else {
                                 noPermission(sender);
@@ -108,7 +108,7 @@ public class CommandGameSpigot implements CommandExecutor {
                     } else if (args[2].equalsIgnoreCase("spawn")) {
                         if (sender instanceof Player) {
                             if (sender.hasPermission("game.set.spawn")) {
-                                Game.games.get(args[0]).setSpawn(((Player) sender).getLocation());
+								Game.getGames().get(args[0]).setSpawn(((Player) sender).getLocation());
 								sender.sendMessage(ChatColor.GREEN + "[GameAPI] Spawn of game " + ChatColor.BLUE + args[0] + ChatColor.GREEN + " has been set in " + ChatColor.DARK_AQUA + ((Player) sender).getLocation().getX() + ", " + ((Player) sender).getLocation().getY() + " and " + ((Player) sender).getLocation().getZ());
                             } else {
                                 noPermission(sender);
@@ -120,7 +120,7 @@ public class CommandGameSpigot implements CommandExecutor {
                         if (Pattern.compile("player(s)?").matcher(args[3].toLowerCase()).find()) {
                             if (Pattern.compile("[0-9]{0,}").matcher(args[4]).find()) {
                                 if (sender.hasPermission("game.set.players.minimum")) {
-                                    Game.games.get(args[0]).setMinPlayer(Integer.parseInt(args[4]));
+									Game.getGames().get(args[0]).setMinPlayer(Integer.parseInt(args[4]));
                                     sender.sendMessage(ChatColor.GREEN + "[GameAPI] The minimum player has been set to " + ChatColor.DARK_PURPLE + args[4] + " for the game " + ChatColor.BLUE + args[0]);
                                 }
                             } else {
@@ -133,7 +133,7 @@ public class CommandGameSpigot implements CommandExecutor {
                         if (Pattern.compile("player(s)?").matcher(args[3].toLowerCase()).find()) {
                             if (Pattern.compile("[0-9]{0,}").matcher(args[4]).find()) {
                                 if (sender.hasPermission("game.set.players.maximum")) {
-                                    Game.games.get(args[0]).setMaxPlayer(Integer.parseInt(args[4]));
+									Game.getGames().get(args[0]).setMaxPlayer(Integer.parseInt(args[4]));
                                     sender.sendMessage(ChatColor.GREEN + "[GameAPI] The maximum player has been set to " + ChatColor.DARK_PURPLE + args[4] + " for the game " + ChatColor.BLUE + args[0]);
                                 } else {
                                     noPermission(sender);
@@ -144,7 +144,7 @@ public class CommandGameSpigot implements CommandExecutor {
                         } else if (Pattern.compile("point(s)?").matcher(args[3].toLowerCase()).find()) {
                             if (Pattern.compile("[0-9]{0,}").matcher(args[4]).find()) {
                                 if (sender.hasPermission("game.set.points.maximum")) {
-                                    Game.games.get(args[0]).setMaxPlayer(Integer.parseInt(args[4]));
+									Game.getGames().get(args[0]).setMaxPlayer(Integer.parseInt(args[4]));
                                     sender.sendMessage(ChatColor.GREEN + "[GameAPI] The maximum points has been set to " + ChatColor.DARK_PURPLE + args[4] + " for the game " + ChatColor.BLUE + args[0]);
                                 } else {
                                     noPermission(sender);

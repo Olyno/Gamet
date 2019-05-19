@@ -15,8 +15,8 @@ public class PlayerLeaveTeam implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    public PlayerLeaveTeam( Player player ) {
-        Bukkit.getServer().getPluginManager().callEvent(new PlayerLeaveTeamEvent(player));
+	public PlayerLeaveTeam(Team team, Player player) {
+		Bukkit.getServer().getPluginManager().callEvent(new PlayerLeaveTeamEvent(team, player));
     }
 
     @EventHandler
@@ -25,28 +25,40 @@ public class PlayerLeaveTeam implements Listener {
         Team team = event.getTeam();
         Player player = event.getPlayer();
 
-        if (GameAPI.manageAutomatically) {
+		if (GameAPI.messages) {
             if (game.getSpawn() != null) {
                 player.teleport(game.getSpawn());
             }
 
             String displayName = game.getDisplayName();
-            String leaveMessageAllPlayers = game.getLeaveMessageAllPlayers();
-            String leaveMessagePlayer = game.getLeaveMessagePlayer();
-            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
-            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{game}", game.getDisplayName());
-            leaveMessageAllPlayers = leaveMessageAllPlayers.replaceAll("\\$\\{team}", team.getDisplayName());
+			String leaveMessageGlobal = game.getLeaveMessage().get("global");
+			String leaveMessagePlayer = game.getLeaveMessage().get("player");
+			leaveMessageGlobal = leaveMessageGlobal.replaceAll("\\$\\{player}", player.getDisplayName());
+			leaveMessageGlobal = leaveMessageGlobal.replaceAll("\\$\\{game}", game.getDisplayName());
+			leaveMessageGlobal = leaveMessageGlobal.replaceAll("\\$\\{team}", team.getDisplayName());
             leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
             leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{game}", game.getDisplayName());
             leaveMessagePlayer = leaveMessagePlayer.replaceAll("\\$\\{team}", team.getDisplayName());
 
             for (Player playerInGame : game.getPlayers()) {
                 if (player.getAddress() != playerInGame.getAddress()) {
-                    playerInGame.sendMessage(displayName + leaveMessageAllPlayers);
+					playerInGame.sendMessage(displayName + leaveMessageGlobal);
                 }
             }
             player.sendMessage(displayName + leaveMessagePlayer);
         }
+
+		if (GameAPI.manage_automatically) {
+			boolean stop = false;
+			for (Team currentTeam : team.getGame().getTeams().values()) {
+				if (currentTeam.getPlayers().size() < currentTeam.getMinPlayer()) {
+					stop = true;
+				}
+			}
+			if (stop) {
+				team.getGame().stop();
+			}
+		}
     }
 
 }

@@ -29,7 +29,7 @@ public class ExprGlobalLeave extends SimplePropertyExpression<Game, String> {
 
     @Override
     public String convert( Game game ) {
-        return game.getLeaveMessageAllPlayers();
+		return game.getLeaveMessage().get("global");
     }
 
     @Override
@@ -46,13 +46,13 @@ public class ExprGlobalLeave extends SimplePropertyExpression<Game, String> {
         for (Game game : getExpr().getArray(e)) {
             switch (mode) {
                 case SET:
-                    game.setLeaveMessageAllPlayers((String) delta[0]);
+					game.getLeaveMessage().put("global", (String) delta[0]);
                     break;
                 case RESET:
-                    game.setLeaveMessageAllPlayers("${player} left the game!");
+					game.getLeaveMessage().put("global", "${player} left the game!");
                     break;
                 case DELETE:
-                    game.setLeaveMessageAllPlayers(null);
+					game.getLeaveMessage().remove("global");
                     break;
                 default:
                     break;

@@ -51,10 +51,10 @@ public class ExprPlayers extends SimpleExpression<Player> {
         Object o = context.getSingle(e);
         if (o instanceof Game) {
             Game game = (Game) o;
-            return game.getPlayers();
+			return game.getPlayers().toArray(new Player[game.getPlayers().size()]);
         } else if (o instanceof Team) {
             Team team = (Team) o;
-            return team.getPlayers();
+			return team.getPlayers().toArray(new Player[team.getPlayers().size()]);
         } else {
             return null;
         }

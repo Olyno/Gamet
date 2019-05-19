@@ -1,6 +1,6 @@
-# GameAPI ![](https://img.shields.io/travis-ci/AlexLew95/GameAPI.svg?style=flat-square)
+# GameAPI
 
-[![](https://img.shields.io/github/issues/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/issues) ![](https://img.shields.io/github/forks/AlexLew95/GameAPI.svg?style=for-the-badge) ![](https://img.shields.io/github/stars/AlexLew95/GameAPI.svg?style=for-the-badge)
+[![](https://img.shields.io/github/issues/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/issues) ![](https://img.shields.io/github/forks/AlexLew95/GameAPI.svg?style=for-the-badge) ![](https://img.shields.io/github/stars/AlexLew95/GameAPI.svg?style=for-the-badge) ![Travis (.org)](https://img.shields.io/travis/AlexLew95/GameAPI.svg?label=Travis%20CI&style=for-the-badge) ![CircleCI branch](https://img.shields.io/circleci/project/github/AlexLew95/GameAPI/master.svg?label=Circle%20CI&style=for-the-badge)
 
 ![](https://i.imgur.com/Lo4xPqv.png)
 

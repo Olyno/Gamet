@@ -10,46 +10,41 @@ import org.bukkit.event.Listener;
 
 public class PlayerJoinGame implements Listener {
 
-    public PlayerJoinGame( GameAPI plugin ) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
+	public PlayerJoinGame(GameAPI plugin) {
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+	}
 
-    public PlayerJoinGame( Player player ) {
-        Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinGameEvent(player));
-    }
+	public PlayerJoinGame(Game game, Player player) {
+		Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinGameEvent(game, player));
+	}
 
-    @EventHandler
-    public void onPlayerJoinGame( PlayerJoinGameEvent event ) {
-        Player player = event.getPlayer();
-        Game game = event.getGame();
+	@EventHandler
+	public void onPlayerJoinGame(PlayerJoinGameEvent event) {
+		Player player = event.getPlayer();
+		Game game = event.getGame();
 
-        if (GameAPI.manageAutomatically) {
-            if (game.getSpawn() != null) {
-                player.teleport(game.getSpawn());
-            }
+		if (GameAPI.messages) {
+			String displayName = game.getDisplayName();
+			String joinMessageGlobal = game.getJoinMessage().get("global");
+			String joinMessagePlayer = game.getJoinMessage().get("player");
+			joinMessageGlobal = joinMessageGlobal.replaceAll("\\$\\{player}", player.getDisplayName());
+			joinMessageGlobal = joinMessageGlobal.replaceAll("\\$\\{game}", game.getDisplayName());
+			joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
+			joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{game}", game.getDisplayName());
 
-            String displayName = game.getDisplayName();
-            String joinMessageAllPlayers = game.getJoinMessageAllPlayers();
-            String joinMessagePlayer = game.getJoinMessagePlayer();
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{player}", player.getDisplayName());
-            joinMessageAllPlayers = joinMessageAllPlayers.replaceAll("\\$\\{game}", game.getDisplayName());
-            joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{player}", player.getDisplayName());
-            joinMessagePlayer = joinMessagePlayer.replaceAll("\\$\\{game}", game.getDisplayName());
-
-            for (Player playerInGame : game.getPlayers()) {
-                if (player.getAddress() != playerInGame.getAddress()) {
-                    playerInGame.sendMessage(displayName + joinMessageAllPlayers);
-                }
-            }
-            player.sendMessage(displayName + joinMessagePlayer);
-
-            if (game.getPlayers().length == game.getMinPlayer()) {
-                new GameCanStart(game);
-            }
-            if (game.getPlayers().length == game.getMaxPlayer()) {
-                new GameReady(game);
-            }
-        }
-    }
+			for (Player playerInGame : game.getPlayers()) {
+				if (player.getAddress() != playerInGame.getAddress()) {
+					playerInGame.sendMessage(displayName + joinMessageGlobal);
+				}
+			}
+			player.sendMessage(displayName + joinMessagePlayer);
+		}
+		if (game.getPlayers().size() == game.getMinPlayer()) {
+			new GameCanStart(game);
+		}
+		if (game.getPlayers().size() == game.getMaxPlayer()) {
+			new GameReady(game);
+		}
+	}
 
 }

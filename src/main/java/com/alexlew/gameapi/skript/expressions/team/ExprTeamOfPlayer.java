@@ -33,7 +33,7 @@ public class ExprTeamOfPlayer extends SimplePropertyExpression<Player, Team> {
 
     @Override
     public Team convert( Player player ) {
-        return Game.getGameOfPlayer(player).getTeamOfPlayer(player);
+		return Game.getTeamOfPlayer(player);
     }
 
     @Override
