@@ -46,7 +46,7 @@ public class Game extends GameManager {
 		this.minPlayer = 1;
 		this.maxPlayer = 2;
 		this.state = 0;
-		this.timer = 15;
+		this.timer = 20;
 		this.world = Bukkit.getWorld("world");
 		this.joinMessage.put("global", "${player} joined the game!");
 		this.joinMessage.put("player", "You joined the game ${game}");
