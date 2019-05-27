@@ -51,7 +51,7 @@ public class CondTeamContainsPlayer extends Condition {
     @Override
     public boolean check( Event e ) {
         boolean hasPlayer = team.getSingle(e) != null && player.getSingle(e) != null && team.getSingle(e).hasPlayer(player.getSingle(e));
-        return (isNegated() != hasPlayer);
+		return isNegated() != hasPlayer;
     }
 
     @Override

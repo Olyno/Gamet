@@ -94,7 +94,9 @@ public class GameAPI extends JavaPlugin {
 			gameAsYaml.set("players.maximum", game.getMaxPlayer());
 			gameAsYaml.set("timer.time", game.getTimer());
 			gameAsYaml.set("timer.messages_as", game.getTimerMessageAs());
-			for (int index = game.getTimer(); index > 0; index--) {
+			List<Integer> list = Arrays.asList(game.getTimerMessages().keySet().toArray(new Integer[0]));
+			Collections.sort(list);
+			for (Integer index : list) {
 				gameAsYaml.set("timer.messages." + index, game.getTimerMessages().get(index));
 			}
 			gameAsYaml.set("messages.join_message.global", game.getJoinMessage().get("global"));

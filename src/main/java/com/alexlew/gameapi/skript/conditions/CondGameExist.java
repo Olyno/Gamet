@@ -26,29 +26,29 @@ public class CondGameExist extends Condition {
 
     static {
         Skript.registerCondition(CondGameExist.class,
-				"[mini[(-| )]]game %string% exists",
-				"[mini[(-| )]]game %string% does(n't| not) exist"
+				"%game% exists",
+				"%game% does(n't| not) exist"
         );
     }
 
-    private Expression<String> game;
+	private Expression<Game> game;
 
     @Override
+	@SuppressWarnings("unchecked")
     public boolean init( Expression<?>[] expr, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult ) {
-        game = (Expression<String>) expr[0];
+		game = (Expression<Game>) expr[0];
         setNegated(matchedPattern == 1);
         return true;
     }
 
     @Override
     public boolean check( Event e ) {
-		boolean exists = game.getSingle(e) != null && Game.getGames().containsKey(game.getSingle(e));
-        return (isNegated() != exists);
+		return isNegated() == (game.getSingle(e) == null);
     }
 
     @Override
     public String toString( Event e, boolean debug ) {
-        String gameName = game.getSingle(e) != null ? game.getSingle(e) : "null";
+		String gameName = game.getSingle(e) != null ? game.getSingle(e).getName() : "null";
         return "Game \"" + gameName + "\" existence";
     }
 }
