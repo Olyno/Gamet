@@ -88,6 +88,6 @@ name of your team (optional)
  
  To be organized, it will be necessary to differentiate the types of issues you have please.
  
- **__Skript:__** [here](https://github.com/AlexLew95/GameAPI/issues/new?milestone=Skript+part)
+ **__Skript:__** [here](https://github.com/Olyno/GameAPI/issues/new?milestone=Skript+part)
  
-**__Java:__** [here](https://github.com/AlexLew95/GameAPI/issues/new?milestone=Java+part)
+**__Java:__** [here](https://github.com/Olyno/GameAPI/issues/new?milestone=Java+part)
