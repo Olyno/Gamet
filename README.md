@@ -1,6 +1,6 @@
 # GameAPI
 
-[![](https://img.shields.io/github/issues/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/issues) [![](https://img.shields.io/github/forks/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/forks) [![](https://img.shields.io/github/stars/AlexLew95/GameAPI.svg?style=for-the-badge)](https://github.com/AlexLew95/GameAPI/stars) ![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/AlexLew95/gameapi.svg?label=Nightly%20build&style=for-the-badge) [![Travis (.org)](https://img.shields.io/travis/AlexLew95/GameAPI.svg?label=Travis%20CI&style=for-the-badge)](https://travis-ci.org/AlexLew95/GameAPI) [![CircleCI](https://img.shields.io/circleci/project/github/AlexLew95/GameAPI/master.svg?label=Circle%20CI&style=for-the-badge)](https://circleci.com/gh/AlexLew95/GameAPI)
+[![](https://img.shields.io/github/issues/Olyno/GameAPI.svg?style=for-the-badge)](https://github.com/Olyno/GameAPI/issues) [![](https://img.shields.io/github/forks/Olyno/GameAPI.svg?style=for-the-badge)](https://github.com/Olyno/GameAPI/forks) [![](https://img.shields.io/github/stars/Olyno/GameAPI.svg?style=for-the-badge)](https://github.com/Olyno/GameAPI/stars) ![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/Olyno/gameapi.svg?label=Nightly%20build&style=for-the-badge)
 
 ![](https://i.imgur.com/Lo4xPqv.png)
 
@@ -12,7 +12,7 @@ GameAPI is a quick and easy way to create games without the hassle. It is compat
 
 **__Java:__**
 
- - [Javadoc](https://alexlew95.github.io/GameAPI/javadoc/)
+ - [Javadoc](https://olyno.github.io/GameAPI/javadoc/)
 
 **__Skript:__**
 
@@ -88,6 +88,6 @@ name of your team (optional)
  
  To be organized, it will be necessary to differentiate the types of issues you have please.
  
- **__Skript:__** [here](https://github.com/AlexLew95/GameAPI/issues/new?milestone=Skript+part)
+ **__Skript:__** [here](https://github.com/Olyno/GameAPI/issues/new?milestone=Skript+part)
  
-**__Java:__** [here](https://github.com/AlexLew95/GameAPI/issues/new?milestone=Java+part)
+**__Java:__** [here](https://github.com/Olyno/GameAPI/issues/new?milestone=Java+part)

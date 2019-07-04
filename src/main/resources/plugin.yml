@@ -1,8 +1,8 @@
 name: GameAPI
 description: Create awesome games!
-author: AlexLew
+author: Olyno
 version: 2.0.4
-main: com.alexlew.gameapi.GameAPI
+main: com.olyno.GameAPI
 softdepend: [Skript]
 commands:
   game:

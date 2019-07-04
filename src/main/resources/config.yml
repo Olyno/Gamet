@@ -11,16 +11,23 @@
 ##                                          can't be changed.
 ##                                          If you want to customize your games as much as possible,
 ##                                          then disable this option.
+##
+## |> "messages"             |> Default: true
+##                           |> What is it: This option will allow you to generate custom
+##                                          messages for you such as "X joined the game"
+##                                          etc.... automatically.
+##                                          All messages are defined by default but can
+##                                          be changed.
+##                                          If you want to customize your games as much as possible,
+##                                          then disable this option.
+##
+## |> "sounds"               |> Default: true
+##                           |> What is it: This option will allow you to play sounds
+##                                          automatically, like during the timer to
+##                                          begin a game.
+##
+##=============================================
 
 manage_automatically: true
-
-## |> "messages" |> Default: true
-##               |> What is it: This option will allow you to generate custom
-##                              messages for you such as "X joined the game"
-##                              etc.... automatically.
-##                              All messages are defined by default but can
-##                              be changed.
-##                              If you want to customize your games as much as possible,
-##                              then disable this option.
-
 messages: true
+sounds: true
