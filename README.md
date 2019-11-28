@@ -1,23 +1,23 @@
-# GameAPI
+# Gamet
 
-[![](https://img.shields.io/github/issues/Olyno/GameAPI.svg?style=for-the-badge)](https://github.com/Olyno/GameAPI/issues) [![](https://img.shields.io/github/forks/Olyno/GameAPI.svg?style=for-the-badge)](https://github.com/Olyno/GameAPI/forks) [![](https://img.shields.io/github/stars/Olyno/GameAPI.svg?style=for-the-badge)](https://github.com/Olyno/GameAPI/stars) ![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/Olyno/gameapi.svg?label=Nightly%20build&style=for-the-badge)
+[![](https://img.shields.io/github/issues/Olyno/Gamet.svg?style=for-the-badge)](https://github.com/Olyno/Gamet/issues) [![](https://img.shields.io/github/forks/Olyno/Gamet.svg?style=for-the-badge)](https://github.com/Olyno/Gamet/forks) [![](https://img.shields.io/github/stars/Olyno/Gamet.svg?style=for-the-badge)](https://github.com/Olyno/Gamet/stars) ![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/Olyno/Gamet.svg?label=Nightly%20build&style=for-the-badge)
 
 ![](https://i.imgur.com/Lo4xPqv.png)
 
 ## Overview:
 
-GameAPI is a quick and easy way to create games without the hassle. It is compatible for both java and skript developers but also for those who do not know how to code in these two languages.
+Gamet is a quick and easy way to create games without the hassle. It is compatible for both java and skript developers but also for those who do not know how to code in these two languages.
 
 ## Documentations:
 
 **__Java:__**
 
- - [Javadoc](https://olyno.github.io/GameAPI/javadoc/)
+ - [Javadoc](https://olyno.github.io/Gamet/javadoc/)
 
 **__Skript:__**
 
- - [SkriptHub](http://skripthub.net/docs/?addon=GameAPI)
- - [Skunity](https://docs.skunity.com/syntax/search/addon:GameAPI)
+ - [SkriptHub](http://skripthub.net/docs/?addon=Gamet)
+ - [Skunity](https://docs.skunity.com/syntax/search/addon:Gamet)
  
 **__Other:__**
 
@@ -65,10 +65,10 @@ GameAPI is a quick and easy way to create games without the hassle. It is compat
 
 ## Custom signs:
 
-> GameAPI as plugin contains the possibility to have a custom sign to join or leave a game or a team. To do that, place a sign somewhere and put that in the sign (line per line) ("/" means the first or the second, it's a choice):
+> Gamet as plugin contains the possibility to have a custom sign to join or leave a game or a team. To do that, place a sign somewhere and put that in the sign (line per line) ("/" means the first or the second, it's a choice):
 
 ```
-[GameAPI]
+[Gamet]
 join/leave
 name of your game
 name of your team (optional)
@@ -76,7 +76,7 @@ name of your team (optional)
 
 
 
-## What GameAPI manage itself:
+## What Gamet manage itself:
 
  - [x] Multi Arenas
  - [x] Save games and possibility to share our games
@@ -88,6 +88,6 @@ name of your team (optional)
  
  To be organized, it will be necessary to differentiate the types of issues you have please.
  
- **__Skript:__** [here](https://github.com/Olyno/GameAPI/issues/new?milestone=Skript+part)
+ **__Skript:__** [here](https://github.com/Olyno/Gamet/issues/new?milestone=Skript+part)
  
-**__Java:__** [here](https://github.com/Olyno/GameAPI/issues/new?milestone=Java+part)
+**__Java:__** [here](https://github.com/Olyno/Gamet/issues/new?milestone=Java+part)

@@ -1,29 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GradleLocalSettings">
-    <option name="projectSyncType">
-      <map>
-        <entry key="$PROJECT_DIR$/../../Atom-master" value="PREVIEW" />
-        <entry key="$PROJECT_DIR$/../../Cauldron-Old-master" value="PREVIEW" />
-        <entry key="$PROJECT_DIR$/../../SkEmail2" value="PREVIEW" />
-        <entry key="$PROJECT_DIR$/../../Skron" value="PREVIEW" />
-        <entry key="$PROJECT_DIR$/../../swinger" value="PREVIEW" />
-      </map>
-    </option>
+  <component name="ChangeListManager">
+    <list default="true" id="6de51f60-3e4b-40c5-98a8-bbbde59e57d0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bitbucket-pipelines.yml" beforeDir="false" afterPath="$PROJECT_DIR$/bitbucket-pipelines.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/GameAPI.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/GameCanStart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/GameCreated.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/GameDeleted.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/GameReady.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/PlayerJoinGame.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/PlayerJoinTeam.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/PlayerLeaveGame.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/PlayerLeaveTeam.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/PlayerQuit.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/Signs.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/TeamCreated.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/TeamDeleted.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/TeamLosePoint.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/TeamWinPoint.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/GameCanStartEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/GameCreatedEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/GameDeletedEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/GameReadyEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/PlayerJoinGameEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/PlayerJoinTeamEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/PlayerLeaveGameEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/PlayerLeaveTeamEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/TeamCreatedEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/TeamDeletedEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/TeamLosePointEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/TeamWinPointEvent.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/package-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/bukkit/package-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/package-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/events/package-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/package-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/package-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/types/Game.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/types/Point.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/types/package-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/com/alexlew/gameapi/types/package-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/constant-values.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/deprecated-list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/help-doc.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-10.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-11.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-12.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-13.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-7.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-8.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-9.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/overview-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/overview-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/stylesheet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/GameAPI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/commands/CommandGameSpigot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/commands/CommandTeamSpigot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/GameCanStart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/GameCreated.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/GameDeleted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/GameReady.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/GameStarted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/GameStopped.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/PlayerJoinGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/PlayerJoinTeam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/PlayerLeaveGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/PlayerLeaveTeam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/PlayerQuit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/Signs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/TeamCreated.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/TeamDeleted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/TeamLosePoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/TeamWinPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/GameCanStartEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/GameCreatedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/GameDeletedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/GameReadyEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/GameStartedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/GameStoppedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/PlayerJoinGameEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/PlayerJoinTeamEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/PlayerLeaveGameEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/PlayerLeaveTeamEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/TeamCreatedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/TeamDeletedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/TeamLosePointEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/events/bukkit/TeamWinPointEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/Types.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/conditions/CondGameExist.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/conditions/CondGameStart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/conditions/CondTeamContainsPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/game/EffCancelStartGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/game/EffCreateGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/game/EffDeleteGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/game/EffStartGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/game/EffStopGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/sections/SecStartGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/sections/SecStopGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/team/EffCreateTeam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/effects/team/EffDeleteTeam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/events/EvtGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/events/EvtPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/events/EvtTeam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprDisplayName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprGameOf.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprMaximumPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprMinimumPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprPlayers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/ExprSpawn.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprAllGames.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprAmountOfSessions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprLastGameCreated.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprLastGameDeleted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprLobbyOfGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprTimerOfGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprWinnerOfGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/ExprWorldOfGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprGlobalJoin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprGlobalLeave.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprGlobalLosePoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprGlobalWinPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprPlayerJoin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprPlayerLeave.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprPlayerLosePoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprPlayerWinPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/game/messages/ExprTimerMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/points/ExprAuthorOfPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/points/ExprRawOfPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/points/ExprTeamOfPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprLastTeamCreated.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprLastTeamDeleted.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprObjective.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprPointsConstructor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprPointsGetter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprRandomTeam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprTeamFromGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/skript/expressions/team/ExprTeamOfPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/types/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/types/Point.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/types/Team.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/BountifulAPI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/EffectSection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/LazyEffectSection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/Metrics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/ReflectionUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/Registration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/game/GameManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/game/GameRunner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/game/GameSound.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/olyno/util/game/GameStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="251" />
-    <option name="width" value="1036" />
-    <option name="height" value="688" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1UFZ5rpPmkqkIFMfdCZSzNZJn4k" />
   <component name="PropertiesComponent">
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="fileTemplates" />
   </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration>C:\Users\Leo\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6de51f60-3e4b-40c5-98a8-bbbde59e57d0" name="Default Changelist" comment="" />
+      <created>1574954127649</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574954127649</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="masterDetails">
     <states>

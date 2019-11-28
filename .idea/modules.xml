@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GameAPI.iml" filepath="$PROJECT_DIR$/GameAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gamet.iml" filepath="$PROJECT_DIR$/.idea/modules/gamet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gamet.main.iml" filepath="$PROJECT_DIR$/.idea/modules/gamet.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gamet.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gamet.test.iml" />
     </modules>
   </component>
 </project>
