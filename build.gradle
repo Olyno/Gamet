@@ -45,6 +45,6 @@ dependencies {
     implementation 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
     implementation 'ch.njol:skript:2.2-SNAPSHOT'
     implementation 'com.jcabi:jcabi-log:0.18.1'
-    implementation "net.md-5:bungeecord-api:1.16-R0.3-SNAPSHOT"
+    implementation "net.md-5:bungeecord-api:1.16-R0.4-SNAPSHOT"
     //implementation 'com.github.mkremins:fanciful:ed870f3a19'
 }
