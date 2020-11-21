@@ -1,38 +1,30 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-        maven {
-            url "https://jitpack.io"
-        }
-    }
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.1"
-    }
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
-group 'com.alexlew.gameapi'
-version '2.0.3'
-
-apply plugin: 'java'
-apply plugin: "com.github.johnrengelman.shadow"
+group 'com.olyno.gamet'
 
 sourceCompatibility = 1.8
 
 repositories {
+    jcenter()
     mavenCentral()
-    maven {
-        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
-    maven {
-        url 'https://oss.sonatype.org/content/groups/public/'
-    }
-    maven {
-        url 'http://maven.njol.ch/repo/'
-    }
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url 'http://maven.njol.ch/repo/' }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
+    implementation 'ch.njol:skript:2.2-SNAPSHOT'
+    compile "com.googlecode.json-simple:json-simple:1.1"
+    compile 'com.github.Olyno:gami:master-SNAPSHOT'
+    // implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
+    //implementation 'com.github.mkremins:fanciful:ed870f3a19'
 }
 
 processResources {
@@ -41,10 +33,6 @@ processResources {
     filter(ReplaceTokens, tokens: [version: version])
 }
 
-dependencies {
-    implementation 'org.spigotmc:spigot-api:1.15.2-R0.1-SNAPSHOT'
-    implementation 'ch.njol:skript:2.2-SNAPSHOT'
-    implementation 'com.jcabi:jcabi-log:0.18.1'
-    implementation "net.md-5:bungeecord-api:1.15-SNAPSHOT"
-    //implementation 'com.github.mkremins:fanciful:ed870f3a19'
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
