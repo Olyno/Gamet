@@ -3,6 +3,11 @@ package com.olyno.gamet.util;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerRespawnEvent;
+
 import com.olyno.gamet.Gamet;
 import com.olyno.gami.Gami;
 import com.olyno.gami.enums.GameMessageTarget;
@@ -12,11 +17,6 @@ import com.olyno.gami.models.Game;
 import com.olyno.gami.models.GameMessage;
 import com.olyno.gami.models.GameTimerMessage;
 import com.olyno.gami.models.Team;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class GameRunner extends Thread {
 
@@ -37,7 +37,7 @@ public class GameRunner extends Thread {
 		}
 
 		while (game.getState() == GameState.STARTED) {
-			for (Team team : game.getTeams().values()) {
+			for (Team team : game.getTeams()) {
 				if (team.getTotalPoints().equals(team.getGoal())) {
 					game.setState(GameState.ENDED);
 				}
@@ -46,7 +46,7 @@ public class GameRunner extends Thread {
 
 		getWinner();
 
-		for (Team team : game.getTeams().values()) {
+		for (Team team : game.getTeams()) {
 			for (Object playerObject : team.getPlayers()) {
 				Player player = (Player) playerObject;
 				player.teleport((Location) game.getLobby());
@@ -81,7 +81,7 @@ public class GameRunner extends Thread {
 					if (timerMessage != null) { // If a message at this time is set
 						String message = timerMessage.getMessage();
 						message = message.replaceAll("\\$\\{time}", i.toString());
-						for (Team team : game.getTeams().values()) {
+						for (Team team : game.getTeams()) {
 							for (Object playerObject : team.getPlayers()) {
 
 								Player player = (Player) playerObject;
@@ -110,7 +110,7 @@ public class GameRunner extends Thread {
 				return;
 			}
 		}
-		for (Team team : game.getTeams().values()) {
+		for (Team team : game.getTeams()) {
 			for (Object playerObject : team.getPlayers()) {
 				Player player = (Player) playerObject;
 				player.teleport((Location) team.getSpawn());
@@ -121,7 +121,7 @@ public class GameRunner extends Thread {
 
 	private Team getWinner() {
 		if (game.getWinner() == null) {
-			for (Team team : game.getTeams().values()) {
+			for (Team team : game.getTeams()) {
 				if (winner == null) {
 					winner = team;
 				} else if (winner.getTotalPoints() < team.getTotalPoints()) {

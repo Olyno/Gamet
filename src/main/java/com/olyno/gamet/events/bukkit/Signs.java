@@ -3,10 +3,6 @@ package com.olyno.gamet.events.bukkit;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import com.olyno.gamet.Gamet;
-import com.olyno.gami.Gami;
-import com.olyno.gami.models.Game;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -16,6 +12,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import com.olyno.gamet.Gamet;
+import com.olyno.gami.Gami;
+import com.olyno.gami.models.Game;
 
 /**
  * To join a team:
@@ -51,24 +51,36 @@ public class Signs implements Listener {
 						if (ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("join")) {
 							if (sign.getLine(2).replaceAll(" ", "").isEmpty()) {
 								if (event.getPlayer().hasPermission("game.join")) {
-									Gami.getGames().get(gameName).addPlayer(event.getPlayer());
+									Gami.getGameByName(gameName).ifPresent(gameFound -> {
+										gameFound.addPlayer(event.getPlayer());
+									});
 								} else {
 									event.getPlayer().sendMessage(ChatColor.RED + "You don't have the permission to join this game.");
 								}
 							} else {
 								String teamName = ChatColor.stripColor(sign.getLine(2)).replaceAll("\\s+\\S+$", "");
-								Gami.getGames().get(gameName).getTeam(teamName).addPlayer(event.getPlayer());
+								Gami.getGameByName(gameName)
+									.stream()
+									.flatMap(gameFound -> gameFound.getTeamByName(teamName).stream())
+									.findFirst()
+									.ifPresent(teamFound -> teamFound.addPlayer(event.getPlayer()));
 							}
 						} else if (ChatColor.stripColor(sign.getLine(1)).equalsIgnoreCase("leave")) {
 							if (sign.getLine(2).replaceAll(" ", "").isEmpty()) {
 								if (event.getPlayer().hasPermission("game.leave")) {
-									Gami.getGames().get(gameName).removePlayer(event.getPlayer());
+									Gami.getGameByName(gameName).ifPresent(gameFound -> {
+										gameFound.removePlayer(event.getPlayer());
+									});
 								} else {
 									event.getPlayer().sendMessage(ChatColor.RED + "You don't have the permission to leave this game.");
 								}
 							} else {
 								String teamName = ChatColor.stripColor(sign.getLine(2)).replaceAll("\\s+\\S+$", "");
-								Gami.getGames().get(gameName).getTeam(teamName).removePlayer(event.getPlayer());
+								Gami.getGameByName(gameName)
+									.stream()
+									.flatMap(gameFound -> gameFound.getTeamByName(teamName).stream())
+									.findFirst()
+									.ifPresent(teamFound -> teamFound.removePlayer(event.getPlayer()));
 							}
 						}
 					}
@@ -83,7 +95,7 @@ public class Signs implements Listener {
 		if (Gamet.manage_automatically) {
 			if (Pattern.compile("\\[\\w+\\]").matcher(event.getLine(0)).find()) {
 				String gameName = event.getLine(2).replaceAll("\\[|\\]", "");
-				if (Gami.getGames().containsKey(gameName)) {
+				Gami.getGameByName(gameName).ifPresent(gameFound -> {
 					event.setLine(0, ChatColor.GOLD + "[" + ChatColor.YELLOW + gameName + ChatColor.GOLD + "]");
 					if (event.getLine(1).equalsIgnoreCase("join")
 						|| event.getLine(1).equalsIgnoreCase("leave")
@@ -97,9 +109,9 @@ public class Signs implements Listener {
 							event.setLine(2, ChatColor.DARK_PURPLE + teamName + " team");
 							event.setLine(3, " ");
 						}
-						signLocations.put(event.getBlock().getLocation(), Gami.getGames().get(gameName));
+						signLocations.put(event.getBlock().getLocation(), gameFound);
 					}
-				}
+				});
 			}
 		}
 

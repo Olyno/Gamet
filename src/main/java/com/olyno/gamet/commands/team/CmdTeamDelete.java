@@ -2,10 +2,10 @@ package com.olyno.gamet.commands.team;
 
 import java.util.ArrayList;
 
+import org.bukkit.command.CommandSender;
+
 import com.olyno.gamet.util.commands.GameCommand;
 import com.olyno.gami.Gami;
-
-import org.bukkit.command.CommandSender;
 
 public class CmdTeamDelete extends GameCommand {
 
@@ -21,9 +21,15 @@ public class CmdTeamDelete extends GameCommand {
     public void execute(CommandSender sender, ArrayList<String> args) {
         String gameName = args.get(2).toLowerCase();
         String teamName = args.get(0).toLowerCase();
-        if (Gami.getGames().containsKey(gameName)) {
-            Gami.getGames().get(gameName).getTeams().remove(teamName);
-        }
+        Gami.getGameByName(gameName).ifPresentOrElse(gameFound -> {
+            gameFound.getTeamByName(teamName).ifPresentOrElse(teamFound -> {
+                gameFound.removeTeam(teamFound);
+            },
+                () -> this.fail("The team '" + teamName + "' has not been found.", sender)
+            );
+        }, () -> {
+            this.fail("The game '" + gameName + "' has not been found.", sender);
+        });
     }
     
 }

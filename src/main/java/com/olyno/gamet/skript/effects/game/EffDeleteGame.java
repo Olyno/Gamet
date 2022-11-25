@@ -1,9 +1,9 @@
 package com.olyno.gamet.skript.effects.game;
 
+import org.bukkit.event.Event;
+
 import com.olyno.gami.Gami;
 import com.olyno.gami.models.Game;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
@@ -47,10 +47,10 @@ public class EffDeleteGame extends Effect {
 	@Override
 	protected void execute(Event e) {
 		Game currentGame = game.getSingle(e);
-		if (Gami.getGames().containsKey(currentGame.getName())) {
-			lastDeletedGame = Gami.getGames().get(currentGame.getName());
-			Gami.getGames().get(currentGame.getName()).delete();
-		}
+		Gami.getGameByName(currentGame.getName()).ifPresent(gameFound -> {
+			lastDeletedGame = gameFound;
+			gameFound.delete();
+		});
 	}
 
 	@Override

@@ -2,11 +2,11 @@ package com.olyno.gamet.commands.game;
 
 import java.util.ArrayList;
 
-import com.olyno.gamet.util.commands.GameCommand;
-import com.olyno.gami.Gami;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.olyno.gamet.util.commands.GameCommand;
+import com.olyno.gami.Gami;
 
 public class CmdGameLobby extends GameCommand {
 
@@ -23,11 +23,11 @@ public class CmdGameLobby extends GameCommand {
         String gameName = args.get(0).toLowerCase();
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (Gami.getGames().containsKey(gameName)) {
-                Gami.getGames().get(gameName).setLobby(player.getLocation());
-            } else {
+            Gami.getGameByName(gameName).ifPresentOrElse(gameFound -> {
+                gameFound.setLobby(player.getLocation());
+            }, () -> {
                 this.fail("The game '" + gameName + "' has not been found.", sender);
-            }
+            });
         } else {
             this.fail("Can't execute this command in the console.", sender);
         }

@@ -1,15 +1,15 @@
 package com.olyno.gamet.skript.expressions.team;
 
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.expressions.base.SimplePropertyExpression;
-
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.olyno.gami.models.Game;
 import com.olyno.gami.models.Team;
+
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.expressions.base.SimplePropertyExpression;
 
 @Name("Random Team")
 @Description("Return a random team from a game")
@@ -30,7 +30,7 @@ public class ExprRandomTeam extends SimplePropertyExpression<Game, Team> {
 
     @Override
     public Team convert( Game game ) {
-        Collection<Team> teamsList = game.getTeams().values();
+        ArrayList<Team> teamsList = game.getTeams();
         Integer teamsListSize = teamsList.size();
         if (teamsListSize == 0) return null;
 		Team[] teams = teamsList.toArray(new Team[teamsListSize]);

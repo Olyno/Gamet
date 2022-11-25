@@ -2,10 +2,10 @@ package com.olyno.gamet.commands.game;
 
 import java.util.ArrayList;
 
+import org.bukkit.command.CommandSender;
+
 import com.olyno.gamet.util.commands.GameCommand;
 import com.olyno.gami.Gami;
-
-import org.bukkit.command.CommandSender;
 
 public class CmdGameDelete extends GameCommand {
 
@@ -20,7 +20,9 @@ public class CmdGameDelete extends GameCommand {
     @Override
     public void execute(CommandSender sender, ArrayList<String> args) {
         String gameName = args.get(0).toLowerCase();
-        Gami.getGames().remove(gameName);
+        Gami.getGameByName(gameName).ifPresent(gameFound -> {
+            gameFound.delete();
+        });
     }
     
 }

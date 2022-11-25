@@ -1,5 +1,8 @@
 package com.olyno.gamet.events;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import com.olyno.gamet.Gamet;
 import com.olyno.gamet.events.bukkit.PlayerJoinTeamEvent;
 import com.olyno.gamet.events.bukkit.PlayerLeaveTeamEvent;
@@ -18,9 +21,6 @@ import com.olyno.gami.models.Game;
 import com.olyno.gami.models.GameMessage;
 import com.olyno.gami.models.Point;
 import com.olyno.gami.models.Team;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 public class TeamEvents implements TeamListener {
 
@@ -108,7 +108,7 @@ public class TeamEvents implements TeamListener {
         if (Gamet.manage_automatically) {
             player.teleport((Location) team.getLobby());
             boolean start = true;
-            for (Team currentTeam : game.getTeams().values()) {
+            for (Team currentTeam : game.getTeams()) {
                 if (currentTeam.getPlayers().size() < currentTeam.getMinPlayer()) {
                     start = false;
                 }
@@ -143,7 +143,7 @@ public class TeamEvents implements TeamListener {
         }
 		if (Gamet.manage_automatically) {
 			boolean stop = false;
-			for (Team currentTeam : game.getTeams().values()) {
+			for (Team currentTeam : game.getTeams()) {
 				if (currentTeam.getPlayers().size() < currentTeam.getMinPlayer()) {
 					stop = true;
 				}

@@ -1,9 +1,9 @@
 package com.olyno.gamet.skript.effects.game;
 
+import org.bukkit.event.Event;
+
 import com.olyno.gami.Gami;
 import com.olyno.gami.models.Game;
-
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
@@ -49,9 +49,9 @@ public class EffCreateGame extends Effect {
 		String gameName = game.getSingle(e);
 		if (!gameName.replaceAll(" ", "").isEmpty()) {
 			Game currentGame = new Game(gameName);
-			if (Gami.getGames().containsKey(currentGame.getName())) {
-				lastCreatedGame = currentGame;
-			}
+			Gami.getGameByName(currentGame.getName()).ifPresent(gameFound -> {
+				lastCreatedGame = gameFound;
+			});
 		}
 	}
 

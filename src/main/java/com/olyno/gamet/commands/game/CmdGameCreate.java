@@ -2,11 +2,11 @@ package com.olyno.gamet.commands.game;
 
 import java.util.ArrayList;
 
+import org.bukkit.command.CommandSender;
+
 import com.olyno.gamet.util.commands.GameCommand;
 import com.olyno.gami.Gami;
 import com.olyno.gami.models.Game;
-
-import org.bukkit.command.CommandSender;
 
 public class CmdGameCreate extends GameCommand {
 
@@ -21,7 +21,7 @@ public class CmdGameCreate extends GameCommand {
     @Override
     public void execute(CommandSender sender, ArrayList<String> args) {
         String gameName = args.get(0).toLowerCase();
-        if (!Gami.getGames().containsKey(gameName)) {
+        if (Gami.getGameByName(gameName).isEmpty()) {
             new Game(gameName);
         }
     }

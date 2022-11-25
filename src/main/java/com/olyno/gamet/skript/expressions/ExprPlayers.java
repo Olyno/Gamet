@@ -1,17 +1,17 @@
 package com.olyno.gamet.skript.expressions;
 
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
+import java.util.ArrayList;
 
-import java.util.LinkedList;
+import org.bukkit.entity.Player;
 
 import com.olyno.gamet.util.skript.MultiplePropertyExpression;
 import com.olyno.gami.models.Game;
 import com.olyno.gami.models.Team;
 
-import org.bukkit.entity.Player;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 
 @Name("Players list of team/game")
 @Description("Returns the players list of a team or game. Can be set.")
@@ -34,7 +34,7 @@ public class ExprPlayers extends MultiplePropertyExpression<Object, Player> {
 
     @Override
     protected Player[] convert(Object context) {
-        LinkedList<Player> players = new LinkedList<>();
+        ArrayList<Player> players = new ArrayList<>();
         if (context instanceof Game) {
             Game game = (Game) context;
             players = game.getPlayers();

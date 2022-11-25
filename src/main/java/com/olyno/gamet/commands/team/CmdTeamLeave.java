@@ -2,11 +2,11 @@ package com.olyno.gamet.commands.team;
 
 import java.util.ArrayList;
 
-import com.olyno.gamet.util.commands.GameCommand;
-import com.olyno.gami.Gami;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.olyno.gamet.util.commands.GameCommand;
+import com.olyno.gami.Gami;
 
 public class CmdTeamLeave extends GameCommand {
 
@@ -24,15 +24,14 @@ public class CmdTeamLeave extends GameCommand {
         String teamName = args.get(0).toLowerCase();
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (Gami.getGames().containsKey(gameName)) {
-                if (Gami.getGames().get(gameName).getTeams().containsKey(teamName)) {
-                    Gami.getGames().get(gameName).getTeams().get(teamName).removePlayer(player);
-                } else {
-                    this.fail("The team '" + teamName + "' has not been found.", sender);
-                }
-            } else {
-                this.fail("The game '" + gameName + "' has not been found.", sender);
-            }
+            Gami.getGameByName(gameName)
+                .stream()
+                .flatMap(gameFound -> gameFound.getTeamByName(teamName).stream())
+                .findFirst()
+                .ifPresentOrElse(
+                    teamFound -> teamFound.removePlayer(player),
+                    () -> this.fail("The team '" + teamName + "' has not been found.", sender)
+                );
         } else {
             this.fail("Can't execute this command in the console.", sender);
         }

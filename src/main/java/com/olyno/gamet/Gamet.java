@@ -16,6 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import com.olyno.gamet.commands.CommandSpigot;
 import com.olyno.gamet.events.GameEvents;
 import com.olyno.gamet.events.TeamEvents;
@@ -27,12 +33,6 @@ import com.olyno.gamet.util.commands.GameCommand;
 import com.olyno.gami.Gami;
 import com.olyno.gami.enums.FileFormat;
 import com.olyno.gami.models.Game;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
@@ -155,7 +155,7 @@ public class Gamet extends JavaPlugin {
 	}
 
 	public void onDisable() {
-		for (Game game : Gami.getGames().values()) {
+		for (Game game : Gami.getGames()) {
 			game.save(Paths.get(dataFolderPath, "games", game.getName()), FileFormat.YAML);
 		}
 	}

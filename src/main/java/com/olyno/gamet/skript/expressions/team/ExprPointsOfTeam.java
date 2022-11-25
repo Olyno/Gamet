@@ -1,18 +1,18 @@
 package com.olyno.gamet.skript.expressions.team;
 
-import ch.njol.skript.classes.Changer;
-import ch.njol.skript.doc.Description;
-import ch.njol.skript.doc.Examples;
-import ch.njol.skript.doc.Name;
-import ch.njol.skript.doc.Since;
+import java.util.ArrayList;
 
-import java.util.LinkedList;
+import org.bukkit.event.Event;
 
 import com.olyno.gamet.util.skript.MultiplePropertyExpression;
 import com.olyno.gami.models.Point;
 import com.olyno.gami.models.Team;
 
-import org.bukkit.event.Event;
+import ch.njol.skript.classes.Changer;
+import ch.njol.skript.doc.Description;
+import ch.njol.skript.doc.Examples;
+import ch.njol.skript.doc.Name;
+import ch.njol.skript.doc.Since;
 
 @Name("Points of Team")
 @Description("Return the points of the team. Can be set.")
@@ -34,7 +34,7 @@ public class ExprPointsOfTeam extends MultiplePropertyExpression<Team, Point> {
 
 	@Override
 	public Point[] convert(Team team) {
-		LinkedList<Point> points = team.getPoints();
+		ArrayList<Point> points = team.getPoints();
 		if (points.size() == 0) return new Point[0];
 		return points.toArray(new Point[points.size()]);
 	}

@@ -2,12 +2,12 @@ package com.olyno.gamet.commands.game;
 
 import java.util.ArrayList;
 
-import com.olyno.gamet.util.commands.GameCommand;
-import com.olyno.gami.Gami;
-
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.olyno.gamet.util.commands.GameCommand;
+import com.olyno.gami.Gami;
 
 public class CmdGameJoin extends GameCommand {
 
@@ -24,12 +24,12 @@ public class CmdGameJoin extends GameCommand {
         String gameName = args.get(0).toLowerCase();
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (Gami.getGames().containsKey(gameName)) {
-                Gami.getGames().get(gameName).addPlayer(player);
-                player.teleport((Location) Gami.getGames().get(gameName).getSpawn());
-            } else {
+            Gami.getGameByName(gameName).ifPresentOrElse(gameFound -> {
+                gameFound.addPlayer(player);
+                player.teleport((Location) gameFound.getSpawn());
+            }, () -> {
                 this.fail("The game '" + gameName + "' has not been found.", sender);
-            }
+            });
         } else {
             this.fail("Can't execute this command in the console.", sender);
         }

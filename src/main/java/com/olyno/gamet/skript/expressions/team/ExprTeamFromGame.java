@@ -1,5 +1,12 @@
 package com.olyno.gamet.skript.expressions.team;
 
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+
+import com.olyno.gami.models.Game;
+import com.olyno.gami.models.Point;
+import com.olyno.gami.models.Team;
+
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
@@ -11,12 +18,6 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import com.olyno.gami.models.Game;
-import com.olyno.gami.models.Point;
-import com.olyno.gami.models.Team;
-
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 @Name("Team from game")
 @Description("Return a team of a game from its name")
@@ -48,10 +49,9 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
     protected Team[] get( Event e ) {
         String currentTeam = team.getSingle(e);
 		Game currentGame = game.getSingle(e);
-        if (currentGame.teamExists(currentTeam)) {
-            return new Team[]{currentGame.getTeam(currentTeam)};
-        }
-        return new Team[0];
+        return currentGame.getTeamByName(currentTeam)
+            .map(teamFound -> new Team[]{ teamFound })
+            .orElse(new Team[0]);
     }
 
     @Override
@@ -69,39 +69,38 @@ public class ExprTeamFromGame extends SimpleExpression<Team> {
     public void change( Event e, Object[] delta, Changer.ChangeMode mode) {
         String currentTeam = team.getSingle(e);
         Game currentGame = game.getSingle(e);
-        if (currentGame.teamExists(currentTeam)) {
-            Team team = currentGame.getTeam(currentTeam);
+        currentGame.getTeamByName(currentTeam).ifPresent(teamFound -> {
             for (Object o : delta) {
                 switch (mode) {
                     case ADD:
                         if (o instanceof Player) {
                             Player player = (Player) o;
-							if (team.getMaxPlayer() > team.getPlayers().size()) {
-                                if (!team.hasPlayer(player)) {
-                                    team.addPlayer(player);
+							if (teamFound.getMaxPlayer() > teamFound.getPlayers().size()) {
+                                if (!teamFound.hasPlayer(player)) {
+                                    teamFound.addPlayer(player);
                                 }
                             }
                         } else if (o instanceof Point) {
                             Point point = (Point) o;
-                            point.setAuthor(team);
-                            team.addPoints(point);
+                            point.setAuthor(teamFound);
+                            teamFound.addPoints(point);
                         }
                         break;
                     case REMOVE:
                         if (o instanceof Player) {
                             Player player = (Player) o;
-                            team.removePlayer(player);
+                            teamFound.removePlayer(player);
                         } else if (o instanceof Point) {
                             Point point = (Point) o;
-                            point.setAuthor(team);
-                            team.removePoints(point);
+                            point.setAuthor(teamFound);
+                            teamFound.removePoints(point);
                         }
                         break;
                     default:
                         break;
                 }
             }
-        }
+        });
     }
 
     @Override

@@ -35,7 +35,7 @@ public class Types {
 
 				@Override
 				public Game parse(String gameName, ParseContext arg1) {
-					return Gami.getGames().get(gameName);
+					return Gami.getGameByName(gameName).orElse(null);
 				}
 
 				@Override
@@ -70,8 +70,8 @@ public class Types {
 
 				@Override
 				public Team parse(String teamName, ParseContext arg1) {
-					for (Game game : Gami.getGames().values()) {
-						for (Team team : game.getTeams().values()) {
+					for (Game game : Gami.getGames()) {
+						for (Team team : game.getTeams()) {
 							if (team.getName() == teamName) {
 								return team;
 							}

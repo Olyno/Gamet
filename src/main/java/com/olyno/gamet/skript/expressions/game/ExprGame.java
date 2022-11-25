@@ -1,10 +1,10 @@
 package com.olyno.gamet.skript.expressions.game;
 
-import com.olyno.gami.Gami;
-import com.olyno.gami.models.Game;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+
+import com.olyno.gami.Gami;
+import com.olyno.gami.models.Game;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
@@ -54,10 +54,9 @@ public class ExprGame extends SimpleExpression<Game> {
         if (scope) {
             return new Game[]{lastGame};
         }
-        if (Gami.getGames().containsKey(currentGameName)) {
-            return new Game[]{Gami.getGames().get(currentGameName)};
-        }
-        return new Game[0];
+        return Gami.getGameByName(currentGameName)
+            .map(gameFound -> new Game[]{ gameFound })
+            .orElse(new Game[0]);
     }
 
     @Override
@@ -76,26 +75,25 @@ public class ExprGame extends SimpleExpression<Game> {
     @Override
     public void change( Event e, Object[] delta, Changer.ChangeMode mode) {
 		String currentGame = scope ? lastGame.getName() : gameName.getSingle(e);
-		if (Gami.getGames().containsKey(currentGame)) {
-			Game game = Gami.getGames().get(currentGame);
+        Gami.getGameByName(currentGame).ifPresent(gameFound -> {
             for (Object obj : delta) {
                 if (obj instanceof Player) {
                     Player player = (Player) obj;
                     switch (mode) {
                         case ADD:
-							if (game.getMaxPlayer() > game.getPlayers().size()) {
-                                if (!game.hasPlayer(player)) {
-                                    game.addPlayer(player);
+							if (gameFound.getMaxPlayer() > gameFound.getPlayers().size()) {
+                                if (!gameFound.hasPlayer(player)) {
+                                    gameFound.addPlayer(player);
                                 }
                             }
                             break;
                         case REMOVE:
-                            game.removePlayer(player);
+                            gameFound.removePlayer(player);
                             break;
                         case REMOVE_ALL:
-                            for (Object playerObject : game.getPlayers()) {
+                            for (Object playerObject : gameFound.getPlayers()) {
                                 Player p = (Player) playerObject;
-                                game.removePlayer(p);
+                                gameFound.removePlayer(p);
                             }
                             break;
                         default:
@@ -103,7 +101,7 @@ public class ExprGame extends SimpleExpression<Game> {
                     }
                 }
             }
-        }
+        });
     }
 
     @Override
